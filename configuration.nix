@@ -40,8 +40,18 @@
   };
 
   # Nix Settings
-  # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix = {
+    # Enable the Flakes feature and the accompanying new nix command-line tool
+    settings.experimental-features = [ "nix-command" "flakes" ];
+    # Perform garbage collection weekly to maintain low disk usage
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 1w";
+    };
+    # We have flakes!
+    #channel.enable = false;
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -113,6 +123,9 @@
   # };
 
   # List services that you want to enable:
+  # Enable in-memory compressed swap device
+  zramSwap.enable = true;
+
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -129,6 +142,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
