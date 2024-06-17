@@ -17,7 +17,7 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, sops-nix, ... }: {
+  outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -33,10 +33,9 @@
       };
       nixos-test = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
+        specialArgs = { inherit inputs; };
+	modules = [
           ./hosts/nixos-test
-
-          sops-nix.nixosModules.sops
 
 	  home-manager.nixosModules.home-manager {
             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
