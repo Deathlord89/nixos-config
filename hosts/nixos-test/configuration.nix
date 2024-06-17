@@ -127,7 +127,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
    neovim
-   git   
+   git
+   sops
    wget
   ];
 
@@ -142,7 +143,10 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

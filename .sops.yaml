@@ -1,0 +1,12 @@
+keys:
+  - &users:
+    - &ma-gerbig B82D59863009C69636ABA42C39CB130C67B92382
+  - &hosts:
+    - &nixos-test age1nzjl957z95whme0j4t6e6hk4pekdvl5zehhf3zvzfg9w87zllcrq9chk2n
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_groups:
+    - pgp:
+      - *ma-gerbig
+      age:
+      - *nixos-test

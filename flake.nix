@@ -9,9 +9,15 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Secrets managemant
+    sops-nix = {
+       url = "github:mic92/sops-nix";
+       inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
+  outputs = inputs @ { self, nixpkgs, home-manager, sops-nix, ... }: {
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -20,7 +26,7 @@
           # so the old configuration file still takes effect
           ./configuration.nix
 
-	      home-manager.nixosModules.home-manager {
+	  home-manager.nixosModules.home-manager {
             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
 	  }
         ];
@@ -30,7 +36,9 @@
         modules = [
           ./hosts/nixos-test
 
-	      home-manager.nixosModules.home-manager {
+          sops-nix.nixosModules.sops
+
+	  home-manager.nixosModules.home-manager {
             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
 	  }
         ];
