@@ -20,8 +20,18 @@
           # so the old configuration file still takes effect
           ./configuration.nix
 
-	  home-manager.nixosModules.home-manager {
-             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
+	      home-manager.nixosModules.home-manager {
+            home-manager.users.ma-gerbig = import ./home/ma-gerbig;
+	  }
+        ];
+      };
+      nixos-test = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/nixos-test
+
+	      home-manager.nixosModules.home-manager {
+            home-manager.users.ma-gerbig = import ./home/ma-gerbig;
 	  }
         ];
       };
