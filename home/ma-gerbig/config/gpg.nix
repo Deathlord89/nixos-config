@@ -12,7 +12,9 @@
 
     gpg-agent = {
       enable = true;
+      enableExtraSocket = true;
       enableBashIntegration = true;
+      enableFishIntegration = true;
       enableSshSupport = true;
       enableScDaemon = true;
       pinentryPackage = pkgs.pinentry-gnome3;
