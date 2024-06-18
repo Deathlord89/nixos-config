@@ -15,12 +15,19 @@
        url = "github:mic92/sops-nix";
        inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Secureboot
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           # Import the previous configuration.nix we used,
           # so the old configuration file still takes effect
