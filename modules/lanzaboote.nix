@@ -2,7 +2,6 @@
 
 {
   imports = [
-    #lanzaboote.nixosModules.lanzaboote 
     inputs.lanzaboote.nixosModules.lanzaboote 
   ];
 

@@ -29,24 +29,23 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./configuration.nix
+          ./hosts/T460p
 
-	  home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager {
             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
-	  }
+	        }
         ];
       };
+
       nixos-test = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
-	modules = [
+	      modules = [
           ./hosts/nixos-test
 
-	  home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager {
             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
-	  }
+          }
         ];
       };
     };
