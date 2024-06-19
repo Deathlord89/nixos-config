@@ -26,6 +26,7 @@
       };
       timeout = 1;
     };
+    bootspec.enabled = true;
     supportedFilesystems = [ "btrfs" ];
     #kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   };
