@@ -11,6 +11,7 @@
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./disko.nix
   ];
 
   # Bootloader.
@@ -25,8 +26,8 @@
       };
       timeout = 1;
     };
-    supportedFilesystems = [ "zfs" ];
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    supportedFilesystems = [ "btrfs" ];
+    #kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   };
 
 
@@ -35,7 +36,7 @@
     hostName = "T460p";
     # The 32-bit host ID of the machine
     # needed for zfs
-    hostId = "d5a98f2e";
+    #hostId = "d5a98f2e";
     # Enable networking
     networkmanager.enable = true;
     # Enables wireless support via wpa_supplicant.
@@ -53,7 +54,7 @@
       options = "--delete-older-than 1w";
     };
     # We have flakes!
-    #channel.enable = false;
+    channel.enable = false;
   };
 
   # Set your time zone.
@@ -87,7 +88,7 @@
         variant = "";
       };
       displayManager = {
-	gdm.enable = true;
+        gdm.enable = true;
       };
       desktopManager = {
         gnome.enable = true; 
@@ -145,5 +146,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
