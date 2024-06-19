@@ -13,31 +13,31 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "zroot/nixos/root";
-      fsType = "zfs";
-    };
+  # fileSystems."/" =
+  #   { device = "zroot/nixos/root";
+  #     fsType = "zfs";
+  #   };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/B890-5FA5";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
+  # fileSystems."/boot" =
+  #   { device = "/dev/disk/by-uuid/B890-5FA5";
+  #     fsType = "vfat";
+  #     options = [ "fmask=0022" "dmask=0022" ];
+  #   };
 
-  fileSystems."/home" =
-    { device = "zroot/nixos/home";
-      fsType = "zfs";
-    };
+  # fileSystems."/home" =
+  #   { device = "zroot/nixos/home";
+  #     fsType = "zfs";
+  #   };
 
-  fileSystems."/nix" =
-    { device = "zroot/nixos/nix";
-      fsType = "zfs";
-    };
+  # fileSystems."/nix" =
+  #   { device = "zroot/nixos/nix";
+  #     fsType = "zfs";
+  #   };
 
-  fileSystems."/var/lib/games" =
-    { device = "zroot/nixos/games";
-      fsType = "zfs";
-    };
+  # fileSystems."/var/lib/games" =
+  #   { device = "zroot/nixos/games";
+  #     fsType = "zfs";
+  #   };
 
   swapDevices = [ ];
 
