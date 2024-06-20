@@ -98,11 +98,20 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ma-gerbig = {
-    isNormalUser = true;
-    description = "Marc-André Gerbig";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+  sops.secrets."user/ma-gerbig/password".neededForUsers = true;
+  users = {
+    mutableUsers = false;
+    users.ma-gerbig = {
+      isNormalUser = true;
+      hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
+      description = "Marc-André Gerbig";
+      extraGroups = [ "networkmanager" "wheel" ];
+      packages = with pkgs; [
+        alacritty
+        kitty
+        vscodium
+      ];
+    };
   };
 
   # Allow unfree packages
