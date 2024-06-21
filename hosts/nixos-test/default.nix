@@ -11,9 +11,8 @@
   ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = false;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos-test"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -108,7 +107,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   sops.secrets."user/ma-gerbig/password".neededForUsers = true;
   users = {
-    mutableUsers = false;
+    #mutableUsers = false;
     users.ma-gerbig = {
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
