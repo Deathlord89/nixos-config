@@ -21,6 +21,7 @@
     udev.packages = with pkgs; [
       yubikey-personalization
     ];
+    # Force gnome-keyring to disable, because it likes to bully gpg-agent
     gnome.gnome-keyring.enable = lib.mkForce false;
   };
 }
