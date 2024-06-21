@@ -1,18 +1,18 @@
 { config, pkgs, ... }:
-# let
-#   # Import the gpg key from keyserver.
-#   gpgKey = pkgs.fetchurl {
-#     url = "https://keyserver.ubuntu.com:443/pks/lookup?op=get&search=0x39cb130c67b92382";
-#     sha256 = "qyAHw6ehf0XCySXQ55xO8zyk7MCZabKQyIjewjp7300=";
-#   };
-# in
+let
+  # Import the gpg key from keyserver.
+  gpgKey = pkgs.fetchurl {
+    url = "https://keyserver.ubuntu.com:443/pks/lookup?op=get&search=0x39cb130c67b92382";
+    sha256 = "qyAHw6ehf0XCySXQ55xO8zyk7MCZabKQyIjewjp7300=";
+  };
+in
 {
   programs = {
     gpg ={
       enable = true;
-      # publicKeys = [
-      #   {source = "${gpgKey}"; trust = 5;}
-      # ];
+      publicKeys = [
+        {source = "${gpgKey}"; trust = 5;}
+      ];
       scdaemonSettings = {
         disable-ccid = true;
       };

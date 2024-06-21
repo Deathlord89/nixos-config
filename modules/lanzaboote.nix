@@ -12,6 +12,7 @@
   # generated at installation time. So we force it to false
   # for now.
   boot = { 
+    initrd.systemd.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
 
     lanzaboote = {

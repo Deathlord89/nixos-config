@@ -26,18 +26,14 @@
       };
       timeout = 1;
     };
-    #bootspec.enable = true;
+    bootspec.enable = true;
     supportedFilesystems = [ "btrfs" ];
-    #kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   };
 
 
   networking = {
     # Define your hostname.
     hostName = "T460p";
-    # The 32-bit host ID of the machine
-    # needed for zfs
-    #hostId = "d5a98f2e";
     # Enable networking
     networkmanager.enable = true;
     # Enables wireless support via wpa_supplicant.
@@ -55,7 +51,7 @@
       options = "--delete-older-than 1w";
     };
     # We have flakes!
-    channel.enable = false;
+    #channel.enable = false;
   };
 
   # Set your time zone.
@@ -100,7 +96,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   sops.secrets."user/ma-gerbig/password".neededForUsers = true;
   users = {
-    mutableUsers = false;
+    #mutableUsers = false;
     users.ma-gerbig = {
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
