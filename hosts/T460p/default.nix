@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../common/hardware/yubikey.nix
     ../common/hardware/nvidia
@@ -22,14 +24,13 @@
       };
       systemd-boot = {
         enable = true;
-	  configurationLimit = 5;
+        configurationLimit = 5;
       };
       timeout = 1;
     };
     bootspec.enable = true;
-    supportedFilesystems = [ "btrfs" ];
+    supportedFilesystems = ["btrfs"];
   };
-
 
   networking = {
     # Define your hostname.
@@ -43,7 +44,7 @@
   # Nix Settings
   nix = {
     # Enable the Flakes feature and the accompanying new nix command-line tool
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = ["nix-command" "flakes"];
     # Perform garbage collection weekly to maintain low disk usage
     gc = {
       automatic = true;
@@ -88,7 +89,7 @@
         gdm.enable = true;
       };
       desktopManager = {
-        gnome.enable = true; 
+        gnome.enable = true;
       };
     };
   };
@@ -101,7 +102,7 @@
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
       description = "Marc-André Gerbig";
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = ["networkmanager" "wheel"];
       packages = with pkgs; [
         alacritty
         kitty

@@ -34,19 +34,19 @@
                 content = {
                   type = "btrfs";
                   # Override existing partition
-                  extraArgs = [ "-f" ];
+                  extraArgs = ["-f"];
                   subvolumes = {
                     "/root" = {
                       mountpoint = "/";
-                      mountOptions = [ "compress-force=zstd" "noatime" ];
+                      mountOptions = ["compress-force=zstd" "noatime"];
                     };
                     "/home" = {
                       mountpoint = "/home";
-                      mountOptions = [ "compress-force" "noatime" ];
+                      mountOptions = ["compress-force" "noatime"];
                     };
                     "/nix" = {
                       mountpoint = "/nix";
-                      mountOptions = [ "compress-force" "noatime" ];
+                      mountOptions = ["compress-force" "noatime"];
                     };
                   };
                 };

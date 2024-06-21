@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../common/hardware/yubikey.nix
 
@@ -27,7 +29,7 @@
   # Nix Settings
   nix = {
     # Enable the Flakes feature and the accompanying new nix command-line tool
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = ["nix-command" "flakes"];
     # Perform garbage collection weekly to maintain low disk usage
     gc = {
       automatic = true;
@@ -37,7 +39,6 @@
     # We have flakes!
     #channel.enable = false;
   };
-
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -66,7 +67,7 @@
         variant = "";
       };
       displayManager = {
-	gdm.enable = true;
+        gdm.enable = true;
       };
       desktopManager = {
         gnome.enable = true;
@@ -80,7 +81,6 @@
   # List services that you want to enable:
   # Enable in-memory compressed swap device
   zramSwap.enable = true;
-
 
   # Enable CUPS to print documents.
   services.printing.enable = false;
@@ -112,11 +112,12 @@
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
       description = "Marc-André Gerbig";
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = ["networkmanager" "wheel"];
       packages = with pkgs; [
-        kitty
-	vscodium
         alacritty
+        alejandra
+        kitty
+        vscodium
         wezterm
       ];
     };
@@ -131,10 +132,10 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-   neovim
-   git
-   sops
-   wget
+    git
+    neovim
+    sops
+    wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -166,5 +167,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }

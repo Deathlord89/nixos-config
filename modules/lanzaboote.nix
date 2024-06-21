@@ -1,17 +1,21 @@
-{ inputs, config, pkgs, lib, ... }:
-
 {
+  inputs,
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
-    inputs.lanzaboote.nixosModules.lanzaboote 
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
-  environment.systemPackages = [ pkgs.sbctl ];
+  environment.systemPackages = [pkgs.sbctl];
 
   # Lanzaboote currently replaces the systemd-boot module.
   # This setting is usually set to true in configuration.nix
   # generated at installation time. So we force it to false
   # for now.
-  boot = { 
+  boot = {
     initrd.systemd.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
 

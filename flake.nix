@@ -10,7 +10,7 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     # Declarative disk partitioning
     disko = {
       url = "github:nix-community/disko";
@@ -19,8 +19,8 @@
 
     # Secrets managemant
     sops-nix = {
-       url = "github:mic92/sops-nix";
-       inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Secureboot
@@ -30,11 +30,18 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, nixos-hardware, disko, home-manager, ... }: {
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    nixos-hardware,
+    disko,
+    home-manager,
+    ...
+  }: {
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {inherit inputs;};
         modules = [
           ./hosts/T460p
 
@@ -43,19 +50,21 @@
 
           disko.nixosModules.disko
 
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
-	        }
+          }
         ];
       };
 
       nixos-test = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-	      modules = [
+        specialArgs = {inherit inputs;};
+        modules = [
           ./hosts/nixos-test
 
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.users.ma-gerbig = import ./home/ma-gerbig;
           }
         ];

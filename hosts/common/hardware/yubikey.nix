@@ -1,8 +1,11 @@
 # Reference:
 # https://rzetterberg.github.io/yubikey-gpg-nixos.html
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.ssh.startAgent = false;
 
   # https://discourse.nixos.org/t/gpg-smartcard-for-ssh/33689
