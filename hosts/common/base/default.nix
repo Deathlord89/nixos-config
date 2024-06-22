@@ -32,6 +32,9 @@
   # Enable in-memory compressed swap device
   zramSwap.enable = true;
 
+  # Enable CUPS to print documents.
+  services.printing.enable = lib.mkDefault true;
+
   # List services that you want to enable:
   services = {
     # Enable the OpenSSH daemon.

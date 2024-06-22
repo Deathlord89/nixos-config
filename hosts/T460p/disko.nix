@@ -24,11 +24,13 @@
               content = {
                 type = "luks";
                 name = "crypted";
-                # disable settings.keyFile if you want to use interactive password entry
+                # Path to the file which contains the password for initial encryption
+                # if you want to use the key for interactive login be sure there is no trailing newline
+                # for example use `echo -n "password" > /tmp/secret.key`
+                passwordFile = "/tmp/secret.key";
                 settings = {
                   allowDiscards = true;
-                  # if you want to use the key for interactive login be sure there is no trailing newline
-                  # for example use `echo -n "password" > /tmp/secret.key`
+                  # disable settings.keyFile if you want to use interactive password entry
                   # keyFile = "/tmp/secret.key";
                 };
                 content = {

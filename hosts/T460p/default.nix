@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ../common/base
     ../common/hardware/yubikey.nix
     ../common/hardware/nvidia
     ../common/hardware/nvidia/optimus.nix
@@ -16,21 +17,8 @@
     ./disko.nix
   ];
 
-  # Bootloader.
-  boot = {
-    loader = {
-      efi = {
-        canTouchEfiVariables = true;
-      };
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 5;
-      };
-      timeout = 1;
-    };
-    bootspec.enable = true;
-    supportedFilesystems = ["btrfs"];
-  };
+  # Bootloader btrfs support
+  boot.supportedFilesystems = ["btrfs"];
 
   networking = {
     # Define your hostname.
@@ -40,42 +28,6 @@
     # Enables wireless support via wpa_supplicant.
     # wireless.enable = true;
   };
-
-  # Nix Settings
-  nix = {
-    # Enable the Flakes feature and the accompanying new nix command-line tool
-    settings.experimental-features = ["nix-command" "flakes"];
-    # Perform garbage collection weekly to maintain low disk usage
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 1w";
-    };
-    # We have flakes!
-    #channel.enable = false;
-  };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
-  # Select internationalisation properties.
-  i18n = {
-    defaultLocale = "de_DE.UTF-8";
-    extraLocaleSettings = {
-      LC_ADDRESS = "de_DE.UTF-8";
-      LC_IDENTIFICATION = "de_DE.UTF-8";
-      LC_MEASUREMENT = "de_DE.UTF-8";
-      LC_MONETARY = "de_DE.UTF-8";
-      LC_NAME = "de_DE.UTF-8";
-      LC_NUMERIC = "de_DE.UTF-8";
-      LC_PAPER = "de_DE.UTF-8";
-      LC_TELEPHONE = "de_DE.UTF-8";
-      LC_TIME = "de_DE.UTF-8";
-    };
-  };
-
-  # Configure console keymap
-  console.keyMap = "de";
 
   services = {
     xserver = {
@@ -111,9 +63,6 @@
     };
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -124,21 +73,6 @@
     wget
     btop
   ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-  # Enable in-memory compressed swap device
-  zramSwap.enable = true;
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
