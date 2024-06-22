@@ -39,7 +39,6 @@
           kitty
           btop
           vscodium
-          wezterm
         ])
         ++ (with pkgs-unstable; [
           neovim

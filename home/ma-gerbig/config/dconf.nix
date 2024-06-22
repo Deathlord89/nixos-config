@@ -6,25 +6,23 @@
         "org.gnome.Nautilus.desktop"
         "firefox.desktop"
         "kitty.desktop"
+        "alacritty.desktop"
         "codium.desktop"
       ];
       # 'gnome-extensions list' for a list
       enabled-extensions = [
         "caffeine@patapon.info"
         "dash-to-dock@micxgx.gmail.com"
-        "user-theme@gnome-shell-extensions.gcampax.github.com"
       ];
     };
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      #gtk-theme = "Nordic";
       enable-hot-corners = false;
     };
     "org/gnome/desktop/notifications" = {
       show-in-lock-screen = false;
     };
     "org/gnome/desktop/wm/preferences" = {
-      #theme = "Nordic";
       button-layout = "appmenu:minimize,maximize,close";
     };
     "org/gnome/mutter" = {
@@ -57,23 +55,12 @@
       custom-theme-shrink = true;
       apply-custom-theme = true;
     };
-    "org/gnome/shell/extensions/user-theme" = {
-      name = "Nordic";
-    };
   };
 
-  home.packages = with pkgs; [
-    sd-switch # A systemd unit switcher for Home Manager
-    nordic #Gtk and KDE themes using the Nord color pallete
-    gnomeExtensions.caffeine
-    gnomeExtensions.dash-to-dock
-    gnomeExtensions.user-themes
-  ];
-
-  gtk = {
-    theme = {
-      name = "Nordic";
-      package = pkgs.nordic;
-    };
+  home = {
+    packages = with pkgs; [
+      gnomeExtensions.caffeine
+      gnomeExtensions.dash-to-dock
+    ];
   };
 }
