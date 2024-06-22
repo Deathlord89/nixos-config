@@ -6,9 +6,19 @@
   imports = [
     ./boot_uefi.nix
     ./nixos.nix
+    ./system.nix
   ];
+  # Enable networking
+  networking.networkmanager.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "de";
+    variant = "";
+  };
 
   # Configure console keymap
   console.keyMap = "de";
@@ -27,21 +37,5 @@
       LC_TELEPHONE = "de_DE.UTF-8";
       LC_TIME = "de_DE.UTF-8";
     };
-  };
-
-  # Enable in-memory compressed swap device
-  zramSwap.enable = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = lib.mkDefault true;
-
-  # List services that you want to enable:
-  services = {
-    # Enable the OpenSSH daemon.
-    openssh = {
-      enable = true;
-      openFirewall = true;
-    };
-    fwupd.enable = lib.mkDefault true;
   };
 }

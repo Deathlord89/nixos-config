@@ -5,6 +5,7 @@
 }: {
   imports = [
     ../common/base
+    ../common/desktop/gnome.nix
     ../common/hardware/yubikey.nix
     ../common/hardware/nvidia
     ../common/hardware/nvidia/optimus.nix
@@ -13,38 +14,14 @@
     ../../modules/lanzaboote.nix
 
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
     ./disko.nix
+    ./hardware-configuration.nix
   ];
+  # Define your hostname
+  networking.hostName = "T460p";
 
-  # Bootloader btrfs support
+  # Bootloader add btrfs support
   boot.supportedFilesystems = ["btrfs"];
-
-  networking = {
-    # Define your hostname.
-    hostName = "T460p";
-    # Enable networking
-    networkmanager.enable = true;
-    # Enables wireless support via wpa_supplicant.
-    # wireless.enable = true;
-  };
-
-  services = {
-    xserver = {
-      enable = true;
-      # Configure keymap in X11
-      xkb = {
-        layout = "de";
-        variant = "";
-      };
-      displayManager = {
-        gdm.enable = true;
-      };
-      desktopManager = {
-        gnome.enable = true;
-      };
-    };
-  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   sops.secrets."user/ma-gerbig/password".neededForUsers = true;
@@ -58,27 +35,11 @@
       packages = with pkgs; [
         alacritty
         kitty
+        btop
         vscodium
       ];
     };
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim
-    firefox
-    git
-    curl
-    wget
-    btop
-  ];
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
