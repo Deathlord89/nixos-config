@@ -32,19 +32,18 @@
       hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
       description = "Marc-André Gerbig";
       extraGroups = ["networkmanager" "wheel"];
-        packages =
-          (with pkgs; [
-        alacritty
-        alejandra
-        kitty
-        btop
-        vscodium
-        wezterm
-          ])
-          ++ (with pkgs-unstable; [
-            neovim
-          ]);
-      };
+      packages =
+        (with pkgs; [
+          alacritty
+          alejandra
+          kitty
+          btop
+          vscodium
+          wezterm
+        ])
+        ++ (with pkgs-unstable; [
+          neovim
+        ]);
     };
   };
 

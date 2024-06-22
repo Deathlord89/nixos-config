@@ -27,22 +27,16 @@
     #Excluding some GNOME applications from the default install
     gnome.excludePackages =
       (with pkgs; [
-        #gedit # text editor
-        #gnome-photos
-        #gnome-tour
+        gnome-tour
       ])
       ++ (with pkgs.gnome; [
-        #atomix # puzzle game
-        #cheese # webcam tool
-        #epiphany # web browser
+        epiphany # web browser
         #evince # document viewer
-        #geary # email reader
+        geary # email reader
         #gnome-characters
-        #gnome-music
-        #hitori # sudoku game
-        #iagno # go game
-        #tali # poker game
-        #totem # video player
+        gnome-music
+        totem # video player
       ]);
   };
+  programs.dconf.enable = true;
 }
