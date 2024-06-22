@@ -4,6 +4,7 @@
   inputs = {
     # NixOS official package source
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     home-manager = {
@@ -33,15 +34,24 @@
   outputs = inputs @ {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     nixos-hardware,
     disko,
     home-manager,
     ...
-  }: {
+  }: let
+    system = "x86_64-linux";
+    lib = nixpkgs.lib;
+    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+  in {
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs-unstable;
+        };
         modules = [
           ./hosts/T460p
 
@@ -59,7 +69,10 @@
 
       nixos-test = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs-unstable;
+        };
         modules = [
           ./hosts/nixos-test
 
