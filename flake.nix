@@ -49,6 +49,16 @@
       ./modules/sops.nix
     ];
   in {
+    homeConfigurations = {
+      ma-gerbig = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {
+          inherit pkgs-unstable;
+        };
+        modules = [./home/ma-gerbig];
+      };
+    };
+
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
         inherit system;
@@ -59,13 +69,13 @@
         modules =
           baseModules
           ++ [
-          ./hosts/T460p
+            ./hosts/T460p
 
-          # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
-          nixos-hardware.nixosModules.lenovo-thinkpad-t460p
+            # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
+            nixos-hardware.nixosModules.lenovo-thinkpad-t460p
 
-          disko.nixosModules.disko
-        ];
+            disko.nixosModules.disko
+          ];
       };
 
       nixos-test = lib.nixosSystem {
@@ -77,8 +87,8 @@
         modules =
           baseModules
           ++ [
-          ./hosts/nixos-test
-        ];
+            ./hosts/nixos-test
+          ];
       };
     };
   };
