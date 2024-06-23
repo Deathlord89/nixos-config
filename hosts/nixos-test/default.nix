@@ -10,7 +10,7 @@
     ../common/desktop/gnome.nix
     ../common/hardware/yubikey.nix
 
-    ../../modules/sops.nix
+    #../../modules/sops.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -39,17 +39,6 @@
       hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
       description = "Marc-André Gerbig";
       extraGroups = ["networkmanager" "wheel"];
-      packages =
-        (with pkgs; [
-          alacritty
-          alejandra
-          kitty
-          btop
-          vscodium
-        ])
-        ++ (with pkgs-unstable; [
-          neovim
-        ]);
     };
   };
 

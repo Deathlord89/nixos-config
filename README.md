@@ -25,3 +25,8 @@ umount -Rl /mnt
 zpool export -a
 
 nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+
+
+
+Sometimes gpg refuses my yubikey gpg key. This will fix it:
+'echo "test" | gpg --clearsign'

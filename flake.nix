@@ -44,6 +44,10 @@
     lib = nixpkgs.lib;
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+    baseModules = [
+      ./modules/home-manager.nix
+      ./modules/sops.nix
+    ];
   in {
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
@@ -52,18 +56,15 @@
           inherit inputs;
           inherit pkgs-unstable;
         };
-        modules = [
+        modules =
+          baseModules
+          ++ [
           ./hosts/T460p
 
           # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t460p
 
           disko.nixosModules.disko
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.users.ma-gerbig = import ./home/ma-gerbig;
-          }
         ];
       };
 
@@ -73,13 +74,10 @@
           inherit inputs;
           inherit pkgs-unstable;
         };
-        modules = [
+        modules =
+          baseModules
+          ++ [
           ./hosts/nixos-test
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.users.ma-gerbig = import ./home/ma-gerbig;
-          }
         ];
       };
     };

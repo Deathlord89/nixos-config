@@ -1,4 +1,9 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   imports = [
     ./config
   ];
@@ -8,6 +13,22 @@
   home = {
     username = "ma-gerbig";
     homeDirectory = "/home/ma-gerbig";
+
+    packages =
+      (with pkgs; [
+        alacritty
+        alejandra
+        kitty
+        btop
+        vscodium
+      ])
+      ++ (with pkgs-unstable; [
+        neovim
+      ]);
+
+    sessionVariables = {
+      EDITOR = "nvim";
+    };
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

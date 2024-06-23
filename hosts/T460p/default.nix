@@ -10,7 +10,6 @@
     ../common/hardware/nvidia
     ../common/hardware/nvidia/optimus.nix
 
-    ../../modules/sops.nix
     ../../modules/lanzaboote.nix
 
     # Include the results of the hardware scan.
@@ -32,12 +31,6 @@
       hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
       description = "Marc-André Gerbig";
       extraGroups = ["networkmanager" "wheel"];
-      packages = with pkgs; [
-        alacritty
-        kitty
-        btop
-        vscodium
-      ];
     };
   };
 

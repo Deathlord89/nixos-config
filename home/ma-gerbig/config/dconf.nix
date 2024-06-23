@@ -6,7 +6,7 @@
         "org.gnome.Nautilus.desktop"
         "firefox.desktop"
         "kitty.desktop"
-        "alacritty.desktop"
+        "Alacritty.desktop"
         "codium.desktop"
       ];
       # 'gnome-extensions list' for a list
