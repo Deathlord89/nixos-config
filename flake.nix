@@ -47,7 +47,7 @@
   in {
     nixosConfigurations = {
       T460p = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {
           inherit inputs;
           inherit pkgs-unstable;
@@ -67,8 +67,8 @@
         ];
       };
 
-      nixos-test = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      nixos-test = lib.nixosSystem {
+        inherit system;
         specialArgs = {
           inherit inputs;
           inherit pkgs-unstable;

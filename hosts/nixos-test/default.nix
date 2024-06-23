@@ -2,6 +2,7 @@
   config,
   pkgs,
   pkgs-unstable,
+  lib,
   ...
 }: {
   imports = [
@@ -16,6 +17,12 @@
   ];
   # Define your hostname
   networking.hostName = "nixos-test";
+
+  ## Overrides
+  # Bootloader
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
 
   # Disable CUPS, fwupd
   services = {
