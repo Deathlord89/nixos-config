@@ -7,7 +7,7 @@
     gping # ping, but with a graph(TUI)
     just # a command runner like make, but simpler
     ripgrep # search for files by its content, replacement of grep
-    lazygit
+    lazygit # Git terminal UI
   ];
 
   programs = {
