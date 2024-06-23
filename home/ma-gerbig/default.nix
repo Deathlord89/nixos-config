@@ -19,6 +19,8 @@
         alejandra
         btop
         vscodium
+        wl-clipboard
+        xclip
       ])
       ++ (with pkgs-unstable; [
         neovim
