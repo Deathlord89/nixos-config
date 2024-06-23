@@ -5,6 +5,7 @@
     ./git.nix
     ./gpg.nix
     ./kitty.nix
+    ./starship.nix
   ];
   fonts.fontconfig.enable = true;
   home.packages = [
