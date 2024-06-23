@@ -2,7 +2,7 @@ keys:
   - &users:
     - &ma-gerbig B82D59863009C69636ABA42C39CB130C67B92382
   - &hosts:
-    - &nixos-test age13mkt7m6dcq2d07rh8fequgpxlvedxdhq5ya4as3g29r4657r7gusvm7vzn
+    - &nixos-test age1gf7qp0l99fu3mewkvk7kg5hsuqd07k20yamxyu9266emeqm2tpkqpu4vtz
     - &T460p age130xew2t3lyv67u4fwmpz0rrccane86scyef2gwfp7r7dwagr7ewse5zpjl
 creation_rules:
   - path_regex: secrets.yaml$
