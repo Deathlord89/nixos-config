@@ -16,9 +16,7 @@
 
     packages =
       (with pkgs; [
-        alacritty
         alejandra
-        kitty
         btop
         vscodium
       ])
