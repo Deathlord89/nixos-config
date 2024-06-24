@@ -11,10 +11,7 @@
   # https://discourse.nixos.org/t/gpg-smartcard-for-ssh/33689
   hardware.gpgSmartcards.enable = true; # for yubikey
 
-  environment.systemPackages = with pkgs; [
-    gnupg
-    yubikey-personalization
-  ];
+  environment.systemPackages = with pkgs; [yubikey-personalization];
 
   services = {
     pcscd.enable = true;

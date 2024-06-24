@@ -8,8 +8,6 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
-  environment.systemPackages = [pkgs.sops];
-
   sops = {
     defaultSopsFile = ../secrets.yaml;
     defaultSopsFormat = "yaml";
