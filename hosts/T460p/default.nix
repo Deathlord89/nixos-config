@@ -4,6 +4,8 @@
   ...
 }: {
   imports = [
+    ../common/users/ma-gerbig
+
     ../common/base
     ../common/desktop/gnome.nix
     ../common/hardware/yubikey.nix
@@ -21,18 +23,6 @@
 
   # Bootloader add btrfs support
   boot.supportedFilesystems = ["btrfs"];
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  sops.secrets."user/ma-gerbig/password".neededForUsers = true;
-  users = {
-    #mutableUsers = false;
-    users.ma-gerbig = {
-      isNormalUser = true;
-      hashedPasswordFile = config.sops.secrets."user/ma-gerbig/password".path;
-      description = "Marc-André Gerbig";
-      extraGroups = ["networkmanager" "wheel"];
-    };
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

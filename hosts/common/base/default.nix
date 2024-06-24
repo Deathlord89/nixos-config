@@ -1,13 +1,21 @@
 {
-  config,
-  lib,
+  inputs,
+  outputs,
   ...
 }: {
   imports = [
+    inputs.home-manager.nixosModules.home-manager
+
     ./boot_uefi.nix
     ./nixos.nix
     ./system.nix
   ];
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.extraSpecialArgs = {
+    inherit inputs outputs;
+  };
+
   # Enable networking
   networking.networkmanager.enable = true;
 

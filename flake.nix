@@ -35,7 +35,6 @@
   outputs = {
     self,
     nixpkgs,
-    #nixpkgs-unstable,
     systems,
     nixos-hardware,
     disko,
@@ -52,13 +51,7 @@
           config.allowUnfree = true;
         }
     );
-    # TODO Remove if not necessary
-    #system = "x86_64-linux";
-    #lib = nixpkgs.lib;
-    #pkgs = nixpkgs.legacyPackages.${system};
-    #pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     baseModules = [
-      ./modules/home-manager.nix
       ./modules/sops.nix
     ];
   in {
