@@ -8,6 +8,10 @@
     just # a command runner like make, but simpler
     ripgrep # search for files by its content, replacement of grep
     lazygit # Git terminal UI
+
+    # Nix related
+    nix-output-monitor # with more details log output
+    nvd #Nix/NixOS package version diff tool
   ];
 
   programs = {
