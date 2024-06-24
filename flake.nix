@@ -5,6 +5,7 @@
     # NixOS official package source
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default-linux";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     home-manager = {
@@ -31,64 +32,68 @@
     };
   };
 
-  outputs = inputs @ {
+  outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
+    #nixpkgs-unstable,
+    systems,
     nixos-hardware,
     disko,
     home-manager,
     ...
-  }: let
-    system = "x86_64-linux";
-    lib = nixpkgs.lib;
-    pkgs = nixpkgs.legacyPackages.${system};
-    pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+  } @ inputs: let
+    inherit (self) outputs;
+    lib = nixpkgs.lib // home-manager.lib;
+    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
+    pkgsFor = lib.genAttrs (import systems) (
+      system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+    );
+    # TODO Remove if not necessary
+    #system = "x86_64-linux";
+    #lib = nixpkgs.lib;
+    #pkgs = nixpkgs.legacyPackages.${system};
+    #pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     baseModules = [
       ./modules/home-manager.nix
       ./modules/sops.nix
     ];
   in {
+    inherit lib;
+
+    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+
     homeConfigurations = {
-      ma-gerbig = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {
-          inherit pkgs-unstable;
-        };
+      ma-gerbig = lib.homeManagerConfiguration {
         modules = [./home/ma-gerbig];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
       };
     };
 
-    nixosConfigurations = {
-      T460p = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs;
-          inherit pkgs-unstable;
-        };
-        modules =
-          baseModules
-          ++ [
-            ./hosts/T460p
+    nixosConfigurations.T460p = lib.nixosSystem {
+      modules =
+        baseModules
+        ++ [
+          ./hosts/T460p
+          disko.nixosModules.disko
 
-            # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
-            nixos-hardware.nixosModules.lenovo-thinkpad-t460p
-
-            disko.nixosModules.disko
-          ];
+          nixos-hardware.nixosModules.lenovo-thinkpad-t460p
+        ];
+      specialArgs = {
+        inherit inputs outputs;
       };
+    };
 
-      nixos-test = lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs;
-          inherit pkgs-unstable;
-        };
-        modules =
-          baseModules
-          ++ [
-            ./hosts/nixos-test
-          ];
+    nixosConfigurations.nixos-test = lib.nixosSystem {
+      modules = baseModules ++ [./hosts/nixos-test];
+      specialArgs = {
+        inherit inputs outputs;
       };
     };
   };

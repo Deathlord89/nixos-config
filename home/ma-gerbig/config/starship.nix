@@ -23,6 +23,7 @@
         "$python"
         "$ruby"
         "$rust"
+        "$nix_shell"
         "$fill"
         "$status"
         "$cmd_duration "

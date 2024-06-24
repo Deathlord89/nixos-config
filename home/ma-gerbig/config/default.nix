@@ -3,6 +3,7 @@
     ./bash.nix
     ./core.nix
     ./dconf.nix
+    ./direnv.nix
     ./git.nix
     ./gpg.nix
     ./kitty.nix

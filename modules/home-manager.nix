@@ -16,8 +16,8 @@ in {
     };
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {
-      inherit pkgs-unstable;
-    };
+    #extraSpecialArgs = {
+    #  inherit pkgs-unstable;
+    #};
   };
 }

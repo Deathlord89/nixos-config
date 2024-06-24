@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  pkgs-unstable,
   ...
 }: {
   imports = [
@@ -14,17 +13,14 @@
     username = "ma-gerbig";
     homeDirectory = "/home/ma-gerbig";
 
-    packages =
-      (with pkgs; [
-        alejandra
-        btop
-        vscodium
-        wl-clipboard
-        xclip
-      ])
-      ++ (with pkgs-unstable; [
-        neovim
-      ]);
+    packages = with pkgs; [
+      alejandra
+      btop
+      vscodium
+      wl-clipboard
+      xclip
+      neovim
+    ];
 
     sessionVariables = {
       EDITOR = "nvim";
