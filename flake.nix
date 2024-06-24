@@ -63,9 +63,12 @@
     ];
   in {
     inherit lib;
+    # Custom packages and modifications, exported as overlays
+    overlays = import ./overlays {inherit inputs outputs;};
 
     devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
 
+    # Standalone home-manager configuration entrypoint
     homeConfigurations = {
       ma-gerbig = lib.homeManagerConfiguration {
         modules = [./home/ma-gerbig];
@@ -76,24 +79,27 @@
       };
     };
 
-    nixosConfigurations.T460p = lib.nixosSystem {
-      modules =
-        baseModules
-        ++ [
-          ./hosts/T460p
-          disko.nixosModules.disko
+    # NixOS configuration entrypoint
+    nixosConfigurations = {
+      T460p = lib.nixosSystem {
+        modules =
+          baseModules
+          ++ [
+            ./hosts/T460p
+            disko.nixosModules.disko
 
-          nixos-hardware.nixosModules.lenovo-thinkpad-t460p
-        ];
-      specialArgs = {
-        inherit inputs outputs;
+            nixos-hardware.nixosModules.lenovo-thinkpad-t460p
+          ];
+        specialArgs = {
+          inherit inputs outputs;
+        };
       };
-    };
 
-    nixosConfigurations.nixos-test = lib.nixosSystem {
-      modules = baseModules ++ [./hosts/nixos-test];
-      specialArgs = {
-        inherit inputs outputs;
+      nixos-test = lib.nixosSystem {
+        modules = baseModules ++ [./hosts/nixos-test];
+        specialArgs = {
+          inherit inputs outputs;
+        };
       };
     };
   };
