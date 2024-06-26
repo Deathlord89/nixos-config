@@ -2,24 +2,27 @@
   pkgs,
   config,
   lib,
+  myLib,
   ...
 }: let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
-    mutableUsers = false;
+    #mutableUsers = false;
     users.ma-gerbig = {
       isNormalUser = true;
       description = "Marc-André Gerbig";
       extraGroups = ["wheel"] ++ ifTheyExist ["networkmanager"];
 
-      hashedPasswordFile = config.sops.secrets."password/ma-gerbig".path;
+      #hashedPasswordFile = config.sops.secrets."password/ma-gerbig".path;
       openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../../../home/ma-gerbig/ssh.pub);
-      #packages = [pkgs.home-manager];
+      packages = [pkgs.home-manager];
     };
   };
-  sops.secrets."password/ma-gerbig".neededForUsers = true;
 
-  home-manager.users.ma-gerbig = import ../../../../home/ma-gerbig;
+  #sops.secrets."password/ma-gerbig".neededForUsers = true;
+
+  home-manager.users.ma-gerbig = import ../../../../home/ma-gerbig/home.nix;
+  home-manager.extraSpecialArgs = {inherit myLib;};
 }

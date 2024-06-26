@@ -12,7 +12,7 @@
     ../common/hardware/nvidia
     ../common/hardware/nvidia/optimus.nix
 
-    ../../modules/lanzaboote.nix
+    ../common/features/lanzaboote.nix
 
     # Include the results of the hardware scan.
     ./disko.nix

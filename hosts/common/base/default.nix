@@ -1,20 +1,18 @@
 {
-  inputs,
+  myLib,
   outputs,
   ...
 }: {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
+  imports = myLib.scanPaths ./. ++ (builtins.attrValues outputs.nixosModules);
 
-    ./boot_uefi.nix
-    ./nixos.nix
-    ./system.nix
-  ];
-
-  home-manager.useGlobalPkgs = true;
-  home-manager.extraSpecialArgs = {
-    inherit inputs outputs;
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+    config = {
+      allowUnfree = true;
+    };
   };
+
+  hardware.enableRedistributableFirmware = true;
 
   # Enable networking
   networking.networkmanager.enable = true;

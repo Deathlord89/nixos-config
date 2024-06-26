@@ -1,13 +1,14 @@
 {
-  description = "A simple NixOS flake";
+  description = "Your new nix config";
 
   inputs = {
-    # NixOS official package source
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Nix ecosystem
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:nixos/nixos-hardware/master";
     systems.url = "github:nix-systems/default-linux";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Secrets managemant
+    # Secrets management
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,7 +28,7 @@
 
     # Secureboot
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.1";
+      url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -35,15 +36,29 @@
   outputs = {
     self,
     nixpkgs,
-    systems,
-    nixos-hardware,
-    disko,
     home-manager,
+    systems,
     ...
   } @ inputs: let
     inherit (self) outputs;
+
     lib = nixpkgs.lib // home-manager.lib;
+    myLib = import ./lib {inherit lib;};
+
     forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
+
+    mkNixos = modules:
+      lib.nixosSystem {
+        inherit modules;
+        specialArgs = {inherit inputs outputs myLib;};
+      };
+
+    mkHome = modules: pkgs:
+      lib.homeManagerConfiguration {
+        inherit modules pkgs;
+        extraSpecialArgs = {inherit inputs outputs myLib;};
+      };
+
     pkgsFor = lib.genAttrs (import systems) (
       system:
         import nixpkgs {
@@ -51,49 +66,27 @@
           config.allowUnfree = true;
         }
     );
-    baseModules = [
-      ./modules/sops.nix
-    ];
   in {
-    inherit lib;
-    # Custom packages and modifications, exported as overlays
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
+
     overlays = import ./overlays {inherit inputs outputs;};
+    #hydraJobs = import ./hydra.nix {inherit inputs outputs;};
 
+    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
     devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
-
-    # Standalone home-manager configuration entrypoint
-    homeConfigurations = {
-      ma-gerbig = lib.homeManagerConfiguration {
-        modules = [./home/ma-gerbig];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          inherit inputs outputs;
-        };
-      };
-    };
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      T460p = lib.nixosSystem {
-        modules =
-          baseModules
-          ++ [
-            ./hosts/T460p
-            disko.nixosModules.disko
+      nixos = mkNixos [./hosts/nixos];
+      nixos-test = mkNixos [./hosts/nixos-test];
+      T460p = mkNixos [./hosts/T460p];
+    };
 
-            nixos-hardware.nixosModules.lenovo-thinkpad-t460p
-          ];
-        specialArgs = {
-          inherit inputs outputs;
-        };
-      };
-
-      nixos-test = lib.nixosSystem {
-        modules = baseModules ++ [./hosts/nixos-test];
-        specialArgs = {
-          inherit inputs outputs;
-        };
-      };
+    # Standalone home-manager configuration entrypoint
+    homeConfigurations = {
+      "ma-gerbig" = mkHome [./home/ma-gerbig/home.nix ./home/ma-gerbig/nixpkgs.nix] pkgsFor.x86_64-linux;
     };
   };
 }

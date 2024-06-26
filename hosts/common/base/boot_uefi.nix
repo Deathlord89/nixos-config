@@ -1,9 +1,4 @@
 {
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
   # Systemd-Boot bootloader configuration
   boot = {
     loader = {

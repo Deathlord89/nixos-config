@@ -1,7 +1,6 @@
 # Reference:
 # https://rzetterberg.github.io/yubikey-gpg-nixos.html
 {
-  config,
   pkgs,
   lib,
   ...

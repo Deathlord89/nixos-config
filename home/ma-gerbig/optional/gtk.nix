@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  gtk.enable = true;
+
   dconf.settings = {
     "org/gnome/shell" = {
       disable-user-extensions = false;

@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   ...
@@ -18,6 +17,7 @@
     usbutils
     wget
   ];
+
   # Exclude XTerm
   services.xserver.excludePackages = [pkgs.xterm];
 

@@ -35,9 +35,9 @@
       enable = true;
     };
 
-    atuin = {
-      enable = true;
-      enableBashIntegration = true;
-    };
+    #atuin = {
+    #  enable = true;
+    #  enableBashIntegration = true;
+    #};
   };
 }

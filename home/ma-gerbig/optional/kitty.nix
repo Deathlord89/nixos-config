@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+let
   font = "JetBrainsMono NFM";
 in {
   programs.kitty = {

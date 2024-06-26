@@ -1,9 +1,4 @@
 {
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
   hardware.nvidia.prime = {
     offload = {
       enable = true;
