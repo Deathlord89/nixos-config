@@ -1,9 +1,13 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }: {
   imports = [
+    inputs.disko.nixosModules.disko
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t460p
+
     ../common/users/ma-gerbig
 
     ../common/base
