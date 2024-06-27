@@ -29,7 +29,6 @@
       [
         alejandra # Nix formatter
         btop
-        vscodium # TODO make optional
         wl-clipboard
         xclip
         (pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];})

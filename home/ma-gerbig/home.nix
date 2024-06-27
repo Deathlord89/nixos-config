@@ -6,5 +6,6 @@
     ./core
     ./optional/kitty.nix
     ./optional/gtk.nix
+    ./optional/vscodium.nix
   ];
 }
