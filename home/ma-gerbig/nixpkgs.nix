@@ -1,8 +1,9 @@
 # This file should be included when using hm standalone
 {
-  outputs,
+  pkgs,
   lib,
   inputs,
+  outputs,
   ...
 }: let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
