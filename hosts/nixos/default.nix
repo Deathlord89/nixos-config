@@ -39,7 +39,6 @@
 
   # Disable CUPS, fwupd
   services = {
-    printing.enable = false;
     fwupd.enable = false;
   };
 
