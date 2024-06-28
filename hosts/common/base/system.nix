@@ -11,6 +11,7 @@
   environment.systemPackages = with pkgs; [
     curl
     git
+    htop
     lm_sensors
     neovim
     pciutils
@@ -40,20 +41,7 @@
   # Enable in-memory compressed swap device
   zramSwap.enable = true;
 
-  # List services that you want to enable:
-  services = {
-    # Enable the OpenSSH daemon.
-    openssh = {
-      enable = true;
-      openFirewall = true;
-      settings = {
-        X11Forwarding = true;
-        PermitRootLogin = "no"; # disable root login
-        # PasswordAuthentication = false; # disable password login
-      };
-    };
-    fwupd.enable = lib.mkDefault true;
-    # Enable CUPS to print documents.
-    printing.enable = lib.mkDefault true;
-  };
+  hardware.enableRedistributableFirmware = true;
+
+  services.fwupd.enable = lib.mkDefault true;
 }

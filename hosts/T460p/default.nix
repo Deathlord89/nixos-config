@@ -18,6 +18,7 @@
 
     ../common/features/lanzaboote.nix
     ../common/features/wireless.nix
+    ../common/features/printer.nix
 
     # Include the results of the hardware scan.
     ./disko.nix
