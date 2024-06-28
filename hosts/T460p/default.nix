@@ -17,6 +17,7 @@
     ../common/hardware/nvidia/optimus.nix
 
     ../common/features/lanzaboote.nix
+    ../common/features/wireless.nix
 
     # Include the results of the hardware scan.
     ./disko.nix
