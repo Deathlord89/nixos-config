@@ -21,9 +21,16 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-    # example = prev.example.overrideAttrs (oldAttrs: rec {
-    # ...
-    # });
+    # Disable ssh-agent from gnome-keyring
+    # https://discourse.nixos.org/t/disable-ssh-agent-from-gnome-keyring-on-gnome/28176
+    gnome = prev.gnome.overrideScope' (gfinal: gprev: {
+      gnome-keyring = gprev.gnome-keyring.overrideAttrs (oldAttrs: {
+        configureFlags =
+          oldAttrs.configureFlags
+          or []
+          ++ ["--disable-ssh-agent"];
+      });
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
