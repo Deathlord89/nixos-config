@@ -18,6 +18,7 @@ in {
       #hashedPasswordFile = config.sops.secrets."password/ma-gerbig".path;
       openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../../../home/ma-gerbig/ssh.pub);
       packages = [pkgs.home-manager];
+      shell = pkgs.fish;
     };
   };
 

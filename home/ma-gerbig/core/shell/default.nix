@@ -1,6 +1,3 @@
-{
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-  };
+{myLib, ...}: {
+  imports = myLib.scanPaths ./.;
 }

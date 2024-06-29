@@ -6,6 +6,9 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+  # Install fish shell for global completions
+  programs.fish.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
