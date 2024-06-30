@@ -8,6 +8,7 @@
       kamadorueda.alejandra
       mkhl.direnv
       ms-ceintl.vscode-language-pack-de
+      naumovs.color-highlight
       shd101wyy.markdown-preview-enhanced
     ];
     userSettings = {
