@@ -12,9 +12,11 @@ in {
       # Font Settings
       font_size = "11.0";
       font_family = "${font}";
-      bold_font = "${font} Bold";
-      italic_font = "${font} Italic";
-      bold_italic_font = "${font} Bold Italic";
+      #bold_font = "${font} Bold";
+      #italic_font = "${font} Italic";
+      #bold_italic_font = "${font} Bold Italic";
+      disable_ligatures = "cursor";
+      confirm_os_window_close = "-1";
 
       # Temporary theme settings. TODO remove when using stylix
       # Basic colors
