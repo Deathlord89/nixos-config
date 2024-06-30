@@ -1,6 +1,13 @@
-let
+{pkgs, ...}: let
   font = "JetBrainsMono NF";
+  icon = pkgs.fetchurl {
+    url = "https://github.com/DinkDonk/kitty-icon/blob/main/kitty-dark.png?raw=true";
+    sha256 = "McF0F74s6scdwNc+QSubVDk1PRD/4YiTI1iFju3LynA=";
+  };
 in {
+  xdg.dataFile."icons/hicolor/256x256/apps/kitty.png".source = icon;
+  xdg.dataFile."icons/hicolor/scalable/apps/kitty.png".source = icon;
+
   programs.kitty = {
     enable = true;
     settings = {
