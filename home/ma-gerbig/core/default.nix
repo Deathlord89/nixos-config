@@ -31,7 +31,6 @@
         btop
         wl-clipboard
         xclip
-        (pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];})
       ]
       ++ (with pkgs.unstable; [
         neovim
@@ -44,8 +43,6 @@
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
     stateVersion = "24.05";
   };
-
-  fonts.fontconfig.enable = true;
 
   # Enable home-manager
   programs.home-manager.enable = true;

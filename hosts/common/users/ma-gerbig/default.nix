@@ -24,6 +24,8 @@ in {
 
   #sops.secrets."password/ma-gerbig".neededForUsers = true;
 
-  home-manager.users.ma-gerbig = import ../../../../home/ma-gerbig/home.nix;
-  home-manager.extraSpecialArgs = {inherit myLib;};
+  home-manager = {
+    users.ma-gerbig = import ../../../../home/ma-gerbig/home.nix;
+    extraSpecialArgs = {inherit myLib;};
+  };
 }

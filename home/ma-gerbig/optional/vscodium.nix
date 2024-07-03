@@ -12,7 +12,6 @@
       shd101wyy.markdown-preview-enhanced
     ];
     userSettings = {
-      "editor.fontFamily" = "'JetBrainsMono Nerd Font Mono', 'Droid Sans Mono', 'monospace', monospace";
       "explorer.confirmDelete" = false;
       "git.autofetch" = true;
       "git.confirmSync" = false;
