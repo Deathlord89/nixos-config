@@ -31,6 +31,9 @@
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Theming
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = {
