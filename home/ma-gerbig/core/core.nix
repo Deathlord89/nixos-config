@@ -8,6 +8,7 @@
     just # a command runner like make, but simpler
     ripgrep # search for files by its content, replacement of grep
     lazygit # Git terminal UI
+    neofetch #  Command-line system information tool
 
     # Nix related
     nix-output-monitor # with more details log output

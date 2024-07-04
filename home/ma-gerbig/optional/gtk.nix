@@ -12,8 +12,13 @@
       ];
       # 'gnome-extensions list' for a list
       enabled-extensions = [
+        "blur-my-shell@aunetx"
         "caffeine@patapon.info"
         "dash-to-dock@micxgx.gmail.com"
+        "gsconnect@andyholmes.github.io"
+        "native-window-placement@gnome-shell-extensions.gcampax.github.com"
+        "pop-shell@system76.com"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
       ];
     };
     "org/gnome/desktop/interface" = {
@@ -53,14 +58,19 @@
       show-mounts-only-mounted = true;
       show-mounts-network = false;
       custom-theme-shrink = true;
-      apply-custom-theme = true;
+      apply-custom-theme = false;
     };
   };
 
   home = {
-    packages = with pkgs; [
-      gnomeExtensions.caffeine
-      gnomeExtensions.dash-to-dock
+    packages = with pkgs.gnomeExtensions; [
+      blur-my-shell
+      caffeine
+      dash-to-dock
+      gsconnect
+      native-window-placement
+      pop-shell
+      user-themes
     ];
   };
 }
