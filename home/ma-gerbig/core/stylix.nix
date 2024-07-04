@@ -1,3 +1,5 @@
+# Reference:
+# https://github.com/librephoenix/nixos-config/blob/main/user/style/stylix.nix
 {
   config,
   lib,
