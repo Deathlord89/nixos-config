@@ -15,6 +15,7 @@
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"
         "dash-to-dock@micxgx.gmail.com"
+        "gnome-ui-tune@itstime.tech"
         "gsconnect@andyholmes.github.io"
         "native-window-placement@gnome-shell-extensions.gcampax.github.com"
         "pop-shell@system76.com"
@@ -34,6 +35,9 @@
       edge-tiling = true;
       dynamic-workspaces = true;
     };
+    "org/gnome/nautilus/icon-view" = {
+      default-zoom-level = "small-plus";
+    };
     # Extensions settings
     "org/gnome/shell/extensions/caffeine" = {
       indicator-position = -1;
@@ -50,6 +54,7 @@
       dash-max-icon-size = 48;
       preview-size-scale = 0.0;
       require-pressure-to-show = false;
+      intellihide-mode = "ALL_WINDOWS";
       show-dock-urgent-notify = true;
       autohide = true;
       show-favorites = true;
@@ -60,6 +65,13 @@
       custom-theme-shrink = true;
       apply-custom-theme = false;
     };
+    "org/gnome/shell/extensions/gnome-ui-tune" = {
+      increase-thumbnails-size = 100;
+      hide-search = true;
+      restore-thumbnails-background = true;
+      always-show-thumbnails = false;
+      overview-firefox-pip = true;
+    };
   };
 
   home = {
@@ -67,6 +79,7 @@
       blur-my-shell
       caffeine
       dash-to-dock
+      gnome-40-ui-improvements
       gsconnect
       native-window-placement
       pop-shell
