@@ -112,3 +112,10 @@
 (load custom-file t)
 
 (setq-default custom-file null-device)
+
+(use-package nerd-icons)
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
+  ;; :custom ((setq doom-modeline-height 15)))
+  )

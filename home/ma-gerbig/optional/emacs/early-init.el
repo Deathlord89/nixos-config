@@ -21,13 +21,13 @@
 (defvar better-gc-cons-threshold (* 100 1024 1024)) ; 100MB
 
 (add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (setq gc-cons-threshold better-gc-cons-threshold
-		  gc-cons-percentage 0.1)
-	    (setq file-name-handler-alist file-name-handler-alist-original)
-	    (makunbound 'file-name-handler-alist-original)
-	    (message "Emacs ready in %s with %d garbage collections."
-		     (format "%.2f seconds"
-			     (float-time
-			  (time-subtract after-init-time before-init-time)))
-		     gcs-done)))
+      (lambda ()
+        (setq gc-cons-threshold better-gc-cons-threshold
+  	    gc-cons-percentage 0.1)
+        (setq file-name-handler-alist file-name-handler-alist-original)
+        (makunbound 'file-name-handler-alist-original)
+        (message "Emacs ready in %s with %d garbage collections."
+  	       (format "%.2f seconds"
+  		       (float-time
+  			(time-subtract after-init-time before-init-time)))
+  	       gcs-done)))
