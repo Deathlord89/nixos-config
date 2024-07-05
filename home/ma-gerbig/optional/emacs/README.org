@@ -1,0 +1,296 @@
+:DOC-CONFIG:
+#+title: Emacs Configuration
+#+author: Marc-Andre Gerbig
+# Tangle by default to init.el, which is the most common case
+#+PROPERTY: header-args:emacs-lisp :tangle init.el
+:END:
+
+This is my personal GNU Emacs configuration file, inspired by a bunch of resources I’ve found online.
+The =early-init.el= and =init.el= files are generated from this =*.org= document with =C-c C-v t=.
+
+* Credits
+| Name             | URL                                    |
+|------------------+----------------------------------------|
+| Doom Emacs       | https://github.com/hlissner/doom-emacs |
+| Norman Walsh     | https://gitlab.com/ndw/dotfiles        |
+| Radon Rosborough | https://github.com/raxod502/radian     |
+| SystemCrafter    | https://github.com/daviwil/dotfiles    |
+| zzamboni         | https://github.com/zzamboni/dot-doom/  |
+
+* Early System Configuration
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle early-init.el
+:END:
+
+#+begin_quote
+Emacs 27.1 introduced =early-init.el=, which is run before =init.el=, before package and UI initialization happens, and before site files are loaded.
+#+end_quote
+
+** Garbage Collection
+A big contributor to startup times is garbage collection. We up the gc threshold to temporarily prevent it from running, then reset it later by enabling =gcmh-mode=. Not resetting it will cause stuttering/freezes.
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+        gc-cons-percentage 0.6)
+#+end_src
+
+** Disable package-enable-at-startup
+#+begin_quote
+Package initialize occurs automatically, before =user-init-file= is loaded, but after =early-init-file=. We handle package initialization, so we must prevent Emacs from doing it early!
+#+end_quote
+
+Prevent =package.el= loading packages prior to their init-file loading.
+While it is technically possible to use both =package.el= and =straight.el= at the same time, there is no real reason to, and it might result in oddities like packages getting loaded more than once.
+#+begin_src emacs-lisp
+  (setq package-enable-at-startup nil)
+#+end_src
+
+Prevent Emacs loading outdatet packages.
+#+begin_src emacs-lisp
+  (setq load-prefer-newer t)
+#+end_src
+
+** Unset file-name-handler-alist
+Every file opened and loaded by Emacs will run through this list to check for a proper handler for the file, but during startup, it won’t need any of them.
+#+begin_src emacs-lisp
+  (defvar file-name-handler-alist-original file-name-handler-alist)
+  (setq file-name-handler-alist nil)
+#+end_src
+
+** Disable unnecessary interfaces.
+It will be faster to disable them here before they've been initialized.
+#+begin_src emacs-lisp
+  (setq-default
+   default-frame-alist
+   '((horizontal-scroll-bars . nil)       ;; No horizontal scroll-bars
+     (left-fringe . 10)                    ;; Thin left fringe
+     ;;(menu-bar-lines . 0)                 ;; No menu bar
+     (right-divider-width . 1)            ;; Thin vertical window divider
+     (right-fringe . 10)                   ;; Thin right fringe
+     ;;(tool-bar-lines . 0)                 ;; No tool bar
+     (vertical-scroll-bars . nil)))       ;; No vertical scroll-bars
+#+end_src
+
+** Restore some values after Emacs is started.
+#+begin_quote
+The =emacs-startup-hook= runs later than the =after-init-hook=.
+One key difference is that there may be command-line options processed after the after-init-hook and before the emacs-startup-hook.
+(Command-line options are handled in multiple phases, with some being processed right away and some after init files have been loaded.)
+#+end_quote
+
+#+begin_src emacs-lisp
+  (defvar better-gc-cons-threshold (* 100 1024 1024)) ; 100MB
+  
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (setq gc-cons-threshold better-gc-cons-threshold
+		    gc-cons-percentage 0.1)
+	      (setq file-name-handler-alist file-name-handler-alist-original)
+	      (makunbound 'file-name-handler-alist-original)
+	      (message "Emacs ready in %s with %d garbage collections."
+		       (format "%.2f seconds"
+			       (float-time
+				(time-subtract after-init-time before-init-time)))
+		       gcs-done)))
+#+end_src
+
+** Old init.el file
+This snippet is no longer active!
+#+begin_src emacs-lisp :tangle no
+  (defvar my-init-el-start-time (current-time) "Time when init.el was started")
+  (setq my-user-emacs-directory "~/.emacs.d/")
+  
+  ;; Bootstrap straight.el
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+  
+  ;; Always use straight to install on systems other than Linux
+  (setq straight-use-package-by-default t)
+  
+  ;; Use straight.el for use-package expressions
+  (straight-use-package 'use-package)
+  
+  ;; Load the helper package for commands like `straight-x-clean-unused-repos'
+  (require 'straight-x)
+  
+  (defun ma/org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (auto-fill-mode 0)
+    (visual-line-mode 1)
+    (setq evil-auto-indent nil))
+  
+  (use-package org
+    :hook (org-mode . ma/org-mode-setup)
+    :config
+    (setq org-ellipsis " ▾")
+    (ma/org-font-setup))
+  
+  ;; =======================================================================================
+  ;; The init.el file looks for "config.org" and tangles its elisp blocks (matching
+  ;; the criteria described below) to "config.el" which is loaded as Emacs configuration.
+  ;; Inspired and copied from: http://www.holgerschurig.de/en/emacs-init-tangle/
+  ;; As of 2021-02-05, the Domain "holgerschurig.de" doesn't exist any more.
+  ;; Visit archived page on https://archive.org/search.php?query=http%3A%2F%2Fwww.holgerschurig.de%2Fen%2Femacs-init-tangle%2F
+  ;; =======================================================================================
+  
+  ;; from: http://stackoverflow.com/questions/251908/how-can-i-insert-current-date-and-time-into-a-file-using-emacs
+  (defvar current-date-time-format "%a %b %d %Y-%m-%dT%H:%M:%S "
+    "Format of date to insert with `insert-current-date-time' func
+  See help of `format-time-string' for possible replacements")
+  
+  ;; from: http://stackoverflow.com/questions/251908/how-can-i-insert-current-date-and-time-into-a-file-using-emacs
+  (defvar current-time-format "%a %H:%M:%S"
+    "Format of date to insert with `insert-current-time' func.
+  Note the weekly scope of the command's precision.")
+  
+  (defun my-tangle-config-org ()
+    "This function will write all source blocks from =config.org= into =config.el= that are ...
+  - not marked as =tangle: no=
+  - doesn't have the TODO state =DISABLED=
+  - have a source-code of =emacs-lisp="
+    (require 'org)
+    (let* ((body-list ())
+           (output-file (concat my-user-emacs-directory "config.el"))
+           (org-babel-default-header-args (org-babel-merge-params org-babel-default-header-args
+                                                                  (list (cons :tangle output-file)))))
+      (message "—————• Re-generating %s …" output-file)
+      (save-restriction
+        (save-excursion
+          (org-babel-map-src-blocks (concat my-user-emacs-directory "config.org")
+            (let* (
+                   (org_block_info (org-babel-get-src-block-info 'light))
+                   ;;(block_name (nth 4 org_block_info))
+                   (tfile (cdr (assq :tangle (nth 2 org_block_info))))
+                   (match_for_TODO_keyword)
+                   )
+              (save-excursion
+                (catch 'exit
+                  ;;(when (string= "" block_name)
+                  ;;  (message "Going to write block name: " block_name)
+                  ;;  (add-to-list 'body-list (concat "message(\"" block_name "\")"));; adding a debug statement for named blocks
+                  ;;  )
+                  (org-back-to-heading t)
+                  (when (looking-at org-outline-regexp)
+                    (goto-char (1- (match-end 0))))
+                  (when (looking-at (concat " +" org-todo-regexp "\\( +\\|[ \t]*$\\)"))
+                    (setq match_for_TODO_keyword (match-string 1)))))
+              (unless (or (string= "no" tfile)
+                          (string= "DISABLED" match_for_TODO_keyword)
+                          (not (string= "emacs-lisp" lang)))
+                (add-to-list 'body-list (concat "\n\n;; #####################################################################################\n"
+                                                "(message \"config • " (org-get-heading) " …\")\n\n")
+                             )
+                (add-to-list 'body-list body)
+                ))))
+        (with-temp-file output-file
+          (insert ";; ============================================================\n")
+          (insert ";; Don't edit this file, edit config.org' instead ...\n")
+          (insert ";; Auto-generated at " (format-time-string current-date-time-format (current-time)) " on host " system-name "\n")
+          (insert ";; ============================================================\n\n")
+          (insert (apply 'concat (reverse body-list))))
+        (message "—————• Wrote %s" output-file))))
+  
+  
+  ;; following lines are executed only when my-tangle-config-org-hook-func()
+  ;; was not invoked when saving config.org which is the normal case:
+  (let ((orgfile (concat my-user-emacs-directory "config.org"))
+        (elfile (concat my-user-emacs-directory "config.el"))
+        (gc-cons-threshold most-positive-fixnum))
+    (when (or (not (file-exists-p elfile))
+              (file-newer-than-file-p orgfile elfile))
+      (my-tangle-config-org)
+      ;;(save-buffers-kill-emacs);; TEST: kill Emacs when config has been re-generated due to many issues when loading newly generated config.el
+      )
+    (load-file elfile))
+  
+  ;; when config.org is saved, re-generate config.el:
+  (defun my-tangle-config-org-hook-func ()
+    (when (string= "config.org" (buffer-name))
+      (let ((orgfile (concat my-user-emacs-directory "config.org"))
+            (elfile (concat my-user-emacs-directory "config.el")))
+        (my-tangle-config-org))))
+  (add-hook 'after-save-hook 'my-tangle-config-org-hook-func)
+  
+  
+  (message "→★ loading init.el in %.2fs" (float-time (time-subtract (current-time) my-init-el-start-time)))
+#+end_src
+
+* Basic System Configuraten
+** Packagemanagement with straight.el
+
+#+begin_quote
+Note: =straight.el= supports a minimum version of Emacs 25.1, and works on macOS, Windows, and most flavors of Linux. You must install Git in order to use =straight.el=.
+#+end_quote
+Bootstrap [[https://github.com/raxod502/straight.el][straight.el]]:
+#+begin_src emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+#+end_src
+
+Load the helper package for commands like `straight-x-clean-unused-repos'
+#+begin_src emacs-lisp
+  (require 'straight-x)
+#+end_src
+
+If [[https://github.com/watchexec/watchexec][watchexec]] and [[https://www.python.org/][Python 3]] are installed, use file watchers to detect package modifications. This saves time at startup. Otherwise, use the ever-reliable =find(1)=.
+#+begin_src emacs-lisp
+  (if (and (executable-find "watchexec")
+           (executable-find "python3"))
+      (setq straight-check-for-modifications '(watch-files find-when-checking))
+    (setq straight-check-for-modifications
+          '(find-at-startup find-when-checking)))
+#+end_src
+
+*** Integration with use-package
+=use-package= is a macro that provides convenient syntactic sugar for many common tasks related to installing and configuring Emacs packages.
+Of course, it does not actually install the packages, but instead defers to a package manager, =like straight.el= (which comes with =use-package= integration by default).
+
+To use =use-package=, first install it with =straight.el=:
+#+begin_src emacs-lisp
+  (straight-use-package 'use-package)
+#+end_src
+
+Use =straight.el= for =use-package= expressions:
+#+begin_src emacs-lisp
+  (setq straight-use-package-by-default t)    
+#+end_src
+
+[[https://github.com/raxod502/radian/blob/58ba58bd827e719c0eeb3d3c996d59cf4d00acd5/emacs/radian.el#L542][use-feature]] macro by [[*Credits][Radox502]]:
+#+begin_src emacs-lisp
+  (defmacro use-feature (name &rest args)
+    "Like `use-package', but with `straight-use-package-by-default' disabled. NAME and ARGS are as in `use-package'."
+    (declare (indent defun))
+    `(use-package ,name
+       :straight nil
+       ,@args))
+#+end_src
+
+*** Native Compilation
+
+#+begin_src emacs-lisp
+  ;; Silence compiler warnings as they can be pretty disruptive
+  (setq native-comp-async-report-warnings-errors nil)
+
+  ;; Set the right directory to store the native comp cache
+  (add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" user-emacs-directory))
+#+end_src
