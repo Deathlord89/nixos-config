@@ -30,6 +30,12 @@ in {
     name = "Adwaita";
   };
 
+  stylix.opacity = {
+    desktop = 1.0;
+    popups = 0.95;
+    terminal = 0.90;
+  };
+
   stylix.fonts = {
     monospace = {
       package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};

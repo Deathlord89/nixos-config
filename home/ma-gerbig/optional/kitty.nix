@@ -15,12 +15,12 @@ in {
     enable = true;
     settings = {
       allow_remote_control = "no";
-      background_opacity = lib.mkForce "0.85";
+      #background_opacity = lib.mkForce "0.85";
       linux_display_server = "x11";
       term = "xterm-256color";
 
       # Font Settings
-      font_size = "11.0";
+      #font_size = "11.0";
       disable_ligatures = "cursor";
 
       confirm_os_window_close = "-1";
