@@ -23,6 +23,10 @@
       ];
     };
     "org/gnome/desktop/interface" = {
+      font-antialiasing = "grayscale";
+      clock-show-seconds = true;
+      clock-show-weekday = true;
+      font-hinting = "slight";
       enable-hot-corners = false;
     };
     "org/gnome/desktop/notifications" = {
@@ -38,6 +42,7 @@
     "org/gnome/nautilus/icon-view" = {
       default-zoom-level = "small-plus";
     };
+
     # Extensions settings
     "org/gnome/shell/extensions/caffeine" = {
       indicator-position = -1;
@@ -74,6 +79,7 @@
     };
   };
 
+  # Install gnome extensions
   home = {
     packages = with pkgs.gnomeExtensions; [
       blur-my-shell
