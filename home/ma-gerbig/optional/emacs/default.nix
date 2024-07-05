@@ -14,7 +14,21 @@
   };
 
   home.file = {
-    "${config.xdg.configHome}/emacs/early-init.el".source = ./early-init.el;
-    "${config.xdg.configHome}/emacs/init.el".source = ./init.el;
+    "${config.xdg.configHome}/emacs/early-init.el".source =
+      config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/early-init.el";
+
+    "${config.xdg.configHome}/emacs/init.el".source =
+      config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/init.el";
+
+    "${config.xdg.configHome}/emacs/straight/versions/default.el".source =
+      config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/default.el";
   };
+
+  home.packages = with pkgs; [
+    python3
+    watchexec
+  ];
 }
