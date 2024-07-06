@@ -46,18 +46,18 @@
  custom-unlispify-menu-entries nil      ; Prefer kebab-case for titles
  custom-unlispify-tag-names nil         ; Prefer kebab-case for symbols
  delete-by-moving-to-trash t            ; Delete files to trash
- ;; fill-column 80                         ; Set width for automatic line breaks
+ ;; fill-column 80                        ; Set width for automatic line breaks
  help-window-select t                   ; Focus new help windows when opened
  indent-tabs-mode nil                   ; Stop using tabs to indent
  inhibit-startup-screen t               ; Disable start-up screen
- ;; initial-scratch-message ""             ; Empty the initial *scratch* buffer
+ ;; initial-scratch-message ""            ; Empty the initial *scratch* buffer
  mouse-yank-at-point t                  ; Yank at point rather than pointer
  recenter-positions '(5 top bottom)     ; Set re-centering positions
  scroll-conservatively 101              ; Avoid recentering when scrolling far
  scroll-margin 2                        ; Add a margin when scrolling vertically
  select-enable-clipboard t              ; Merge system's and Emacs' clipboard
  sentence-end-double-space nil          ; Use a single space after dots
- ;; show-help-function nil                 ; Disable help text everywhere
+ ;; show-help-function nil                ; Disable help text everywhere
  tab-always-indent 'complete            ; Tab indents first then tries completions
  tab-width 4                            ; Smaller width for tab characters
  uniquify-buffer-name-style 'forward    ; Uniquify buffer names
@@ -74,9 +74,9 @@
 
 (scroll-bar-mode -1)        ; Disable visible scrollbar
 (tool-bar-mode -1)          ; Disable the toolbar
-;;(tooltip-mode -1)         ; Disable tooltips
+;;(tooltip-mode -1)           ; Disable tooltips
 (set-fringe-mode 10)        ; Give some breathing room
-;;(menu-bar-mode -1)        ; Disable the menu bar
+;;(menu-bar-mode -1)          ; Disable the menu bar
 (save-place-mode 1)         ; Save the last cursor position
 
 ;; Set up the visible bell
@@ -116,6 +116,24 @@
 (use-package nerd-icons)
 (use-package doom-modeline
   :ensure t
-  :hook (after-init . doom-modeline-mode))
+  :hook (after-init . doom-modeline-mode)
   ;; :custom ((setq doom-modeline-height 15)))
   )
+
+(setq custom-theme-directory "~/.emacs.d/themes")
+(use-package doom-themes :defer t)
+:config
+;; Global settings (defaults)
+(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+      doom-themes-enable-italic t) ; if nil, italics is universally disabled
+;;(load-theme 'doom-palenight t)
+(load-theme 'doom-stylix t)
+;; Enable flashing mode-line on errors
+(doom-themes-visual-bell-config)
+;; Enable custom neotree theme (all-the-icons must be installed!)
+;; (doom-themes-neotree-config)
+;; or for treemacs users
+;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+;; (doom-themes-treemacs-config)
+;; Corrects (and improves) org-mode's native fontification.
+(doom-themes-org-config)

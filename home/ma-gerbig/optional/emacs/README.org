@@ -9,13 +9,14 @@ This is my personal GNU Emacs configuration file, inspired by a bunch of resourc
 The =early-init.el= and =init.el= files are generated from this =*.org= document with =C-c C-v t=.
 
 * Credits
-| Name             | URL                                    |
-|------------------+----------------------------------------|
-| Doom Emacs       | https://github.com/hlissner/doom-emacs |
-| Norman Walsh     | https://gitlab.com/ndw/dotfiles        |
-| Radon Rosborough | https://github.com/raxod502/radian     |
-| SystemCrafter    | https://github.com/daviwil/dotfiles    |
-| zzamboni         | https://github.com/zzamboni/dot-doom/  |
+| Name             | URL                                          |
+|------------------+----------------------------------------------|
+| Doom Emacs       | https://github.com/hlissner/doom-emacs       |
+| Emmet            | https://github.com/librephoenix/nixos-config |
+| Norman Walsh     | https://gitlab.com/ndw/dotfiles              |
+| Radon Rosborough | https://github.com/raxod502/radian           |
+| SystemCrafter    | https://github.com/daviwil/dotfiles          |
+| Zzamboni         | https://github.com/zzamboni/dot-doom/        |
 
 * Early System Configuration
 :PROPERTIES:
@@ -63,13 +64,13 @@ It will be faster to disable them here before they've been initialized.
 #+begin_src emacs-lisp
   (setq-default
    default-frame-alist
-   '((horizontal-scroll-bars . nil)       ;; No horizontal scroll-bars
-     (left-fringe . 10)                    ;; Thin left fringe
-     ;;(menu-bar-lines . 0)                 ;; No menu bar
-     (right-divider-width . 1)            ;; Thin vertical window divider
-     (right-fringe . 10)                   ;; Thin right fringe
-     ;;(tool-bar-lines . 0)                 ;; No tool bar
-     (vertical-scroll-bars . nil)))       ;; No vertical scroll-bars
+   '((horizontal-scroll-bars . nil)       ; No horizontal scroll-bars
+     (left-fringe . 10)                   ; Thin left fringe
+     ;;(menu-bar-lines . 0)                 ; No menu bar
+     (right-divider-width . 1)            ; Thin vertical window divider
+     (right-fringe . 10)                  ; Thin right fringe
+     (tool-bar-lines . 0)                 ; No tool bar
+     (vertical-scroll-bars . nil)))       ; No vertical scroll-bars
 #+end_src
 
 ** Restore some values after Emacs is started.
@@ -240,7 +241,7 @@ Note: =straight.el= supports a minimum version of Emacs 25.1, and works on macOS
 To write the current revisions of all your packages into version lockfiles, run =M-x straight-freeze-versions=.
 This will first check that =straight.el= has an up-to-date account of what packages are installed by your init-file, then ensure that all your local changes are pushed (remember, we are aiming for perfect reproducibility!).
 
-For updading the packages run =M-x straight-pull-package= to get the latest version of a given package (or =M-x straight-pull-all= to update everything), and then =M-x straight-freeze-versions= to persist the on-disk versions to your lockfile (=~/config/emacs/straight/versions/default.el= by default).
+For updading the packages run =M-x straight-pull-package= to get the latest version of a given package (or =M-x straight-pull-all= to update everything), and then =M-x straight-freeze-versions= to persist the on-disk versions to your lockfile (=~/.emacs.d/straight/versions/default.el= by default).
 You can run =M-x straight-thaw-versions= at any time to reset on-disk packages to their locked versions, making your config totally reproducible across environments. 
 
 Sometimes it's good to clean up unused repositories if I've removed packages from my configuration.  Use =straight-remove-unused-repos= for this purpose.
@@ -324,18 +325,18 @@ NAME and ARGS are as in =use-package=.
    custom-unlispify-menu-entries nil      ; Prefer kebab-case for titles
    custom-unlispify-tag-names nil         ; Prefer kebab-case for symbols
    delete-by-moving-to-trash t            ; Delete files to trash
-   ;; fill-column 80                         ; Set width for automatic line breaks
+   ;; fill-column 80                        ; Set width for automatic line breaks
    help-window-select t                   ; Focus new help windows when opened
    indent-tabs-mode nil                   ; Stop using tabs to indent
    inhibit-startup-screen t               ; Disable start-up screen
-   ;; initial-scratch-message ""             ; Empty the initial *scratch* buffer
+   ;; initial-scratch-message ""            ; Empty the initial *scratch* buffer
    mouse-yank-at-point t                  ; Yank at point rather than pointer
    recenter-positions '(5 top bottom)     ; Set re-centering positions
    scroll-conservatively 101              ; Avoid recentering when scrolling far
    scroll-margin 2                        ; Add a margin when scrolling vertically
    select-enable-clipboard t              ; Merge system's and Emacs' clipboard
    sentence-end-double-space nil          ; Use a single space after dots
-   ;; show-help-function nil                 ; Disable help text everywhere
+   ;; show-help-function nil                ; Disable help text everywhere
    tab-always-indent 'complete            ; Tab indents first then tries completions
    tab-width 4                            ; Smaller width for tab characters
    uniquify-buffer-name-style 'forward    ; Uniquify buffer names
@@ -352,9 +353,9 @@ NAME and ARGS are as in =use-package=.
 
   (scroll-bar-mode -1)        ; Disable visible scrollbar
   (tool-bar-mode -1)          ; Disable the toolbar
-  ;;(tooltip-mode -1)         ; Disable tooltips
+  ;;(tooltip-mode -1)           ; Disable tooltips
   (set-fringe-mode 10)        ; Give some breathing room
-  ;;(menu-bar-mode -1)        ; Disable the menu bar
+  ;;(menu-bar-mode -1)          ; Disable the menu bar
   (save-place-mode 1)         ; Save the last cursor position
 
   ;; Set up the visible bell
@@ -387,7 +388,7 @@ This isn't just a problem with third-party packages but even with built-in packa
 Some packages put these files directly in =user-emacs-directory= or $HOME or in a subdirectory of either of the two or elsewhere.
 Furthermore sometimes file names are used that don't provide any insight into what package might have created them.
 
-[[https://github.com/emacscollective/no-littering][no-littering] sets out to fix this by changing the values of path variables to put configuration files in =no-littering-etc-directory= (defaulting to "etc/" under =user-emacs-directory=, thus usually "~/.config/emacs/etc/") and persistent data files in =no-littering-var-directory= (defaulting to "var/" under =user-emacs-directory=, thus usually "~/.emacs.d/var/"), and by using descriptive file names and subdirectories when appropriate.
+[[https://github.com/emacscollective/no-littering][No-littering]] sets out to fix this by changing the values of path variables to put configuration files in =no-littering-etc-directory= (defaulting to "etc/" under =user-emacs-directory=, thus usually "~/.config/emacs/etc/") and persistent data files in =no-littering-var-directory= (defaulting to "var/" under =user-emacs-directory=, thus usually "~/.emacs.d/var/"), and by using descriptive file names and subdirectories when appropriate.
 This is similar to a color-theme; a "path-theme" if you will.
 #+begin_src emacs-lisp
   ;; Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
@@ -405,30 +406,6 @@ This is similar to a color-theme; a "path-theme" if you will.
   (load custom-file t)
 #+end_src
 
-Use =~/.cache= to cointain local data.
-#+BEGIN_SRC emacs-lisp :tangle no
-  (defconst ma/cache-directory
-    (expand-file-name ".cache/")
-    "Directory where all cache files should be saved")
-
-  (defun ma/cache-concat (name)
-    "Return the absolute path of NAME under `ma/cache-directory'."
-    (let* ((directory (file-name-as-directory ma/cache-directory))
-           (path (convert-standard-filename (concat directory name))))
-      (make-directory (file-name-directory path) t)
-      path))
-#+END_SRC
-
-Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
-#+BEGIN_SRC emacs-lisp :tangle no 
-  (with-eval-after-load 'request
-    (setq-default request-storage-directory (ma/cache-concat "request/")))
-  (with-eval-after-load 'tramp
-    (setq-default tramp-persistency-file-name (ma/cache-concat "tramp.eld")))
-  (with-eval-after-load 'url
-    (setq-default url-configuration-directory (ma/cache-concat "url/")))
-#+END_SRC
-
 Disable =customize-*= routine and redirect the writing to =/dev/null=.
 #+BEGIN_SRC emacs-lisp
   (setq-default custom-file null-device)
@@ -442,21 +419,22 @@ NOTE: The first time you load your configuration on a new machine, you'll need t
   (use-package nerd-icons)
   (use-package doom-modeline
     :ensure t
-    :hook (after-init . doom-modeline-mode))
+    :hook (after-init . doom-modeline-mode)
     ;; :custom ((setq doom-modeline-height 15)))
     )
 #+END_SRC
   
 [[https://github.com/hlissner/emacs-doom-themes][Doom Theme]] - A theme megapack for GNU Emacs, inspired by community favorites.
-Actually not in my =init.el= included - I test the Nix =stylix= module.
-#+BEGIN_SRC emacs-lisp :tangle no
+I use the custom =stylix=-enabled =mustache= theme template from [[https://github.com/librephoenix/nixos-config/blob/7a5b01ab7de1127a9ba13f88c39e4bccbc73f6ac/user/app/doom-emacs/themes/doom-stylix-theme.el.mustache][librephoenix]].
+#+BEGIN_SRC emacs-lisp
+  (setq custom-theme-directory "~/.emacs.d/themes")
   (use-package doom-themes :defer t)
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;;(load-theme 'doom-palenight t)
-  (load-theme 'doom-one t)
+  (load-theme 'doom-stylix t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)

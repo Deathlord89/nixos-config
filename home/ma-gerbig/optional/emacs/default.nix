@@ -13,18 +13,29 @@
     startWithUserSession = "graphical";
   };
 
+  systemd.user.services.emacs = {
+    serviceConfig = {
+      TimeoutStartSec = "7min";
+    };
+  };
+
   home.file = {
-    "${config.xdg.configHome}/emacs/early-init.el".source =
+    ".emacs.d/early-init.el".source =
       config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/early-init.el";
 
-    "${config.xdg.configHome}/emacs/init.el".source =
+    ".emacs.d/init.el".source =
       config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/init.el";
 
-    "${config.xdg.configHome}/emacs/straight/versions/default.el".source =
+    ".emacs.d/straight/versions/default.el".source =
       config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/default.el";
+      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/straight-el/default.el";
+
+    ".emacs.d/themes/doom-stylix-theme.el".source = config.lib.stylix.colors {
+      template = builtins.readFile ./themes/doom-stylix-theme.el.mustache;
+      extension = ".el";
+    };
   };
 
   home.packages = with pkgs; [
