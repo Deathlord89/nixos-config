@@ -17,16 +17,16 @@
     serviceConfig = {
       TimeoutStartSec = "7min";
     };
+    restartTriggers = [
+      (config.home.file ".emacs.d/early-init.el".target)
+      (config.home.file ".emacs.d/init.el".target)
+    ];
   };
 
   home.file = {
-    ".emacs.d/early-init.el".source =
-      config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/early-init.el";
+    ".emacs.d/early-init.el".source = ./early-init.el;
 
-    ".emacs.d/init.el".source =
-      config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/init.el";
+    ".emacs.d/init.el".source = ./init.el;
 
     ".emacs.d/straight/versions/default.el".source =
       config.lib.file.mkOutOfStoreSymlink
