@@ -126,7 +126,7 @@
   ;; :custom ((setq doom-modeline-height 15)))
   )
 
-(setq custom-theme-directory "~/.emacs.d/themes")
+(setq custom-theme-directory "~/.config/emacs/themes")
 (use-package doom-themes :defer t)
 :config
 ;; Global settings (defaults)

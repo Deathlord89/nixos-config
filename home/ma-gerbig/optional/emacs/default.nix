@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   programs.emacs = {
@@ -27,15 +28,19 @@
   };
 
   home.file = {
-    ".emacs.d/early-init.el".source = ./early-init.el;
+    "${config.xdg.configHome}/emacs/early-init.el".source =
+      config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/early-init.el";
 
-    ".emacs.d/init.el".source = ./init.el;
+    "${config.xdg.configHome}/emacs/init.el".source =
+      config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/init.el";
 
-    ".emacs.d/straight/versions/default.el".source =
+    "${config.xdg.configHome}/emacs/straight/versions/default.el".source =
       config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/straight-el/default.el";
 
-    ".emacs.d/themes/doom-stylix-theme.el".source = config.lib.stylix.colors {
+    "${config.xdg.configHome}/emacs/themes/doom-stylix-theme.el".source = config.lib.stylix.colors {
       template = builtins.readFile ./themes/doom-stylix-theme.el.mustache;
       extension = ".el";
     };
@@ -45,4 +50,19 @@
     python3
     watchexec
   ];
+
+  # Clean up unwanted OS defaults
+  home.activation = {
+    deleteDotEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      DOTEMACS="${config.home.homeDirectory}/.emacs"
+      DOTEMACSDIR="${config.home.homeDirectory}/.emacs.d"
+      if [[ -e "$DOTEMACS" ]]; then
+      rm -f "$DOTEMACS"
+      fi
+
+      if [[ -d "$DOTEMACSDIR" ]]; then
+      rm -rf "$DOTEMACSDIR"
+      fi
+    '';
+  };
 }

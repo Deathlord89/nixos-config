@@ -14,11 +14,12 @@ The =early-init.el= and =init.el= files are generated from this =*.org= document
 | Doom Emacs       | https://github.com/hlissner/doom-emacs       |
 | Emmet            | https://github.com/librephoenix/nixos-config |
 | Norman Walsh     | https://gitlab.com/ndw/dotfiles              |
+| Protesilaos      | https://protesilaos.com/emacs/dotemacs       |
 | Radon Rosborough | https://github.com/raxod502/radian           |
 | SystemCrafter    | https://github.com/daviwil/dotfiles          |
 | Zzamboni         | https://github.com/zzamboni/dot-doom/        |
 
-* Early System Configuration
+* Early System Configuration (=early-init.el=)
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle early-init.el
 :END:
@@ -251,7 +252,7 @@ This snippet is no longer active!
   (message "→★ loading init.el in %.2fs" (float-time (time-subtract (current-time) my-init-el-start-time)))
 #+end_src
 
-* Basic System Configuraten
+* Basic System Configuraten (=init.el=)
 ** Packagemanagement with straight.el
 Init-file and version lockfiles as the sole source of truth.
 No persistent state kept elsewhere.
@@ -450,7 +451,7 @@ NOTE: The first time you load your configuration on a new machine, you'll need t
 [[https://github.com/hlissner/emacs-doom-themes][Doom Theme]] - A theme megapack for GNU Emacs, inspired by community favorites.
 I use the custom =stylix=-enabled =mustache= theme template from [[https://github.com/librephoenix/nixos-config/blob/7a5b01ab7de1127a9ba13f88c39e4bccbc73f6ac/user/app/doom-emacs/themes/doom-stylix-theme.el.mustache][librephoenix]].
 #+BEGIN_SRC emacs-lisp
-  (setq custom-theme-directory "~/.emacs.d/themes")
+  (setq custom-theme-directory "~/.config/emacs/themes")
   (use-package doom-themes :defer t)
   :config
   ;; Global settings (defaults)
