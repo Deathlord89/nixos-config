@@ -17,10 +17,13 @@
     serviceConfig = {
       TimeoutStartSec = "7min";
     };
-    restartTriggers = [
-      (config.home.file ".emacs.d/early-init.el".target)
-      (config.home.file ".emacs.d/init.el".target)
-    ];
+    #restartTriggers = [
+    #FIXME this method is not working ...
+    #"${config.home.homeDirectory}/.emacs.d/early-init.el"
+    #"${config.home.homeDirectory}/.emacs.d/init.el"
+    #"${config.home.file.".emacs.d/early-init.el".destination}"
+    #"${config.home.file.".emacs.d/init.el".destination}"
+    #];
   };
 
   home.file = {
