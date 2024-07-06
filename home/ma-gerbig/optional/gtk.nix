@@ -36,7 +36,7 @@
       button-layout = "appmenu:minimize,maximize,close";
     };
     "org/gnome/mutter" = {
-      edge-tiling = true;
+      edge-tiling = false;
       dynamic-workspaces = true;
     };
     "org/gnome/nautilus/icon-view" = {
