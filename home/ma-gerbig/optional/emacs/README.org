@@ -688,6 +688,45 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
 #+END_SRC
 
 * Programming
+** Projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :diminish projectile-mode
+    :config
+    (projectile-mode)
+    :custom ((projectile-completion-system 'ivy))
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    (when
+        (require 'magit nil t)
+      (mapc #'projectile-add-known-project
+            (mapcar #'file-name-as-directory
+                    (magit-list-repos)))
+      ;; Optionally write to persistent `projectile-known-projects-file'
+      (projectile-save-known-projects)))
+
+  (use-package counsel-projectile
+    :after projectile
+    :bind (("C-M-p" . counsel-projectile-find-file))
+    :config (counsel-projectile-mode))
+
+  (ma/leader-key-def
+    "p"  '(:ignore t :which-key "projectile")
+    "pf"  'counsel-projectile-find-file
+    "ps"  'counsel-projectile-switch-project
+    "pF"  'counsel-projectile-rg
+    ;;"pF"  'consult-ripgrep
+    "pp"  'counsel-projectile
+    "pc"  'projectile-compile-project
+    "pd"  'projectile-dired)
+#+END_SRC
+
+Configure =magit-repository-directories= (which see) to include the desired directories.
+Note that each entry can be associated with a subdirectory depth.
+If you organise all your projects as subdirectories of a select few parent directories, then only the parent directories need be added to =magit-repository-directories=, with the corresponding search depth.
+After Projectile is loaded, you can add all repositories reported by Magit to =projectile-known-projects=.
+Foud at [[https://emacs.stackexchange.com/questions/32634/how-can-the-list-of-projects-used-by-projectile-be-manually-updated][Stackexchange]].
 
 ** Magit
 #+BEGIN_SRC emacs-lisp
@@ -698,7 +737,7 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
     (setq magit-repository-directories
           '(;; Directory containing project root directories
-            ("~/git/"      . 2)))
+            ("~/git/"      . 1)))
 
   (ma/leader-key-def
     "g"   '(:ignore t :which-key "git")

@@ -326,6 +326,37 @@
   :keymaps '(visual)
   "er" '(eval-region :which-key "eval region"))
 
+(use-package projectile
+  :diminish projectile-mode
+  :config
+  (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when
+      (require 'magit nil t)
+    (mapc #'projectile-add-known-project
+          (mapcar #'file-name-as-directory
+                  (magit-list-repos)))
+    ;; Optionally write to persistent `projectile-known-projects-file'
+    (projectile-save-known-projects)))
+
+(use-package counsel-projectile
+  :after projectile
+  :bind (("C-M-p" . counsel-projectile-find-file))
+  :config (counsel-projectile-mode))
+
+(ma/leader-key-def
+  "p"  '(:ignore t :which-key "projectile")
+  "pf"  'counsel-projectile-find-file
+  "ps"  'counsel-projectile-switch-project
+  "pF"  'counsel-projectile-rg
+  ;;"pF"  'consult-ripgrep
+  "pp"  'counsel-projectile
+  "pc"  'projectile-compile-project
+  "pd"  'projectile-dired)
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
@@ -333,7 +364,7 @@
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
   (setq magit-repository-directories
         '(;; Directory containing project root directories
-          ("~/git/"      . 2)))
+          ("~/git/"      . 1)))
 
 (ma/leader-key-def
   "g"   '(:ignore t :which-key "git")
