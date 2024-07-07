@@ -118,6 +118,25 @@
 
 (setq-default custom-file null-device)
 
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+  (setq
+  initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))
+  dashboard-startup-banner 'logo
+  dashboard-center-content t
+  dashboard-vertically-center-content t
+  dashboard-set-navigator t
+  dashboard-set-init-info t
+  dashboard-projects-backend 'projectile
+  dashboard-items '((recents  . 5)
+                    (bookmarks . 5)
+                    (projects . 5)
+                    (agenda . 5)
+                    (registers . 5)))
+
 (use-package nerd-icons)
 (use-package doom-modeline
   :ensure t
