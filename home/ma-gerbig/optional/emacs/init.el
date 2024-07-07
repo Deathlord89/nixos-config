@@ -349,17 +349,16 @@
   :diminish projectile-mode
   :config
   (projectile-mode)
-  :custom ((projectile-completion-system 'ivy))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
   (when
       (require 'magit nil t)
     (mapc #'projectile-add-known-project
           (mapcar #'file-name-as-directory
                   (magit-list-repos)))
     ;; Optionally write to persistent `projectile-known-projects-file'
-    (projectile-save-known-projects)))
+    (projectile-save-known-projects))
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map))
 
 (use-package counsel-projectile
   :after projectile
