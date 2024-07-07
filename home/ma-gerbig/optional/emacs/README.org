@@ -789,6 +789,7 @@ The result is that programs started from within emacs, such as inferior shells, 
 
 ** Languages
 *** Language Servers
+- lsp-mode
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
@@ -798,18 +799,38 @@ The result is that programs started from within emacs, such as inferior shells, 
     (lsp-enable-which-key-integration t))
 #+END_SRC
 
-Better completions
+- lsp-ui
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+#+END_SRC
+
+- lsp-treemacs
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-treemacs
+  :after lsp)
+#+END_SRC
+
+- lsp-ivy
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-ivy
+  :after lsp)
+#+END_SRC
+
+-company-mode
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :after lsp-mode
     :hook (lsp-mode . company-mode)
     :bind (:map company-active-map
-                ("<TAB>" . company-complete-selection))
+           ("<tab>" . company-complete-selection))
           (:map lsp-mode-map
-                ("<TAB>" . company-indent-or-complete-common))
-     :custom
-     (company-minimum-prefix-lenght 1)
-     (company-idle-delay 0.0))
+           ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
 
   (use-package company-box
     :hook (company-mode . company-box-mode))
@@ -818,8 +839,8 @@ Better completions
 *** Nix
 #+BEGIN_SRC emacs-lisp
   (use-package nix-mode
-    :mode "\\.nix\\'"
-    :hook (nix-mode . lsp-deferred))
+      :mode "\\.nix\\'"
+      :hook (nix-mode . lsp-deferred))
 #+END_SRC
 
 * Features
