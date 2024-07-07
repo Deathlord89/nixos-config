@@ -481,10 +481,16 @@ I use the custom =stylix=-enabled =mustache= theme template from [[https://githu
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+END_SRC
-    
+
+This keybinding is overridden by evil.
+To activate an alternate =universal-argument= binding enable the following codeblock.
+#+BEGIN_SRC amacs-lisp :tangle no
+(global-set-key (kbd "C-M-u") 'universal-argument)
+#+END_SRC
+
 ** Change Leader with =general.el=
 With the help of =general.el=, it is easy to manage key combinations and also serves as a wrapper for =wich-key=.
-The combination of =:ignore t= and =:which-key= bind nothing but give a description. 
+- =:ignore t= and =:which-key= bind nothing but give a description.
 #+BEGIN_SRC emacs-lisp
   (use-package general
     :config
@@ -499,6 +505,8 @@ The combination of =:ignore t= and =:which-key= bind nothing but give a descript
 #+END_SRC
 
 ** Evil mode
+- =C-z= Toggle =emacs-mode= (disable evil  keybindings)
+- =C-g= Expand the default emacs "Exit" function with evils "normal" state
 #+BEGIN_SRC emacs-lisp
   (defun ma/evil-hook ()
     (dolist (mode '(custom-mode
@@ -524,7 +532,7 @@ The combination of =:ignore t= and =:which-key= bind nothing but give a descript
     (add-hook 'evil-mode-hook 'ma/evil-hook)
     (evil-mode 1)
     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    ;;(define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
   
     ;; Use visual line motions even outside of visual-line-mode buffers
     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
@@ -532,7 +540,7 @@ The combination of =:ignore t= and =:which-key= bind nothing but give a descript
   
     (evil-set-initial-state 'messages-buffer-mode 'normal)
     (evil-set-initial-state 'dashboard-mode 'normal))
-  
+
   (use-package evil-collection
     :after evil
     :config
