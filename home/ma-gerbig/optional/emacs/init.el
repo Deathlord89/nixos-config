@@ -121,8 +121,11 @@
 (use-package nerd-icons)
 (use-package doom-modeline
   :ensure t
+  ;;:init (doom-modeline-mode 1)
   :hook (after-init . doom-modeline-mode)
-  :custom ((setq doom-modeline-height 35)))
+  :config
+  (setq doom-modeline-height 25
+        doom-modeline-bar-width 6))
 
 (setq custom-theme-directory "~/.config/emacs/themes")
 (use-package doom-themes :defer t)
@@ -314,3 +317,26 @@
   ([remap describe-variable] . helpful-variable)
   ([remap describe-command] . helpful-command)
   ([remap describe-key] . helpful-key))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package smartparens
+  :bind
+  ("<M-backspace>" . sp-unwrap-sexp)
+  ("<M-left>" . sp-forward-barf-sexp)
+  ("<M-right>" . sp-forward-slurp-sexp)
+  ("<M-S-left>" . sp-backward-slurp-sexp)
+  ("<M-S-right>" . sp-backward-barf-sexp)
+  :hook
+  (after-init . smartparens-global-mode)
+  :custom
+  (sp-highlight-pair-overlay t)
+  (sp-highlight-wrap-overlay t)
+  (sp-highlight-wrap-tag-overlay t)
+  :config
+  (require 'smartparens-config))
+
+(use-package undo-tree
+  :init
+  (global-undo-tree-mode 1))

@@ -48,6 +48,7 @@
 
   home.packages = with pkgs; [
     python3
+    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
     watchexec
   ];
 

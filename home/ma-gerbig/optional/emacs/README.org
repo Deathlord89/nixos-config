@@ -438,12 +438,15 @@ Disable =customize-*= routine and redirect the writing to =/dev/null=.
 ** Doom Theme
 =doom-modeline= is a fancy and fast mode-line inspired by minimalism design
 NOTE: The first time you load your configuration on a new machine, you'll need to run the following command interactively so that mode line icons display correctly =M-x nerd-icons-install-fonts=.
-#+BEGIN_SRC emacs-lisp 
-  (use-package nerd-icons)
-  (use-package doom-modeline
-    :ensure t
-    :hook (after-init . doom-modeline-mode)
-    :custom ((setq doom-modeline-height 35)))
+#+BEGIN_SRC emacs-lisp
+    (use-package nerd-icons)
+    (use-package doom-modeline
+      :ensure t
+      ;;:init (doom-modeline-mode 1)
+      :hook (after-init . doom-modeline-mode)
+      :config
+      (setq doom-modeline-height 25
+            doom-modeline-bar-width 6))
 #+END_SRC
   
 [[https://github.com/hlissner/emacs-doom-themes][Doom Theme]] - A theme megapack for GNU Emacs, inspired by community favorites.
@@ -659,4 +662,38 @@ flexible, simple tool for completion in Emacs
     ([remap describe-variable] . helpful-variable)
     ([remap describe-command] . helpful-command)
     ([remap describe-key] . helpful-key))
-    #+END_SRC
+#+END_SRC
+
+* Features
+** Parentheses
+Highlights delimiters (parentheses, brackets or braces).
+#+BEGIN_SRC emacs-lisp 
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+END_SRC
+
+Enable auto close bracket insertion.
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :bind
+    ("<M-backspace>" . sp-unwrap-sexp)
+    ("<M-left>" . sp-forward-barf-sexp)
+    ("<M-right>" . sp-forward-slurp-sexp)
+    ("<M-S-left>" . sp-backward-slurp-sexp)
+    ("<M-S-right>" . sp-backward-barf-sexp)
+    :hook
+    (after-init . smartparens-global-mode)
+    :custom
+    (sp-highlight-pair-overlay t)
+    (sp-highlight-wrap-overlay t)
+    (sp-highlight-wrap-tag-overlay t)
+    :config
+    (require 'smartparens-config))
+#+END_SRC
+
+** Undotree
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :init
+    (global-undo-tree-mode 1))
+#+END_SRC
