@@ -56,7 +56,7 @@
  help-window-select t                   ; Focus new help windows when opened
  indent-tabs-mode nil                   ; Stop using tabs to indent
  inhibit-startup-screen t               ; Disable start-up screen
- ;; initial-scratch-message ""            ; Empty the initial *scratch* buffer
+ initial-scratch-message ""             ; Empty the initial *scratch* buffer
  mouse-yank-at-point t                  ; Yank at point rather than pointer
  recenter-positions '(5 top bottom)     ; Set re-centering positions
  scroll-conservatively 101              ; Avoid recentering when scrolling far

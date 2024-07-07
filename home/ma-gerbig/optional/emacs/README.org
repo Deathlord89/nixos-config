@@ -1,9 +1,11 @@
 :DOC-CONFIG:
-#+title: Emacs Configuration
-#+author: Marc-Andre Gerbig
 # Tangle by default to init.el, which is the most common case
 #+PROPERTY: header-args:emacs-lisp :tangle init.el
+#+startup: fold
 :END:
+
+#+title: Emacs Configuration
+#+author: Marc-Andre Gerbig
 
 This is my personal GNU Emacs configuration file, inspired by a bunch of resources I’ve found online.
 The =early-init.el= and =init.el= files are generated from this =*.org= document with =C-c C-v t=.
@@ -23,7 +25,6 @@ The =early-init.el= and =init.el= files are generated from this =*.org= document
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle early-init.el
 :END:
-
 #+begin_quote
 Emacs 27.1 introduced =early-init.el=, which is run before =init.el=, before package and UI initialization happens, and before site files are loaded.
 #+end_quote
@@ -353,7 +354,7 @@ NAME and ARGS are as in =use-package=.
    help-window-select t                   ; Focus new help windows when opened
    indent-tabs-mode nil                   ; Stop using tabs to indent
    inhibit-startup-screen t               ; Disable start-up screen
-   ;; initial-scratch-message ""            ; Empty the initial *scratch* buffer
+   initial-scratch-message ""             ; Empty the initial *scratch* buffer
    mouse-yank-at-point t                  ; Yank at point rather than pointer
    recenter-positions '(5 top bottom)     ; Set re-centering positions
    scroll-conservatively 101              ; Avoid recentering when scrolling far
@@ -384,6 +385,10 @@ NAME and ARGS are as in =use-package=.
   ;; Set up the visible bell
   (setq visible-bell t)
 
+#+END_SRC
+
+Global line numbering is helpful, but not useful for all modes.
+#+begin_src emacs-lisp
   ;; Show line numbers
   (column-number-mode)
   (global-display-line-numbers-mode t)
@@ -473,17 +478,13 @@ I use the custom =stylix=-enabled =mustache= theme template from [[https://githu
 
 * Key Binding Configuration
 ** Make ESC quit prompts
-
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+END_SRC
-
-=Universal-argument= allows you to give arguments to commands.
-#+BEGIN_SRC emacs-lisp :tangle no
-  (global-set-key (kbd "C-M-u") 'universal-argument)
-#+END_SRC
     
-** Change Leader with =general=
+** Change Leader with =general.el=
+With the help of =general.el=, it is easy to manage key combinations and also serves as a wrapper for =wich-key=.
+The combination of =:ignore t= and =:which-key= bind nothing but give a description. 
 #+BEGIN_SRC emacs-lisp
   (use-package general
     :config
