@@ -326,6 +326,30 @@
   :keymaps '(visual)
   "er" '(eval-region :which-key "eval region"))
 
+(use-package magit
+  :bind ("C-M-;" . magit-status)
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+  (setq magit-repository-directories
+        '(;; Directory containing project root directories
+          ("~/git/"      . 2)))
+
+(ma/leader-key-def
+  "g"   '(:ignore t :which-key "git")
+  "gs"  'magit-status
+  "gd"  'magit-diff-unstaged
+  "gc"  'magit-branch-or-checkout
+  "gl"   '(:ignore t :which-key "log")
+  "glc" 'magit-log-current
+  "glf" 'magit-log-buffer-file
+  "gb"  'magit-branch
+  "gP"  'magit-push-current
+  "gp"  'magit-pull-branch
+  "gf"  'magit-fetch
+  "gF"  'magit-fetch-all
+  "gr"  'magit-rebase)
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
