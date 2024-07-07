@@ -381,6 +381,10 @@
   "gF"  'magit-fetch-all
   "gr"  'magit-rebase)
 
+(use-package direnv
+ :config
+ (direnv-mode))
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 

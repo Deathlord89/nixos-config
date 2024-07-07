@@ -755,6 +755,14 @@ Foud at [[https://emacs.stackexchange.com/questions/32634/how-can-the-list-of-pr
     "gr"  'magit-rebase)
 #+END_SRC
 
+** Direnv
+It works by invoking =direnv= to obtain the environment for the current file, then updating the emacs variables =process-environment= and =exec-path=.
+The result is that programs started from within emacs, such as inferior shells, linters, compilers, and test runners, will be looked up in the correct =$PATH=, and will be started with the correct environment variables set.
+#+BEGIN_SRC emacs-lisp
+(use-package direnv
+ :config
+ (direnv-mode))
+#+END_SRC
 
 * Features
 ** Parentheses
