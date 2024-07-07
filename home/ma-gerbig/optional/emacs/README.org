@@ -445,7 +445,7 @@ NOTE: The first time you load your configuration on a new machine, you'll need t
       ;;:init (doom-modeline-mode 1)
       :hook (after-init . doom-modeline-mode)
       :config
-      (setq doom-modeline-height 25
+      (setq doom-modeline-height 30
             doom-modeline-bar-width 6))
 #+END_SRC
   
@@ -631,7 +631,7 @@ flexible, simple tool for completion in Emacs
                                     (left-fringe . 8)
                                     (right-fringe . 8)))
     (ivy-posframe-mode 1))
-  
+
   (use-package prescient
     :after counsel
     :config
@@ -650,9 +650,12 @@ flexible, simple tool for completion in Emacs
     "fr"  '(counsel-recentf :which-key "recent files")
     "fR"  '(revert-buffer :which-key "revert file")
     "fj"  '(counsel-file-jump :which-key "jump to file"))
+#+END_SRC
 
-  ;; better help funtions
+Better help funtions
+#+BEGIN_SRC emacs-lisp 
   (use-package helpful
+    :ensure t
     :custom
     (counsel-describe-function-function #'helpful-callable)
     (counsel-describe-variable-function #'helpful-variable)
@@ -662,6 +665,17 @@ flexible, simple tool for completion in Emacs
     ([remap describe-variable] . helpful-variable)
     ([remap describe-command] . helpful-command)
     ([remap describe-key] . helpful-key))
+#+END_SRC
+
+Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the highlighted block. 
+#+BEGIN_SRC emacs-lisp 
+  (ma/leader-key-def
+    "e"  '(:ignore t :which-key "eval")
+    "eb" '(eval-buffer :which-key "eval buffer"))
+
+  (ma/leader-key-def
+    :keymaps '(visual)
+    "er" '(eval-region :which-key "eval region"))
 #+END_SRC
 
 * Features
@@ -696,4 +710,24 @@ Enable auto close bracket insertion.
   (use-package undo-tree
     :init
     (global-undo-tree-mode 1))
+#+END_SRC
+
+** Qualitiy of Life
+Colorize colors as text with their value.
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :hook
+    (prog-mode . rainbow-mode)
+    :custom
+    (rainbow-x-colors nil))
+#+END_SRC
+
+[[https://github.com/justbur/emacs-which-key][Which-key]] is great for getting an overview of what keybindings are available based on the prefix keys you entered.
+Learned about this one from Spacemacs.
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0.5))
 #+END_SRC

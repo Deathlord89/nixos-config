@@ -124,7 +124,7 @@
   ;;:init (doom-modeline-mode 1)
   :hook (after-init . doom-modeline-mode)
   :config
-  (setq doom-modeline-height 25
+  (setq doom-modeline-height 30
         doom-modeline-bar-width 6))
 
 (setq custom-theme-directory "~/.config/emacs/themes")
@@ -306,8 +306,8 @@
   "fR"  '(revert-buffer :which-key "revert file")
   "fj"  '(counsel-file-jump :which-key "jump to file"))
 
-;; better help funtions
 (use-package helpful
+  :ensure t
   :custom
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-variable-function #'helpful-variable)
@@ -317,6 +317,14 @@
   ([remap describe-variable] . helpful-variable)
   ([remap describe-command] . helpful-command)
   ([remap describe-key] . helpful-key))
+
+(ma/leader-key-def
+  "e"  '(:ignore t :which-key "eval")
+  "eb" '(eval-buffer :which-key "eval buffer"))
+
+(ma/leader-key-def
+  :keymaps '(visual)
+  "er" '(eval-region :which-key "eval region"))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -340,3 +348,15 @@
 (use-package undo-tree
   :init
   (global-undo-tree-mode 1))
+
+(use-package rainbow-mode
+  :hook
+  (prog-mode . rainbow-mode)
+  :custom
+  (rainbow-x-colors nil))
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.5))
