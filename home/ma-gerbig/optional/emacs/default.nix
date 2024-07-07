@@ -47,9 +47,15 @@
   };
 
   home.packages = with pkgs; [
+    # Straight.el
     python3
-    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
     watchexec
+
+    # IDE
+    nil
+
+    # Doom-modeline symbols 
+    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
 
   # Clean up unwanted OS defaults

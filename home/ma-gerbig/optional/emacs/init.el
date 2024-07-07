@@ -404,6 +404,31 @@
  :config
  (direnv-mode))
 
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+              ("<TAB>" . company-complete-selection))
+        (:map lsp-mode-map
+              ("<TAB>" . company-indent-or-complete-common))
+   :custom
+   (company-minimum-prefix-lenght 1)
+   (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+(use-package nix-mode
+  :mode "\\.nix\\'"
+  :hook (nix-mode . lsp-deferred))
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 

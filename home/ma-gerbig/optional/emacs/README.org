@@ -710,8 +710,9 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
     "er" '(eval-region :which-key "eval region"))
 #+END_SRC
 
-* Programming
-** Projectile
+* Development
+** Project Management
+*** Projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :diminish projectile-mode
@@ -751,7 +752,7 @@ If you organise all your projects as subdirectories of a select few parent direc
 After Projectile is loaded, you can add all repositories reported by Magit to =projectile-known-projects=.
 Foud at [[https://emacs.stackexchange.com/questions/32634/how-can-the-list-of-projects-used-by-projectile-be-manually-updated][Stackexchange]].
 
-** Magit
+*** Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :bind ("C-M-;" . magit-status)
@@ -778,13 +779,48 @@ Foud at [[https://emacs.stackexchange.com/questions/32634/how-can-the-list-of-pr
     "gr"  'magit-rebase)
 #+END_SRC
 
-** Direnv
+*** Direnv
 It works by invoking =direnv= to obtain the environment for the current file, then updating the emacs variables =process-environment= and =exec-path=.
 The result is that programs started from within emacs, such as inferior shells, linters, compilers, and test runners, will be looked up in the correct =$PATH=, and will be started with the correct environment variables set.
 #+BEGIN_SRC emacs-lisp
 (use-package direnv
  :config
  (direnv-mode))
+#+END_SRC
+
+** Languages
+*** Language Servers
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :config
+    (lsp-enable-which-key-integration t))
+#+END_SRC
+
+Better completions
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind (:map company-active-map
+                ("<TAB>" . company-complete-selection))
+          (:map lsp-mode-map
+                ("<TAB>" . company-indent-or-complete-common))
+     :custom
+     (company-minimum-prefix-lenght 1)
+     (company-idle-delay 0.0))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+#+END_SRC
+
+*** Nix
+#+BEGIN_SRC emacs-lisp
+  (use-package nix-mode
+    :mode "\\.nix\\'"
+    :hook (nix-mode . lsp-deferred))
 #+END_SRC
 
 * Features

@@ -9,7 +9,6 @@
       git
       gnupg
       home-manager
-      nil
       nix
       sops
       ssh-to-age
