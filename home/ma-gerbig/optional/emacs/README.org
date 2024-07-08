@@ -123,6 +123,7 @@ One key difference is that there may be command-line options processed after the
 
 ** Old init.el file
 This snippet is no longer active!
+#+html: <details><summary>Old init.el</summary>
 #+begin_src emacs-lisp :tangle no
   (defvar my-init-el-start-time (current-time) "Time when init.el was started")
   (setq my-user-emacs-directory "~/.emacs.d/")
@@ -252,6 +253,7 @@ This snippet is no longer active!
   
   (message "→★ loading init.el in %.2fs" (float-time (time-subtract (current-time) my-init-el-start-time)))
 #+end_src
+#+html: </details>
 
 * Basic System Configuraten (=init.el=)
 ** Packagemanagement with straight.el
@@ -784,7 +786,6 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
     "fr"  '(recentf :which-key "recent files")
     "fR"  '(revert-buffer :which-key "revert file")) 
 #+END_SRC
-
 
 * Development
 ** Project Management
