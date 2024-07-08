@@ -122,7 +122,6 @@
   :ensure t
   :config
   (dashboard-setup-startup-hook))
-
   (setq
   initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))
   dashboard-startup-banner 'logo
@@ -133,7 +132,7 @@
   dashboard-projects-backend 'projectile
   dashboard-items '((recents  . 5)
                     (bookmarks . 5)
-                    ;;(projects . 5)
+                    (projects . 5)
                     (agenda . 5)
                     (registers . 5)))
 
@@ -359,13 +358,7 @@
          :map minibuffer-local-map
          ("C-r" . consult-history))
   :custom
-  ;;(consult-project-root-function #'dw/get-project-root)
-  (completion-in-region-function #'consult-completion-in-region)
-  )
-;;:config
-;;(defun ma/get-project-root ()
-;;  (when (fboundp 'projectile-project-root)
-;;    (projectile-project-root))))
+  (completion-in-region-function #'consult-completion-in-region))
 
 (use-package consult-dir
   :bind (("C-x C-d" . consult-dir)
@@ -413,6 +406,29 @@
   "fr"  '(recentf :which-key "recent files")
   "fR"  '(revert-buffer :which-key "revert file"))
 
+(use-package projectile
+  :diminish projectile-mode
+  :config
+  (projectile-mode)
+  (when
+      (require 'magit nil t)
+    (mapc #'projectile-add-known-project
+          (mapcar #'file-name-as-directory
+                  (magit-list-repos)))
+    ;; Optionally write to persistent 'projectile-known-projects-file'
+    (projectile-save-known-projects))
+  :bind-keymap
+  ("C-c p" . projectile-command-map))
+
+(ma/leader-key-def
+  "p"  '(:ignore t :which-key "projectile")
+  "pf"  'projectile-find-file
+  "ps"  'projectile-switch-project
+  "pF"  'consult-ripgrep
+  "pb"  'consult-project-buffer
+  "pc"  'projectile-compile-project
+  "pd"  'projectile-dired)
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
@@ -421,6 +437,11 @@
   (setq magit-repository-directories
         '(;; Directory containing project root directories
           ("~/git/"      . 1)))
+
+(use-package magit-todos
+  :after magit
+  :config
+  (magit-todos-mode 1))
 
 (ma/leader-key-def
   "g"   '(:ignore t :which-key "git")

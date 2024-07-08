@@ -449,7 +449,6 @@ Disable =customize-*= routine and redirect the writing to =/dev/null=.
     :ensure t
     :config
     (dashboard-setup-startup-hook))
-
     (setq
     initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))
     dashboard-startup-banner 'logo
@@ -460,7 +459,7 @@ Disable =customize-*= routine and redirect the writing to =/dev/null=.
     dashboard-projects-backend 'projectile
     dashboard-items '((recents  . 5)
                       (bookmarks . 5)
-                      ;;(projects . 5)
+                      (projects . 5)
                       (agenda . 5)
                       (registers . 5)))
 #+END_SRC
@@ -732,13 +731,7 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
            :map minibuffer-local-map
            ("C-r" . consult-history))
     :custom
-    ;;(consult-project-root-function #'dw/get-project-root)
-    (completion-in-region-function #'consult-completion-in-region)
-    )
-  ;;:config
-  ;;(defun ma/get-project-root ()
-  ;;  (when (fboundp 'projectile-project-root)
-  ;;    (projectile-project-root))))
+    (completion-in-region-function #'consult-completion-in-region))
 
   (use-package consult-dir
     :bind (("C-x C-d" . consult-dir)
@@ -790,7 +783,7 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
 * Development
 ** Project Management
 *** Projectile
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
   (use-package projectile
     :diminish projectile-mode
     :config
@@ -800,24 +793,17 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
       (mapc #'projectile-add-known-project
             (mapcar #'file-name-as-directory
                     (magit-list-repos)))
-      ;; Optionally write to persistent `projectile-known-projects-file'
+      ;; Optionally write to persistent 'projectile-known-projects-file'
       (projectile-save-known-projects))
-    :custom ((projectile-completion-system 'ivy))
     :bind-keymap
     ("C-c p" . projectile-command-map))
 
-  (use-package counsel-projectile
-    :after projectile
-    :bind (("C-M-p" . counsel-projectile-find-file))
-    :config (counsel-projectile-mode))
-
   (ma/leader-key-def
     "p"  '(:ignore t :which-key "projectile")
-    "pf"  'counsel-projectile-find-file
-    "ps"  'counsel-projectile-switch-project
-    "pF"  'counsel-projectile-rg
-    ;;"pF"  'consult-ripgrep
-    "pp"  'counsel-projectile
+    "pf"  'projectile-find-file
+    "ps"  'projectile-switch-project
+    "pF"  'consult-ripgrep
+    "pb"  'consult-project-buffer
     "pc"  'projectile-compile-project
     "pd"  'projectile-dired)
 #+END_SRC
@@ -830,29 +816,34 @@ Foud at [[https://emacs.stackexchange.com/questions/32634/how-can-the-list-of-pr
 
 *** Magit
 #+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :bind ("C-M-;" . magit-status)
-    :commands (magit-status magit-get-current-branch)
-    :custom
-    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-    (setq magit-repository-directories
-          '(;; Directory containing project root directories
-            ("~/git/"      . 1)))
+    (use-package magit
+      :bind ("C-M-;" . magit-status)
+      :commands (magit-status magit-get-current-branch)
+      :custom
+      (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+      (setq magit-repository-directories
+            '(;; Directory containing project root directories
+              ("~/git/"      . 1)))
 
-  (ma/leader-key-def
-    "g"   '(:ignore t :which-key "git")
-    "gs"  'magit-status
-    "gd"  'magit-diff-unstaged
-    "gc"  'magit-branch-or-checkout
-    "gl"   '(:ignore t :which-key "log")
-    "glc" 'magit-log-current
-    "glf" 'magit-log-buffer-file
-    "gb"  'magit-branch
-    "gP"  'magit-push-current
-    "gp"  'magit-pull-branch
-    "gf"  'magit-fetch
-    "gF"  'magit-fetch-all
-    "gr"  'magit-rebase)
+    (use-package magit-todos
+      :after magit
+      :config
+      (magit-todos-mode 1))
+
+    (ma/leader-key-def
+      "g"   '(:ignore t :which-key "git")
+      "gs"  'magit-status
+      "gd"  'magit-diff-unstaged
+      "gc"  'magit-branch-or-checkout
+      "gl"   '(:ignore t :which-key "log")
+      "glc" 'magit-log-current
+      "glf" 'magit-log-buffer-file
+      "gb"  'magit-branch
+      "gP"  'magit-push-current
+      "gp"  'magit-pull-branch
+      "gf"  'magit-fetch
+      "gF"  'magit-fetch-all
+      "gr"  'magit-rebase)
 #+END_SRC
 
 *** Direnv
