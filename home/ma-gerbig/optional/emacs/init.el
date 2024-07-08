@@ -462,10 +462,62 @@
  :config
  (direnv-mode))
 
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  ;; Disable features that have great potential to be slow.
+  (setq lsp-enable-folding nil
+        lsp-enable-text-document-color nil)
+  (setq lsp-enable-on-type-formatting nil)
+  ;; Make breadcrumbs opt-in; they're redundant with the modeline and imenu
+  (setq lsp-headerline-breadcrumb-enable nil)
+  ;; Explicitly tell lsp to use flymake; Lsp will default to flycheck if found
+  ;; even if its a dependency
+  (setq lsp-diagnostics-provider :flymake)
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs
+  :after lsp
+  :config
+
+  (setq lsp-treemacs-deps-position-params
+        '((side . right)
+          (slot . 1)
+          (window-width . 35)))
+
+  (setq lsp-treemacs-symbols-position-params
+        '((side . right)
+          (slot . 2)
+          (window-width . 35))))
+
+(use-package consult-lsp
+  :after lsp)
+
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+         ("<tab>" . company-complete-selection))
+        (:map lsp-mode-map
+         ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
 (use-package nix-mode
-    :mode "\\.nix\\'"
-    )
-    ;; :hook (nix-mode . lsp-deferred))
+  :ensure t
+  :mode "\\.nix\\'"
+  :hook (nix-mode . lsp-deferred))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
