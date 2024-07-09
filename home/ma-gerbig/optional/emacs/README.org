@@ -887,17 +887,15 @@ The result is that programs started from within emacs, such as inferior shells, 
 - lsp-treemacs
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-treemacs
-    :after lsp
-    :config
-    (setq lsp-treemacs-deps-position-params
-          '((side . right)
-            (slot . 1)
-            (window-width . 35)))
+    :after lsp)
 
-    (setq lsp-treemacs-symbols-position-params
-          '((side . right)
-            (slot . 2)
-            (window-width . 35))))
+  (setq lsp-treemacs-deps-position-params '((side . right)
+                                            (slot . 1)
+                                            (window-width . 35)))
+
+  (setq lsp-treemacs-symbols-position-params '((side . right)
+                                               (slot . 2)
+                                               (window-width . 35)))
 #+END_SRC
 
 - consult-lsp
@@ -926,8 +924,7 @@ The result is that programs started from within emacs, such as inferior shells, 
 *** Nix
 #+BEGIN_SRC emacs-lisp
   (use-package nix-mode
-    :ensure t
-    :mode "\\.nix\\'"
+    :mode ("\\.nix\\'" "\\.nix.in\\'")
     :hook (nix-mode . lsp-deferred))
 #+END_SRC
 

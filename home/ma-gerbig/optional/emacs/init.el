@@ -484,18 +484,15 @@
   (lsp-ui-doc-position 'bottom))
 
 (use-package lsp-treemacs
-  :after lsp
-  :config
+  :after lsp)
 
-  (setq lsp-treemacs-deps-position-params
-        '((side . right)
-          (slot . 1)
-          (window-width . 35)))
+(setq lsp-treemacs-deps-position-params '((side . right)
+                                          (slot . 1)
+                                          (window-width . 35)))
 
-  (setq lsp-treemacs-symbols-position-params
-        '((side . right)
-          (slot . 2)
-          (window-width . 35))))
+(setq lsp-treemacs-symbols-position-params '((side . right)
+                                             (slot . 2)
+                                             (window-width . 35)))
 
 (use-package consult-lsp
   :after lsp)
@@ -515,8 +512,7 @@
   :hook (company-mode . company-box-mode))
 
 (use-package nix-mode
-  :ensure t
-  :mode "\\.nix\\'"
+  :mode ("\\.nix\\'" "\\.nix.in\\'")
   :hook (nix-mode . lsp-deferred))
 
 (use-package rainbow-delimiters
