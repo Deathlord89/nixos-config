@@ -602,8 +602,8 @@ Use =SPC e b= to run =eval-buffer= or =SPC e r= to run =eval-region= in the high
 
 ** Vertico
 #+html: <details><summary>Vertico Helper Funktions</summary>
+Copied from Doom Emacs [[https://github.com/doomemacs/doomemacs/blob/master/modules/completion/vertico/autoload/vertico.el][Vertico]] Module.  
 #+BEGIN_SRC emacs-lisp
-  ;; From: Doom Emacs [[https://github.com/doomemacs/doomemacs/blob/master/modules/completion/vertico/autoload/vertico.el][Vertico]] Module  
   (defun +vertico/enter-or-preview ()
     "Enter directory or embark preview on current candidate."
     (interactive)
@@ -853,6 +853,7 @@ The result is that programs started from within emacs, such as inferior shells, 
 ** Languages
 *** Language Servers
 - lsp-mode
+Install =lsp-mode= and set the memory limit to 80% of the available memory (described as =total-memory= in [[*Garbage Collection][Garbage Collection]]).
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :commands (lsp lsp-deferred)

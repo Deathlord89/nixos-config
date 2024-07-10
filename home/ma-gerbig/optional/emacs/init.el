@@ -250,7 +250,6 @@
   (setq history-length 25)
   (savehist-mode 1))
 
-;; From: Doom Emacs [[https://github.com/doomemacs/doomemacs/blob/master/modules/completion/vertico/autoload/vertico.el][Vertico]] Module  
 (defun +vertico/enter-or-preview ()
   "Enter directory or embark preview on current candidate."
   (interactive)
