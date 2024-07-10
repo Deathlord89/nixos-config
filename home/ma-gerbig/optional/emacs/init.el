@@ -568,3 +568,10 @@
   :diminish which-key-mode
   :config
   (setq which-key-idle-delay 0.5))
+
+(use-package gcmh
+  :config
+  (setopt garbage-collection-messages t)
+  ;; (setopt gcmh-verbose t)
+  (setopt gc-cons-percentage 0.2)
+  (add-hook 'emacs-startup-hook #'gcmh-mode))

@@ -107,28 +107,6 @@ It will be faster to disable them here before they've been initialized.
      (vertical-scroll-bars . nil)))       ; No vertical scroll-bars
 #+end_src
 
-** Restore some values after Emacs is started.
-#+begin_quote
-The =emacs-startup-hook= runs later than the =after-init-hook=.
-One key difference is that there may be command-line options processed after the after-init-hook and before the emacs-startup-hook.
-(Command-line options are handled in multiple phases, with some being processed right away and some after init files have been loaded.)
-#+end_quote
-#+begin_src emacs-lisp
-  (defvar better-gc-cons-threshold (* 100 1024 1024)) ; 100MB
-  
-  (add-hook 'emacs-startup-hook
-	    (lambda ()
-	      (setq gc-cons-threshold better-gc-cons-threshold
-		    gc-cons-percentage 0.1)
-	      (setq file-name-handler-alist file-name-handler-alist-original)
-	      (makunbound 'file-name-handler-alist-original)
-	      (message "Emacs ready in %s with %d garbage collections."
-		       (format "%.2f seconds"
-			       (float-time
-				(time-subtract after-init-time before-init-time)))
-		       gcs-done)))
-#+end_src
-
 ** Old init.el file
 This snippet is no longer active!
 #+html: <details><summary>Old init.el</summary>
@@ -1004,4 +982,23 @@ Learned about this one from Spacemacs.
     :diminish which-key-mode
     :config
     (setq which-key-idle-delay 0.5))
+#+END_SRC
+
+* Garbage collection with =gcmh-mode=
+#+BEGIN_QUOTE
+The =emacs-startup-hook= runs later than the =after-init-hook=.
+One key difference is that there may be command-line options processed after the after-init-hook and before the emacs-startup-hook.
+(Command-line options are handled in multiple phases, with some being processed right away and some after init files have been loaded.)
+#+END_QUOTE
+
+Enforce a sneaky Garbage Collection strategy to minimize GC interference with the activity.
+During normal use a high GC threshold is set.
+When idling GC is triggered and a low threshold is set.
+#+BEGIN_SRC emacs-lisp
+  (use-package gcmh
+    :config
+    (setopt garbage-collection-messages t)
+    ;; (setopt gcmh-verbose t)
+    (setopt gc-cons-percentage 0.2)
+    (add-hook 'emacs-startup-hook #'gcmh-mode))
 #+END_SRC
