@@ -230,9 +230,6 @@
 
 (use-package helpful
   :ensure t
-  :custom ;; FIXUP Remove counsel
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
   :bind
   ([remap describe-function] . helpful-function)
   ([remap describe-symbol] . helpful-symbol)
@@ -455,7 +452,7 @@
 (use-package magit-todos
   :after magit
   :config
-  (setq magit-todos-keyword-suffix "\\(?:([^)]+)\\)?:?") ; make colon optional
+  ;; (setq magit-todos-keyword-suffix "\\(?:([^)]+)\\)?:?") ; make colon optional
   (magit-todos-mode 1))
 
 (ma/leader-key-def

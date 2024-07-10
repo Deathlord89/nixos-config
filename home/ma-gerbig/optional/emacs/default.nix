@@ -19,7 +19,7 @@
       TimeoutStartSec = "7min";
     };
     #restartTriggers = [
-    #FIXME this method is not working ...
+    # FIXME: this method is not working ...
     #"${config.home.homeDirectory}/.emacs.d/early-init.el"
     #"${config.home.homeDirectory}/.emacs.d/init.el"
     #"${config.home.file.".emacs.d/early-init.el".destination}"

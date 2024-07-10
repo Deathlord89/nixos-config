@@ -12,7 +12,7 @@ in {
       experimental-features = [
         "nix-command"
         "flakes"
-        #"ca-derivations" #FIXME Only unstable
+        #"ca-derivations" # FIXME: Only unstable
       ];
       #warn-dirty = false;
       flake-registry = ""; # Disable global flake registry

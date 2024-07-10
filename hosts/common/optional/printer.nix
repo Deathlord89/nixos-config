@@ -2,7 +2,7 @@
   # Enable CUPS to print documents
   services.printing = {
     enable = true;
-    drivers = [pkgs.epson-escpr2]; # FIXME Drivers must be specified manually in Cups?
+    drivers = [pkgs.epson-escpr2]; # FIXME: Drivers must be specified manually in Cups?
   };
 
   # Enable autodiscovery of network printers
