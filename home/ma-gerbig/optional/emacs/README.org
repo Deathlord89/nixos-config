@@ -919,6 +919,7 @@ Install =lsp-mode= and set the memory limit to 80% of the available memory (desc
 #+END_SRC
 
 *** Nix
+TODO: Set only if memory is lower than 12GB?!
 #+BEGIN_SRC emacs-lisp
   (use-package nix-mode
     :mode ("\\.nix\\'" "\\.nix.in\\'")
@@ -972,6 +973,13 @@ Colorize colors as text with their value.
     (rainbow-x-colors nil))
 #+END_SRC
 
+An unobtrusive way to trim spaces from end of line.
+#+BEGIN_SRC emacs-lisp
+  (use-package ws-butler
+    :hook ((prog-mode . ws-butler-mode)
+           (text-mode . ws-butler-mode)))
+#+END_SRC
+
 [[https://github.com/justbur/emacs-which-key][Which-key]] is great for getting an overview of what keybindings are available based on the prefix keys you entered.
 Learned about this one from Spacemacs.
 #+BEGIN_SRC emacs-lisp
@@ -982,7 +990,8 @@ Learned about this one from Spacemacs.
     (setq which-key-idle-delay 0.5))
 #+END_SRC
 
-* Garbage collection with =gcmh-mode=
+* Runtime Performance
+- Garbage collection with =gcmh-mode=
 #+BEGIN_QUOTE
 The =emacs-startup-hook= runs later than the =after-init-hook=.
 One key difference is that there may be command-line options processed after the after-init-hook and before the emacs-startup-hook.
@@ -997,6 +1006,5 @@ When idling GC is triggered and a low threshold is set.
     :config
     (setopt garbage-collection-messages t)
     ;; (setopt gcmh-verbose t)
-    (setopt gc-cons-percentage 0.2)
     (add-hook 'emacs-startup-hook #'gcmh-mode))
 #+END_SRC

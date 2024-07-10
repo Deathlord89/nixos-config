@@ -559,6 +559,10 @@
   :custom
   (rainbow-x-colors nil))
 
+(use-package ws-butler
+  :hook ((prog-mode . ws-butler-mode)
+         (text-mode . ws-butler-mode)))
+
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
@@ -569,5 +573,4 @@
   :config
   (setopt garbage-collection-messages t)
   ;; (setopt gcmh-verbose t)
-  (setopt gc-cons-percentage 0.2)
   (add-hook 'emacs-startup-hook #'gcmh-mode))
