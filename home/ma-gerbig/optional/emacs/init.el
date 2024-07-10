@@ -480,6 +480,7 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
+  (setq lsp-memory-limit (* 0.8 total-memory 1024)) ; Memory in KB convert to bytes
   (setq lsp-keymap-prefix "C-c l")
   ;; Disable features that have great potential to be slow.
   (setq lsp-enable-folding nil
@@ -528,7 +529,10 @@
 
 (use-package nix-mode
   :mode ("\\.nix\\'" "\\.nix.in\\'")
-  :hook (nix-mode . lsp-deferred))
+  :hook (nix-mode . lsp-deferred)
+  :config)
+
+(setq lsp-nix-nil-auto-eval-inputs nil)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))

@@ -64,6 +64,12 @@ Not resetting it will cause stuttering/freezes.
         gc-cons-percentage 0.6)
 #+end_src
 
+Calculate the maximale available memory in KB while the garbage collection is deactivated.
+We use this later for the =lsp-memory-limit=. 
+#+begin_src emacs-lisp
+  (defvar total-memory (string-to-number (shell-command-to-string "awk '/MemTotal/ {print$2}' /proc/meminfo")))
+#+end_src
+
 ** Disable package-enable-at-startup
 #+begin_quote
 Package initialize occurs automatically, before =user-init-file= is loaded, but after =early-init-file=. We handle package initialization, so we must prevent Emacs from doing it early!
@@ -107,7 +113,6 @@ The =emacs-startup-hook= runs later than the =after-init-hook=.
 One key difference is that there may be command-line options processed after the after-init-hook and before the emacs-startup-hook.
 (Command-line options are handled in multiple phases, with some being processed right away and some after init files have been loaded.)
 #+end_quote
-
 #+begin_src emacs-lisp
   (defvar better-gc-cons-threshold (* 100 1024 1024)) ; 100MB
   
@@ -877,6 +882,7 @@ The result is that programs started from within emacs, such as inferior shells, 
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
     :init
+    (setq lsp-memory-limit (* 0.8 total-memory 1024)) ; Memory in KB convert to bytes
     (setq lsp-keymap-prefix "C-c l")
     ;; Disable features that have great potential to be slow.
     (setq lsp-enable-folding nil
@@ -940,7 +946,10 @@ The result is that programs started from within emacs, such as inferior shells, 
 #+BEGIN_SRC emacs-lisp
   (use-package nix-mode
     :mode ("\\.nix\\'" "\\.nix.in\\'")
-    :hook (nix-mode . lsp-deferred))
+    :hook (nix-mode . lsp-deferred)
+    :config)
+
+  (setq lsp-nix-nil-auto-eval-inputs nil)
 #+END_SRC
 
 * Features

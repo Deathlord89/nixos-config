@@ -8,6 +8,8 @@
 (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
       gc-cons-percentage 0.6)
 
+(defvar total-memory (string-to-number (shell-command-to-string "awk '/MemTotal/ {print$2}' /proc/meminfo")))
+
 (setq package-enable-at-startup nil)
 
 (setq load-prefer-newer t)
