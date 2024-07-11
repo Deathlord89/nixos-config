@@ -846,6 +846,20 @@ Foud at [[https://emacs.stackexchange.com/questions/32634/how-can-the-list-of-pr
     "gr"  'magit-rebase)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (use-package git-gutter
+    :hook ((prog-mode . git-gutter-mode)
+           (text-mode . git-gutter-mode))
+    :config
+    (setq git-gutter:update-interval 0.02))
+
+  (use-package git-gutter-fringe
+    :config
+    (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+    (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+    (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+#+END_SRC
+
 *** Direnv
 It works by invoking =direnv= to obtain the environment for the current file, then updating the emacs variables =process-environment= and =exec-path=.
 The result is that programs started from within emacs, such as inferior shells, linters, compilers, and test runners, will be looked up in the correct =$PATH=, and will be started with the correct environment variables set.
