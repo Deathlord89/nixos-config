@@ -26,3 +26,11 @@
    (right-fringe . 10)                  ; Thin right fringe
    (tool-bar-lines . 0)                 ; No tool bar
    (vertical-scroll-bars . nil)))       ; No vertical scroll-bars
+
+(setq user-emacs-directory (expand-file-name "~/.cache/emacs/")
+      url-history-file (expand-file-name "url/history" user-emacs-directory))
+
+(when (fboundp 'startup-redirect-eln-cache)
+  (startup-redirect-eln-cache
+   (convert-standard-filename
+    (expand-file-name  "var/eln-cache/" user-emacs-directory))))

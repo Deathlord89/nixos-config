@@ -107,6 +107,21 @@ It will be faster to disable them here before they've been initialized.
      (vertical-scroll-bars . nil)))       ; No vertical scroll-bars
 #+end_src
 
+** Set Cache directory
+Change the user-emacs-directory to keep unwanted things out of ~~/.config/emacs~.
+#+BEGIN_SRC emacs-lisp
+  (setq user-emacs-directory (expand-file-name "~/.cache/emacs/")
+        url-history-file (expand-file-name "url/history" user-emacs-directory))
+  #+END_SRC
+
+Set the right directory to store the native comp cache.
+#+BEGIN_SRC emacs-lisp
+  (when (fboundp 'startup-redirect-eln-cache)
+    (startup-redirect-eln-cache
+     (convert-standard-filename
+      (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+  #+END_SRC
+
 ** Old init.el file
 This snippet is no longer active!
 #+html: <details><summary>Old init.el</summary>
@@ -242,12 +257,9 @@ This snippet is no longer active!
 #+html: </details>
 
 * Basic System Configuraten (=init.el=)
+Silence compiler warnings as they can be pretty disruptive
 #+begin_src emacs-lisp
-  ;; Silence compiler warnings as they can be pretty disruptive
   (setq native-comp-async-report-warnings-errors nil)
-
-  ;; Set the right directory to store the native comp cache
-  (add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" user-emacs-directory))
 #+end_src
 
 ** Packagemanagement with straight.el
@@ -401,23 +413,16 @@ The same applys to =global-auto-revert-non-file-buffers= for directories.
 The default paths used to store configuration files and persistent data are not consistent across Emacs packages.
 This isn't just a problem with third-party packages but even with built-in packages.
 
-Some packages put these files directly in =user-emacs-directory= or $HOME or in a subdirectory of either of the two or elsewhere.
+Some packages put these files directly in =user-emacs-directory= or ~$HOME~ or in a subdirectory of either of the two or elsewhere.
 Furthermore sometimes file names are used that don't provide any insight into what package might have created them.
 
 [[https://github.com/emacscollective/no-littering][No-littering]] sets out to fix this by changing the values of path variables to put configuration files in =no-littering-etc-directory= (defaulting to "etc/" under =user-emacs-directory=, thus usually "~/.config/emacs/etc/") and persistent data files in =no-littering-var-directory= (defaulting to "var/" under =user-emacs-directory=, thus usually "~/.emacs.d/var/"), and by using descriptive file names and subdirectories when appropriate.
 This is similar to a color-theme; a "path-theme" if you will.
 #+begin_src emacs-lisp
-  ;; Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
-  (setq user-emacs-directory (expand-file-name "~/.cache/emacs/")
-          url-history-file (expand-file-name "url/history" user-emacs-directory))
-
-  ;; Use no-littering to automatically set common paths to the new user-emacs-directory
-  (use-package no-littering)
-
-  ;; no-littering doesn't set this by default so we must place
-  ;; auto save files in the same path as it uses for sessions
-  (setq auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (use-package no-littering
+  :config
+  ;; Theme locations where backups of various sorts are created
+  (no-littering-theme-backups))
 #+end_src
 
 Disable =customize-*= routine and redirect the writing to =/dev/null=.

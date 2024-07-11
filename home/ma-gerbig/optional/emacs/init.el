@@ -6,11 +6,7 @@
 ;; You should make any changes there and regenerate it from Emacs org-mode
 ;; using org-babel-tangle (C-c C-v t)
 
-;; Silence compiler warnings as they can be pretty disruptive
 (setq native-comp-async-report-warnings-errors nil)
-
-;; Set the right directory to store the native comp cache
-(add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache/" user-emacs-directory))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -105,17 +101,10 @@
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers 1)
 
-;; Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
-(setq user-emacs-directory (expand-file-name "~/.cache/emacs/")
-        url-history-file (expand-file-name "url/history" user-emacs-directory))
-
-;; Use no-littering to automatically set common paths to the new user-emacs-directory
-(use-package no-littering)
-
-;; no-littering doesn't set this by default so we must place
-;; auto save files in the same path as it uses for sessions
-(setq auto-save-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+(use-package no-littering
+:config
+;; Theme locations where backups of various sorts are created
+(no-littering-theme-backups))
 
 (setq-default custom-file null-device)
 
