@@ -453,7 +453,7 @@
 
 (ma/leader-key-def
   "p"  '(:ignore t :which-key "projectile")
-  "pf"  'projectile-find-file
+  "pf"  'project-find-file
   "ps"  'projectile-switch-project
   "pF"  'consult-ripgrep
   "pb"  'consult-project-buffer
