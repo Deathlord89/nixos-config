@@ -868,6 +868,41 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 - =S= - Create a symbolic link to this file
 - =L= - Load an Emacs Lisp file into Emacs
 
+* Org-Mode
+I use =use-package= to load the =org= package, and put its configuration inside the corresponding sections for keybindings (=:bind=), custom variables (=:custom=), custom faces (=:custom-face=), hooks (=:hook=) and general configuration code (=:config=), respectively.
+The contents of each section is populated with the corresponding snippets that follow. See the sections below for the details on what goes into each configuration section, and some other configuration code that ends up outside this declaration.
+#+begin_src emacs-lisp :noweb no-export
+  (use-package org
+    :bind
+    (:map org-mode-map
+            <<org-mode-keybindings>>)
+    :custom
+    <<org-mode-custom-vars>>
+    ;;:custom-face
+    <<org-mode-faces>>
+    ;;:hook
+    <<org-mode-hooks>>
+    ;;:config
+    <<org-mode-config>>)
+#+end_src
+
+** General Org Configuration
+Note that mode-specific configuration variables are defined under  their corresponding packages, this  section defines only global org-mode configuration variables, which are inserted in the main =use-package= declaration for =org-mode=.
+- Default directory for org files (not all are stored here).
+#+begin_src emacs-lisp :tangle no  :noweb-ref org-mode-custom-vars
+(org-directory-empty-p "~/org")
+#+end_src
+
+- Default org-agenda files.
+  Copied from [[https://emacs.stackexchange.com/questions/74578/only-add-the-org-files-to-the-agenda-if-they-exist][StackExchange]].
+ #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+  (org-agenda-files
+   (seq-filter #'file-exists-p
+               (mapcar #'(lambda (file) (file-name-concat org-directory file))
+                       '("Agenda.org"
+                         "Inbox.org"))))
+#+end_src
+
 * Development
 ** Project Management
 *** Projectile

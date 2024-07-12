@@ -437,6 +437,24 @@
   "fr"  '(recentf :which-key "recent files")
   "fR"  '(revert-buffer :which-key "revert file"))
 
+(use-package org
+  :bind
+  (:map org-mode-map
+          )
+  :custom
+  (org-directory-empty-p "~/org")
+  (org-agenda-files
+   (seq-filter #'file-exists-p
+               (mapcar #'(lambda (file) (file-name-concat org-directory file))
+                       '("Agenda.org"
+                         "Inbox.org"))))
+  ;;:custom-face
+  
+  ;;:hook
+  
+  ;;:config
+  )
+
 (use-package projectile
   :diminish projectile-mode
   :config
