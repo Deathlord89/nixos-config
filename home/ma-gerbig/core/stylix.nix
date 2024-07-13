@@ -17,6 +17,10 @@ in {
 
   stylix.enable = true;
 
+  stylix.targets = {
+    emacs.enable = false;
+  };
+
   stylix.polarity = themePolarity;
   stylix.image = pkgs.fetchurl {
     url = backgroundUrl;

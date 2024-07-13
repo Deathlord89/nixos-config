@@ -263,11 +263,10 @@ Silence compiler warnings as they can be pretty disruptive
 #+end_src
 
 ** Packagemanagement with straight.el
+#+begin_quote
 Init-file and version lockfiles as the sole source of truth.
 No persistent state kept elsewhere.
 100% reproducible package management, accounting for changes in packages, recipe repositories, configuration, and the package manager itself.
-#+begin_quote
-Note: =straight.el= supports a minimum version of Emacs 25.1, and works on macOS, Windows, and most flavors of Linux. You must install Git in order to use =straight.el=.
 #+end_quote
 
 =straight.el= determines your package management configuration from two, and only two, sources: the contents of your init-file, and your version lockfiles.
@@ -299,6 +298,7 @@ Let's bootstrap [[https://github.com/raxod502/straight.el][straight.el]] with:
 #+end_src
 
 Load the helper package for commands like `straight-x-clean-unused-repos'
+TODO: =straight-x= still needed?
 #+begin_src emacs-lisp
   (require 'straight-x)
 #+end_src
@@ -443,113 +443,6 @@ This is similar to a color-theme; a "path-theme" if you will.
 Disable =customize-*= routine and redirect the writing to =/dev/null=.
 #+BEGIN_SRC emacs-lisp
   (setq-default custom-file null-device)
-#+END_SRC
-
-* User Interface
-** Dashboard
-[[https://github.com/emacs-dashboard/emacs-dashboard][Emacs Dashboard]] - An extensible emacs startup screen showing you what’s most important.
-#+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook))
-    (setq
-    initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))
-    dashboard-startup-banner 'logo
-    dashboard-center-content t
-    dashboard-vertically-center-content t
-    dashboard-set-navigator t
-    dashboard-set-init-info t
-    dashboard-projects-backend 'projectile
-    dashboard-items '((recents  . 5)
-                      (bookmarks . 5)
-                      (projects . 5)
-                      (agenda . 5)
-                      (registers . 5)))
-#+END_SRC
-
-** Doom Theme
-[[https://github.com/hlissner/emacs-doom-themes][Doom Theme]] - A theme megapack for GNU Emacs, inspired by community favorites.
-I use the custom =stylix=-enabled =mustache= theme template from [[https://github.com/librephoenix/nixos-config/blob/7a5b01ab7de1127a9ba13f88c39e4bccbc73f6ac/user/app/doom-emacs/themes/doom-stylix-theme.el.mustache][librephoenix]].
-#+BEGIN_SRC emacs-lisp
-  (setq custom-theme-directory "~/.config/emacs/themes")
-  (use-package doom-themes :defer t)
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;;(load-theme 'doom-palenight t)
-  (load-theme 'doom-stylix t)
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  ;; (doom-themes-neotree-config)
-  ;; or for treemacs users
-  ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  ;; (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-    #+END_SRC
-
-=doom-modeline= is a fancy and fast mode-line inspired by minimalism design
-NOTE: The first time you load your configuration on a new machine, you'll need to run the following command interactively so that mode line icons display correctly =M-x nerd-icons-install-fonts=.
-#+BEGIN_SRC emacs-lisp
-  (use-package nerd-icons)
-  (use-package doom-modeline
-    :ensure t
-    ;;:init (doom-modeline-mode 1)
-    :hook (after-init . doom-modeline-mode)
-    :hook (doom-modeline-mode . size-indication-mode)
-    :hook (doom-modeline-mode . column-number-mode)
-    :init
-    (setq doom-modeline-height 25
-          ;;doom-modeline-bar-width 6
-          doom-modeline-bar-width 3
-          doom-modeline-github nil
-          doom-modeline-mu4e nil
-          doom-modeline-persp-name nil
-          doom-modeline-minor-modes nil
-          doom-modeline-major-mode-icon nil
-          doom-modeline-buffer-file-name-style 'relative-from-project
-          doom-modeline-buffer-encoding 'nondefault)
-    :config
-    (defvar mouse-wheel-down-event nil)
-    (defvar mouse-wheel-up-event nil))
-#+END_SRC
-
-=Treemacs= - a tree layout file explorer for Emacs
-#+BEGIN_SRC emacs-lisp
-  (use-package treemacs
-    :ensure t
-    :defer t
-    :config
-    (progn
-      (treemacs-follow-mode t)
-      (treemacs-project-follow-mode t)
-      (treemacs-filewatch-mode t)
-      (treemacs-fringe-indicator-mode 'always)
-      (when treemacs-python-executable
-        (treemacs-git-commit-diff-mode t))
-      (pcase (cons (not (null (executable-find "git")))
-                   (not (null treemacs-python-executable)))
-        (`(t . t)
-         (treemacs-git-mode 'deferred))
-        (`(t . _)
-         (treemacs-git-mode 'simple)))
-
-      (treemacs-hide-gitignored-files-mode nil)))
-
-  (use-package treemacs-projectile
-    :after (treemacs projectile)
-    :ensure t)
-
-  (use-package treemacs-icons-dired
-    :hook (dired-mode . treemacs-icons-dired-enable-once)
-    :ensure t)
-
-  (use-package treemacs-magit
-    :after (treemacs magit)
-    :ensure t)
 #+END_SRC
 
 * Key Binding Configuration
@@ -882,6 +775,114 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 - =G= - Change file group
 - =S= - Create a symbolic link to this file
 - =L= - Load an Emacs Lisp file into Emacs
+
+* User Interface
+** Dashboard
+[[https://github.com/emacs-dashboard/emacs-dashboard][Emacs Dashboard]] - An extensible emacs startup screen showing you what’s most important.
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq
+    initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))
+    dashboard-startup-banner 'logo
+    dashboard-center-content t
+    dashboard-vertically-center-content t
+    dashboard-set-navigator t
+    dashboard-set-init-info t
+    dashboard-projects-backend 'projectile
+    dashboard-items '((recents  . 5)
+                      (bookmarks . 5)
+                      (projects . 5)
+                      (agenda . 5)
+                      (registers . 5))))
+
+
+    (ma/leader-key-def
+      "b"   '(:ignore t :which-key "dashboard")
+      "bb"  '(dashboard-refresh-buffer :which-key "open dashboard"))
+#+END_SRC
+
+** Doom Theme
+[[https://github.com/hlissner/emacs-doom-themes][Doom Theme]] - A theme megapack for GNU Emacs, inspired by community favorites.
+I use the custom =stylix=-enabled =mustache= theme template from [[https://github.com/librephoenix/nixos-config/blob/7a5b01ab7de1127a9ba13f88c39e4bccbc73f6ac/user/app/doom-emacs/themes/doom-stylix-theme.el.mustache][librephoenix]].
+#+BEGIN_SRC emacs-lisp
+  (setq custom-theme-directory "~/.config/emacs/themes")
+
+  (use-package doom-themes
+    :ensure t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-nord t) ;; TODO: Use nix variable
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+    #+END_SRC
+
+=doom-modeline= is a fancy and fast mode-line inspired by minimalism design
+NOTE: The first time you load your configuration on a new machine, you'll need to run the following command interactively so that mode line icons display correctly =M-x nerd-icons-install-fonts=.
+#+BEGIN_SRC emacs-lisp
+  (use-package nerd-icons)
+
+  (use-package doom-modeline
+    :ensure t
+    :hook (after-init . doom-modeline-mode)
+    :hook (doom-modeline-mode . size-indication-mode)
+    :hook (doom-modeline-mode . column-number-mode)
+    :init
+    (setq doom-modeline-height 25
+          doom-modeline-bar-width 3
+          doom-modeline-github nil
+          doom-modeline-mu4e nil
+          doom-modeline-persp-name nil
+          doom-modeline-minor-modes nil
+          doom-modeline-major-mode-icon nil
+          doom-modeline-buffer-file-name-style 'relative-from-project
+          doom-modeline-buffer-encoding 'nondefault)
+    :config
+    (defvar mouse-wheel-down-event nil)
+    (defvar mouse-wheel-up-event nil))
+#+END_SRC
+
+** Treemacs
+=Treemacs= - a tree layout file explorer for Emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :config
+    (progn
+      (treemacs-follow-mode t)
+      (treemacs-project-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode 'always)
+      (when treemacs-python-executable
+        (treemacs-git-commit-diff-mode t))
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null treemacs-python-executable)))
+        (`(t . t)
+         (treemacs-git-mode 'deferred))
+        (`(t . _)
+         (treemacs-git-mode 'simple)))
+
+      (treemacs-hide-gitignored-files-mode nil)))
+
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
+
+  (use-package treemacs-magit
+    :after (treemacs magit)
+    :ensure t)
+#+END_SRC
 
 * Org-Mode
 I use =use-package= to load the =org= package, and put its configuration inside the corresponding sections for keybindings (=:bind=), custom variables (=:custom=), custom faces (=:custom-face=), hooks (=:hook=) and general configuration code (=:config=), respectively.

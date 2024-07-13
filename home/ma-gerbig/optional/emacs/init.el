@@ -108,96 +108,6 @@
 
 (setq-default custom-file null-device)
 
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook))
-  (setq
-  initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))
-  dashboard-startup-banner 'logo
-  dashboard-center-content t
-  dashboard-vertically-center-content t
-  dashboard-set-navigator t
-  dashboard-set-init-info t
-  dashboard-projects-backend 'projectile
-  dashboard-items '((recents  . 5)
-                    (bookmarks . 5)
-                    (projects . 5)
-                    (agenda . 5)
-                    (registers . 5)))
-
-(setq custom-theme-directory "~/.config/emacs/themes")
-(use-package doom-themes :defer t)
-:config
-;; Global settings (defaults)
-(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-      doom-themes-enable-italic t) ; if nil, italics is universally disabled
-;;(load-theme 'doom-palenight t)
-(load-theme 'doom-stylix t)
-;; Enable flashing mode-line on errors
-(doom-themes-visual-bell-config)
-;; Enable custom neotree theme (all-the-icons must be installed!)
-;; (doom-themes-neotree-config)
-;; or for treemacs users
-;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-;; (doom-themes-treemacs-config)
-;; Corrects (and improves) org-mode's native fontification.
-(doom-themes-org-config)
-
-(use-package nerd-icons)
-(use-package doom-modeline
-  :ensure t
-  ;;:init (doom-modeline-mode 1)
-  :hook (after-init . doom-modeline-mode)
-  :hook (doom-modeline-mode . size-indication-mode)
-  :hook (doom-modeline-mode . column-number-mode)
-  :init
-  (setq doom-modeline-height 25
-        ;;doom-modeline-bar-width 6
-        doom-modeline-bar-width 3
-        doom-modeline-github nil
-        doom-modeline-mu4e nil
-        doom-modeline-persp-name nil
-        doom-modeline-minor-modes nil
-        doom-modeline-major-mode-icon nil
-        doom-modeline-buffer-file-name-style 'relative-from-project
-        doom-modeline-buffer-encoding 'nondefault)
-  :config
-  (defvar mouse-wheel-down-event nil)
-  (defvar mouse-wheel-up-event nil))
-
-(use-package treemacs
-  :ensure t
-  :defer t
-  :config
-  (progn
-    (treemacs-follow-mode t)
-    (treemacs-project-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode 'always)
-    (when treemacs-python-executable
-      (treemacs-git-commit-diff-mode t))
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null treemacs-python-executable)))
-      (`(t . t)
-       (treemacs-git-mode 'deferred))
-      (`(t . _)
-       (treemacs-git-mode 'simple)))
-
-    (treemacs-hide-gitignored-files-mode nil)))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
-
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
-
-(use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
-
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (use-package general
@@ -436,6 +346,96 @@
   "C-f" 'find-file
   "fr"  '(recentf :which-key "recent files")
   "fR"  '(revert-buffer :which-key "revert file"))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq
+  initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))
+  dashboard-startup-banner 'logo
+  dashboard-center-content t
+  dashboard-vertically-center-content t
+  dashboard-set-navigator t
+  dashboard-set-init-info t
+  dashboard-projects-backend 'projectile
+  dashboard-items '((recents  . 5)
+                    (bookmarks . 5)
+                    (projects . 5)
+                    (agenda . 5)
+                    (registers . 5))))
+
+
+  (ma/leader-key-def
+    "b"   '(:ignore t :which-key "dashboard")
+    "bb"  '(dashboard-refresh-buffer :which-key "open dashboard"))
+
+(setq custom-theme-directory "~/.config/emacs/themes")
+
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-nord t) ;; TODO: Use nix variable
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(use-package nerd-icons)
+
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :hook (doom-modeline-mode . size-indication-mode)
+  :hook (doom-modeline-mode . column-number-mode)
+  :init
+  (setq doom-modeline-height 25
+        doom-modeline-bar-width 3
+        doom-modeline-github nil
+        doom-modeline-mu4e nil
+        doom-modeline-persp-name nil
+        doom-modeline-minor-modes nil
+        doom-modeline-major-mode-icon nil
+        doom-modeline-buffer-file-name-style 'relative-from-project
+        doom-modeline-buffer-encoding 'nondefault)
+  :config
+  (defvar mouse-wheel-down-event nil)
+  (defvar mouse-wheel-up-event nil))
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (treemacs-follow-mode t)
+    (treemacs-project-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+    (when treemacs-python-executable
+      (treemacs-git-commit-diff-mode t))
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple)))
+
+    (treemacs-hide-gitignored-files-mode nil)))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
 
 (use-package org
   :bind
