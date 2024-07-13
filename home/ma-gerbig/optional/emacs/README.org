@@ -895,7 +895,7 @@ Note that mode-specific configuration variables are defined under  their corresp
 
 - Default org-agenda files.
   Copied from [[https://emacs.stackexchange.com/questions/74578/only-add-the-org-files-to-the-agenda-if-they-exist][StackExchange]].
- #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
   (org-agenda-files
    (seq-filter #'file-exists-p
                (mapcar #'(lambda (file) (file-name-concat org-directory file))
@@ -1044,7 +1044,7 @@ Install =lsp-mode= and set the memory limit to 80% of the available memory (desc
   :after lsp)
 #+END_SRC
 
--company-mode
+- company-mode
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :after lsp-mode
@@ -1106,7 +1106,7 @@ Enable auto close bracket insertion.
     (global-undo-tree-mode 1))
 #+END_SRC
 
-** Qualitiy of Life
+** Quality of Life
 Colorize colors as text with their value.
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
