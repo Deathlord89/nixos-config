@@ -321,16 +321,25 @@ Of course, it does not actually install the packages, but instead defers to a pa
 To use =use-package=, first install it with =straight.el=:
 #+begin_src emacs-lisp
   (straight-use-package 'use-package)
+
+  (setq use-package-verbose t)
 #+end_src
 
-Use =straight.el= for =use-package= expressions:
+When configuring a feature with =use-package=, also tell =straight.el= to install a package of the same name, unless otherwise specified using the =:straight= keyword.
 #+begin_src emacs-lisp
   (setq straight-use-package-by-default t)    
 #+end_src
 
+Tell =use-package= to always load features lazily unless told otherwise.
+It's nicer to have this kind of thing be deterministic: if =:demand= is present, the loading is eager; otherwise, the loading is lazy.
+See [[https://github.com/jwiegley/use-package#notes-about-lazy-loading][lazy loading]].
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq use-package-always-defer t)
+#+END_SRC
+
 Like =use-package=, but with =straight-use-package-by-default= disabled.
 NAME and ARGS are as in =use-package=.
-[[https://github.com/raxod502/radian/blob/58ba58bd827e719c0eeb3d3c996d59cf4d00acd5/emacs/radian.el#L542][use-feature]] macro by [[*Credits][Radox502]]:
+- [[https://github.com/raxod502/radian/blob/58ba58bd827e719c0eeb3d3c996d59cf4d00acd5/emacs/radian.el#L542][use-feature]] macro by [[*Credits][Radox502]]:
 #+begin_src emacs-lisp
   (defmacro use-feature (name &rest args)
     (declare (indent defun))
@@ -872,16 +881,13 @@ NOTE: The first time you load your configuration on a new machine, you'll need t
       (treemacs-hide-gitignored-files-mode nil)))
 
   (use-package treemacs-projectile
-    :after (treemacs projectile)
-    :ensure t)
+    :after (treemacs projectile))
 
   (use-package treemacs-icons-dired
-    :hook (dired-mode . treemacs-icons-dired-enable-once)
-    :ensure t)
+    :hook (dired-mode . treemacs-icons-dired-enable-once))
 
   (use-package treemacs-magit
-    :after (treemacs magit)
-    :ensure t)
+    :after (treemacs magit))
 #+END_SRC
 
 * Org-Mode

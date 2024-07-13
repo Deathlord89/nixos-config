@@ -34,6 +34,8 @@
 
 (straight-use-package 'use-package)
 
+(setq use-package-verbose t)
+
 (setq straight-use-package-by-default t)
 
 (defmacro use-feature (name &rest args)
@@ -426,16 +428,13 @@
     (treemacs-hide-gitignored-files-mode nil)))
 
 (use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
+  :after (treemacs projectile))
 
 (use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
+  :after (treemacs magit))
 
 (use-package org
   :bind
