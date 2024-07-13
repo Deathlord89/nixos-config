@@ -1179,19 +1179,19 @@ Foud at [[https://emacs.stackexchange.com/questions/32634/how-can-the-list-of-pr
     (magit-todos-mode 1))
 
   (ma/leader-key-def
-    "g"   '(:ignore t :which-key "git")
-    "gs"  'magit-status
-    "gd"  'magit-diff-unstaged
-    "gc"  'magit-branch-or-checkout
-    "gl"   '(:ignore t :which-key "log")
-    "glc" 'magit-log-current
-    "glf" 'magit-log-buffer-file
-    "gb"  'magit-branch
-    "gP"  'magit-push-current
-    "gp"  'magit-pull-branch
-    "gf"  'magit-fetch
-    "gF"  'magit-fetch-all
-    "gr"  'magit-rebase)
+    "g"   '(:ignore t :which-key "Git")
+    "gs"  '(magit-status :which-key "Git: Status")
+    "gd"  '(magit-diff-unstaged :which-key "Git: Diff Unstaged")
+    "gc"  '(magit-branch-or-checkout :which-key "Git: Branch / Checkout")
+    "gl"  '(:ignore t :which-key "Log:")
+    "glc" '(magit-log-current :which-key "Log: Current")
+    "glf" '(magit-log-buffer-file :which-key "Log: Buffer File")
+    "gb"  '(magit-branch :which-key "Git: Configure Branch")
+    "gP"  '(magit-push-current :which-key "Git: Push")
+    "gp"  '(magit-pull-branch :which-key "Git: Pull")
+    "gf"  '(magit-fetch :which-key "Git: Fetch")
+    "gF"  '(magit-fetch-all :which-key "Git: Fetch All")
+    "gr"  '(magit-rebase :which-key "Git: Rebase"))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
