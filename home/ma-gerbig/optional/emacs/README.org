@@ -339,6 +339,21 @@ NAME and ARGS are as in =use-package=.
        ,@args))
 #+end_src
 
+**** use-package options
+=use-package= has a few options to defer package loading.
+This is usefull to optimise the loading time of the emacs startup.
+
+| Option     | Package is loaded after ...                                |
+|------------+------------------------------------------------------------|
+| =:hook=    | the first time one of the hook is invoked                  |
+| =:bind=    | the fist time one of the key bindings is used              |
+| =:command= | one of the commands are used                               |
+| =:mode=    | the fist time a file with a particular extension is opened |
+| =:after=   | other specific packages are loaded                         |
+| =:defer=   | startup                                                    |
+
+If you want to make sure a package gets loaded at startup despite the use of any of the options above, use: =demand t=.
+
 ** Change default settings
 #+BEGIN_SRC emacs-lisp
   (setq-default

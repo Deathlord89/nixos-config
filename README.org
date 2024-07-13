@@ -1,6 +1,8 @@
 #+title: My NixOS Configuration
 #+author: Marc-Andre Gerbig
 
+- [[file:home/ma-gerbig/optional/emacs/README.org][Emacs Configuration]]
+
 * Notes on reinstalling NixOS
 Find out the hard disk ID with =find /dev/disk/by-id/=.
 This is needed if the [[https://github.com/nix-community/disko][disko]] config file must be edited.
