@@ -902,9 +902,9 @@ The contents of each section is populated with the corresponding snippets that f
     <<org-mode-custom-vars>>
     ;;:custom-face
     <<org-mode-faces>>
-    ;;:hook
+    :hook
     <<org-mode-hooks>>
-    ;;:config
+    :config
     <<org-mode-config>>)
 #+end_src
 
@@ -923,6 +923,208 @@ Note that mode-specific configuration variables are defined under  their corresp
                (mapcar #'(lambda (file) (file-name-concat org-directory file))
                        '("Agenda.org"
                          "Inbox.org"))))
+#+end_src
+
+Workflowstates
+- =TODO= - A task that should be done at same paint
+- =NEXT= - This task should be done next (in the Getting Things Done sene)
+- =BACK= - A task in the backlog to be done some day but not now
+- =WAIT= - Waiting for someone else to be actionable again
+- =DONE= - It's done!
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+  (org-todo-keywords
+   '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+     (sequence "|" "WAIT(w)" "BACK(b)")))
+#+end_src
+
+Automatically log done times in todo items.
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+  (org-agenda-start-with-log-mode t)
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+#+end_src
+
+Keep the indentation well structured by setting =org-startup-indented= to =t=.
+This is a ust have.
+Makes it feel less like editing a big text file and more like a purpose built editor for org-mode that forces the indentation.
+Thanks [[https://github.com/nickanderson/Level-up-your-notes-with-Org/blob/master/Level-up-your-notes-with-Org.org#automatic-visual-indention][Nick]] for the tip!
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+  (org-startup-indented t)
+#+end_src
+
+** Literate Programing
+- From all  the available languages, we configure the  ones for which to load =org-babel= support.
+  #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-config
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (shell . t)
+       (latex . t)
+       (org . t)))
+  #+end_src
+
+- This makes it so that code within =src= blocks is fontified according to their corresponding Emacs mode, making the file much more readable.
+  #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+    (org-src-fontify-natively t)
+  #+end_src
+
+- In principle this makes it so that indentation in =src= blocks works as in their native mode, but in my experience it does not always work reliably.
+  For full proper indentation, always edit the code in a native buffer by pressing =C-c '=.
+  #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+    (org-src-tab-acts-natively t)
+  #+end_src
+
+- Automatically show inline images, useful when executing code that produces them, such as PlantUML or Graphviz.
+  #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-hooks
+    (org-babel-after-execute . org-redisplay-inline-images)
+  #+end_src
+
+** Beautifying org-mode
+*** Emphasis, lists and bullets
+These settings make org-mode much more readable by using different fonts for headings, hiding some of the markup, etc. This was taken originally from Howard Abrams' [[http://www.howardism.org/Technical/Emacs/orgmode-wordprocessor.html][Org as a Word Processor]], and subsequently tweaked and broken up in the different parts of the =use-package= declaration by me.
+- First, we set =org-hid-emphasis-markers= so that the markup indicators are not shown.
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+  (org-hide-emphasis-markers t)
+#+end_src
+
+- This package makes it much easier to edit Org documents when =org-hide-emphasis-markers= is turned on. It temporarily shows the emphasis markers around certain markup elements when you place your cursor inside of them. No more fumbling around with === and =*= characters!
+#+begin_src emacs-lisp
+  (use-package org-appear
+    :hook (org-mode . org-appear-mode))
+#+end_src
+
+- We add an entry to the org-mode font-lock table so that list markers are shown with a middle dot instead of the original character.
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-config
+  (font-lock-add-keywords
+   'org-mode
+   '(("^ *\\([-]\\) "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+#+end_src
+
+- Prettify checkbox lists and other symbols - courtesy of https://blog.jft.rocks/emacs/unicode-for-orgmode-checkboxes.html.
+  First, we add special characters for checkboxes:
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-hooks
+  (org-mode . (lambda ()
+                "Beautify Org Checkbox Symbol"
+                (push '("[ ]" . "☐" ) prettify-symbols-alist)
+                (push '("[X]" . "☑" ) prettify-symbols-alist)
+                (push '("[-]" . "⊡" ) prettify-symbols-alist)
+                (prettify-symbols-mode)))
+#+end_src
+
+- Show symbols when the cursor is over of right after them.
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+  (prettify-symbols-unprettify-at-point 'right-edge)
+#+end_src
+
+- Second, we define a special face for checked items.
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-config
+  (defface org-checkbox-done-text
+    '((t (:foreground "#71696A" :strike-through t)))
+    "Face for the text part of a checked org-mode checkbox.")
+
+  (font-lock-add-keywords
+   'org-mode
+   `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
+      1 'org-checkbox-done-text prepend))
+   'append)
+#+end_src
+
+- Show an arrow for folded headings.
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-config
+  (setq org-ellipsis " ▾")
+#+end_src
+
+*** Source code blocks
+The following code ([[https://pank.eu/blog/pretty-babel-src-blocks.html][by Rasmus]]) prettifies org-mode's source blocks by replacing the =#+begin/end_src= keywords and the header arguments with symbols.
+When the cursor is over or next to one of the symbols, it gets expanded into its text representation to make editing easier.
+This is enabled by setting =prettify-symbols-unprettify-at-point= to ='right-edge=.
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (defvar-local rasmus/org-at-src-begin -1
+      "Variable that holds whether last position was a ")
+
+    (defvar rasmus/ob-header-symbol ?☰
+      "Symbol used for babel headers")
+
+    (defun rasmus/org-prettify-src--update ()
+      (let ((case-fold-search t)
+            (re "^[ \t]*#\\+begin_src[ \t]+[^ \f\t\n\r\v]+[ \t]*")
+            found)
+        (save-excursion
+          (goto-char (point-min))
+          (while (re-search-forward re nil t)
+            (goto-char (match-end 0))
+            (let ((args (org-trim
+                         (buffer-substring-no-properties (point)
+                                                         (line-end-position)))))
+              (when (org-string-nw-p args)
+                (let ((new-cell (cons args rasmus/ob-header-symbol)))
+                  (cl-pushnew new-cell prettify-symbols-alist :test #'equal)
+                  (cl-pushnew new-cell found :test #'equal)))))
+          (setq prettify-symbols-alist
+                (cl-set-difference prettify-symbols-alist
+                                   (cl-set-difference
+                                    (cl-remove-if-not
+                                     (lambda (elm)
+                                       (eq (cdr elm) rasmus/ob-header-symbol))
+                                     prettify-symbols-alist)
+                                    found :test #'equal)))
+          ;; Clean up old font-lock-keywords.
+          (font-lock-remove-keywords nil prettify-symbols--keywords)
+          (setq prettify-symbols--keywords (prettify-symbols--make-keywords))
+          (font-lock-add-keywords nil prettify-symbols--keywords)
+          (while (re-search-forward re nil t)
+            (font-lock-flush (line-beginning-position) (line-end-position))))))
+
+    (defun rasmus/org-prettify-src ()
+      "Hide src options via `prettify-symbols-mode'.
+
+          `prettify-symbols-mode' is used because it has uncollpasing. It's
+          may not be efficient."
+      (let* ((case-fold-search t)
+             (at-src-block (save-excursion
+                             (beginning-of-line)
+                             (looking-at "^[ \t]*#\\+begin_src[ \t]+[^ \f\t\n\r\v]+[ \t]*"))))
+        ;; Test if we moved out of a block.
+        (when (or (and rasmus/org-at-src-begin
+                       (not at-src-block))
+                  ;; File was just opened.
+                  (eq rasmus/org-at-src-begin -1))
+          (rasmus/org-prettify-src--update))
+        ;; Remove composition if at line; doesn't work properly.
+        ;; (when at-src-block
+        ;;   (with-silent-modifications
+        ;;     (remove-text-properties (match-end 0)
+        ;;                             (1+ (line-end-position))
+        ;;                             '(composition))))
+        (setq rasmus/org-at-src-begin at-src-block)))
+
+    ;; This function helps to produce a single glyph out of a
+    ;; string. The glyph can then be used in prettify-symbols-alist.
+    ;; This function was provided by Ihor in the org-mode mailing list.
+    (defun yant/str-to-glyph (str)
+      "Transform string into glyph, displayed correctly."
+      (let ((composition nil))
+        (dolist (char (string-to-list str)
+                      (nreverse (cdr composition)))
+          (push char composition)
+          (push '(Br . Bl) composition))))
+
+    (defun rasmus/org-prettify-symbols ()
+      (mapc (apply-partially 'add-to-list 'prettify-symbols-alist)
+            (cl-reduce 'append
+                       (mapcar (lambda (x) (list x (cons (upcase (car x)) (cdr x))))
+                               `(("#+begin_src" . ?⎡) ;; ⎡ ➤ 🖝 ➟ ➤ ✎
+                                 ;; multi-character strings can be used with something like this:
+                                 ;; ("#+begin_src" . ,(yant/str-to-glyph "```"))
+                                 ("#+end_src"   . ?⎣) ;; ⎣ ✐
+                                 ("#+header:" . ,rasmus/ob-header-symbol)
+                                 ("#+begin_quote" . ?«)
+                                 ("#+end_quote" . ?»)))))
+      (turn-on-prettify-symbols-mode)
+      (add-hook 'post-command-hook 'rasmus/org-prettify-src t t))
+    (add-hook 'org-mode-hook #'rasmus/org-prettify-symbols))
 #+end_src
 
 * Development
@@ -1129,6 +1331,17 @@ Enable auto close bracket insertion.
 #+END_SRC
 
 ** Quality of Life
+TODO: This coud be usefull.
+Add visual guides towards indenting levels.
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package highlight-indent-guides
+    :hook
+    (python-mode . highlight-indent-guides-mode)
+    (scss-mode . highlight-indent-guides-mode)
+    :custom
+    (highlight-indent-guides-method 'character))
+#+END_SRC
+
 Colorize colors as text with their value.
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
