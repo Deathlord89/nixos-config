@@ -436,10 +436,21 @@
 (use-package treemacs-magit
   :after (treemacs magit))
 
+;; Set normal pitch face
+(set-face-attribute 'default nil :font "JetBrainsMono NF" :height 110)
+
+;; Set the fixed pitch face
+(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono NF" :height 100)
+
+;; Set the variable pitch face
+(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 110 :weight 'regular)
+
 (use-package org
   :bind
   (:map org-mode-map
-          )
+          ("C-a" . org-beginning-of-line)
+          ("C-e" . org-end-of-line)
+          ("C-k" . org-kill-line))
   :custom
   (org-directory-empty-p "~/org")
   (org-agenda-files
@@ -458,8 +469,18 @@
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
   (prettify-symbols-unprettify-at-point 'right-edge)
-  ;;:custom-face
-  
+  (org-fontify-done-headline t)
+  (org-tags-column 0)
+  (org-todo-keyword-faces
+   '(("NEXT" . (:foreground "orange red" :weight bold))
+     ("WAIT" . (:foreground "HotPink2" :weight bold))
+     ("BACK" . (:foreground "MediumPurple3" :weight bold))))
+  :custom-face
+  (variable-pitch ((t (:family "Cantarell" :height 130 :weight regular))))
+  (fixed-pitch ((t (:family "JetBrainsMono NF" :height 110))))
+  (org-indent ((t (:inherit (org-hide fixed-pitch)))))
+  (org-done ((t (:foreground "PaleGreen"
+                 :strike-through t))))
   :hook
   (org-babel-after-execute . org-redisplay-inline-images)
   (org-mode . (lambda ()
@@ -468,6 +489,8 @@
                 (push '("[X]" . "☑" ) prettify-symbols-alist)
                 (push '("[-]" . "⊡" ) prettify-symbols-alist)
                 (prettify-symbols-mode)))
+  (org-mode . visual-line-mode)
+  (org-mode . variable-pitch-mode)
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -492,6 +515,30 @@
 
 (use-package org-appear
   :hook (org-mode . org-appear-mode))
+
+(custom-theme-set-faces
+ 'user
+ '(org-block ((t (:inherit fixed-pitch))))
+ '(org-code ((t (:inherit (shadow fixed-pitch)))))
+ '(org-document-info ((t (:foreground "dark orange"))))
+ '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+ '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+ '(org-link ((t (:foreground "royal blue" :underline t))))
+ '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+ '(org-property-value ((t (:inherit fixed-pitch))) t)
+ '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+ '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+ '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+ '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+ '(org-checkbox ((t (:inherit (fixed-pitch))))))
+
+(defun ma/org-mode-visual-fill ()
+  (setq visual-fill-column-width 120
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . ma/org-mode-visual-fill))
 
 (with-eval-after-load 'org
   (defvar-local rasmus/org-at-src-begin -1
