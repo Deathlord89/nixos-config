@@ -925,7 +925,7 @@ The contents of each section is populated with the corresponding snippets that f
 Note that mode-specific configuration variables are defined under  their corresponding packages, this  section defines only global org-mode configuration variables, which are inserted in the main =use-package= declaration for =org-mode=.
 - Default directory for org files (not all are stored here).
 #+begin_src emacs-lisp :tangle no  :noweb-ref org-mode-custom-vars
-(org-directory-empty-p "~/org")
+  (org-directory "~/Nextcloud/Org")
 #+end_src
 
 - Default org-agenda files.

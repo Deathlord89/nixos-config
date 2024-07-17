@@ -452,7 +452,7 @@
           ("C-e" . org-end-of-line)
           ("C-k" . org-kill-line))
   :custom
-  (org-directory-empty-p "~/org")
+  (org-directory "~/Nextcloud/Org")
   (org-agenda-files
    (seq-filter #'file-exists-p
                (mapcar #'(lambda (file) (file-name-concat org-directory file))
