@@ -4,9 +4,6 @@
   # You can import other home-manager modules here
   imports = [
     ./core
-    ./optional/emacs
-    ./optional/kitty.nix
-    ./optional/gtk.nix
-    ./optional/vscodium.nix
+    ./optional
   ];
 }
