@@ -29,6 +29,7 @@
       [
         alejandra # Nix formatter
         btop
+        mc
         wl-clipboard
         xclip
       ]
