@@ -5,39 +5,19 @@
   ...
 }: {
   imports = [
-    inputs.disko.nixosModules.disko
-    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t460p
+    inputs.nixos-hardware.nixosModules.raspberry-pi-3
 
     ../common/users/ma-gerbig
 
     ../common/base
-    ../common/desktop/gnome.nix
-    ../common/hardware/yubikey.nix
-    ../common/hardware/nvidia
-    ../common/hardware/nvidia/optimus.nix
 
-    ../common/optional/lanzaboote.nix
     ../common/optional/wireless.nix
-    ../common/optional/printer.nix
 
     # Include the results of the hardware scan.
-    ./disko.nix
     ./hardware-configuration.nix
   ];
   # Define your hostname
-  networking.hostName = "T460p";
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # Bootloader add btrfs support
-  boot.supportedFilesystems = ["btrfs"];
-  services.btrfs.autoScrub = {
-    enable = true;
-    interval = "weekly";
-  };
-
-  # Building for Rasoberry Pi
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  networking.hostName = "IG-7B";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
