@@ -16,7 +16,6 @@
     git
     htop
     lm_sensors
-    neovim
     pciutils
     usbutils
     wget

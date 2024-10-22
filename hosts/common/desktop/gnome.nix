@@ -11,27 +11,21 @@
   };
 
   environment = {
-    systemPackages =
-      (with pkgs; [
-        pinentry-gnome3
-      ])
-      ++ (with pkgs.gnome; [
-        gnome-tweaks
-      ]);
+    systemPackages = with pkgs; [
+      pinentry-gnome3
+      gnome-tweaks
+    ];
 
     #Excluding some GNOME applications from the default install
-    gnome.excludePackages =
-      (with pkgs; [
-        gnome-tour
-      ])
-      ++ (with pkgs.gnome; [
-        epiphany # web browser
-        #evince # document viewer
-        geary # email reader
-        #gnome-characters
-        gnome-music
-        totem # video player
-      ]);
+    gnome.excludePackages = with pkgs; [
+      #evince # document viewer
+      #gnome-characters
+      epiphany # web browser
+      geary # email reader
+      gnome-music
+      gnome-tour
+      totem # video player
+    ];
   };
   programs.dconf.enable = true;
 }

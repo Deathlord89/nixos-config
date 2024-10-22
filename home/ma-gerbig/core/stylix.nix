@@ -30,7 +30,7 @@ in {
   stylix.base16Scheme = ./. + themePath;
 
   stylix.cursor = {
-    package = pkgs.gnome.adwaita-icon-theme;
+    package = pkgs.adwaita-icon-theme;
     name = "Adwaita";
   };
 

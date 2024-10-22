@@ -23,20 +23,27 @@
   modifications = final: prev: {
     # Disable ssh-agent from gnome-keyring
     # https://discourse.nixos.org/t/disable-ssh-agent-from-gnome-keyring-on-gnome/28176
-    gnome = prev.gnome.overrideScope' (gfinal: gprev: {
-      gnome-keyring = gprev.gnome-keyring.overrideAttrs (oldAttrs: {
-        configureFlags =
-          oldAttrs.configureFlags
-          or []
-          ++ ["--disable-ssh-agent"];
-      });
+    gnome-keyring = prev.gnome-keyring.overrideAttrs (oldAttrs: {
+      configureFlags =
+        oldAttrs.configureFlags
+        or []
+        ++ ["--disable-ssh-agent"];
     });
+
+    #gnome = prev.gnome.overrideScope (gfinal: gprev: {
+    #gnome-keyring = gprev.gnome-keyring.overrideAttrs (oldAttrs: {
+    #configureFlags =
+    # oldAttrs.configureFlags
+    #or []
+    #++ ["--disable-ssh-agent"];
+    #});
+    #});
   };
 
-  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.unstable'
-  unstable-packages = final: _prev: {
-    unstable = import inputs.nixpkgs-unstable {
+  # When applied, the stable nixpkgs set (declared in the flake inputs) will
+  # be accessible through 'pkgs.stable.packagename'
+  stable = final: _prev: {
+    stable = import inputs.nixpkgs-stable {
       system = final.system;
       config.allowUnfree = true;
     };

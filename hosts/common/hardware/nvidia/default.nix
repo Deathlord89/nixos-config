@@ -4,10 +4,9 @@
   ...
 }: {
   # Enable OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = lib.mkForce true;
-    driSupport = true;
-    driSupport32Bit = lib.mkForce true;
+    enable32Bit = lib.mkForce true;
   };
 
   # Load nvidia driver for Xorg and Wayland

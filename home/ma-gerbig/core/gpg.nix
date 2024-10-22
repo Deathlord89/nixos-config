@@ -9,7 +9,9 @@
         }
       ];
       scdaemonSettings = {
-        disable-ccid = true;
+        # Disabled when upgrading from 24.05 to unstable
+        #reader-port = "Yubico Yubi";
+        #disable-ccid = true;
       };
     };
   };

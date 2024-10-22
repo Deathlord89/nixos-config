@@ -11,6 +11,8 @@ in {
 
   nix = {
     settings = {
+      auto-optimise-store = lib.mkDefault true;
+
       # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
       # Opinionated: disable global registry
@@ -21,7 +23,7 @@ in {
     # Opinionated: disable channels
     channel.enable = false;
 
-    # Opinionated: make flake registry and nix path match flake inputs
+    # Add each flake input as a registry and nix_path
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 

@@ -25,17 +25,14 @@
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
     # Add stuff for your user as you see fit:
-    packages = with pkgs;
-      [
-        alejandra # Nix formatter
-        btop
-        mc
-        wl-clipboard
-        xclip
-      ]
-      ++ (with pkgs.unstable; [
-        neovim
-      ]);
+    packages = with pkgs; [
+      alejandra # Nix formatter
+      btop
+      mc
+      wl-clipboard
+      xclip
+      neovim
+    ];
 
     sessionVariables = {
       EDITOR = "nvim";
