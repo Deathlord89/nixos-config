@@ -11,6 +11,10 @@ in {
 
   nix = {
     settings = {
+      trusted-users = [
+        "root"
+        "ma-gerbig"
+      ];
       auto-optimise-store = lib.mkDefault true;
 
       # Enable flakes and new 'nix' command
