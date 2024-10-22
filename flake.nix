@@ -86,6 +86,7 @@
       nixos = mkNixos [./hosts/nixos];
       nixos-test = mkNixos [./hosts/nixos-test];
       T460p = mkNixos [./hosts/T460p];
+      IG-7B = mkNixos [./hosts/IG-7B];
     };
 
     # Standalone home-manager configuration entrypoint

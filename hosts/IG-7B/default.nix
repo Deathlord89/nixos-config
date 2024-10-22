@@ -1,6 +1,5 @@
 {
-  config,
-  pkgs,
+  lib,
   inputs,
   ...
 }: {
@@ -18,6 +17,14 @@
   ];
   # Define your hostname
   networking.hostName = "IG-7B";
+
+  ## Overrides
+  # Bootloader.
+  boot.loader = {
+    systemd-boot.enable = lib.mkForce false;
+    grub.enable = lib.mkForce false;
+    generic-extlinux-compatible.enable = lib.mkForce true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
