@@ -27,8 +27,14 @@
   # Define your hostname
   networking.hostName = "T460p";
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Bootloader add btrfs support
   boot.supportedFilesystems = ["btrfs"];
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "weekly";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
