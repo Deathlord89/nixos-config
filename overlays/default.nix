@@ -30,6 +30,9 @@
         ++ ["--disable-ssh-agent"];
     });
 
+    # https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_4
+    libcec = prev.libcec.override {withLibraspberrypi = true;};
+
     #gnome = prev.gnome.overrideScope (gfinal: gprev: {
     #gnome-keyring = gprev.gnome-keyring.overrideAttrs (oldAttrs: {
     #configureFlags =

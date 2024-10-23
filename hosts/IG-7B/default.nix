@@ -11,6 +11,7 @@
     ../common/base
 
     ../common/optional/wireless.nix
+    #../common/optional/kodi.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -24,7 +25,21 @@
     systemd-boot.enable = lib.mkForce false;
     grub.enable = lib.mkForce false;
     generic-extlinux-compatible.enable = lib.mkForce true;
+    raspberryPi.firmwareConfig = ''
+      force_turbo=1
+      hdmi_force_hotplug=1
+      gpu_mem=256
+      dtparam=audio=on
+    '';
   };
+
+  # Preserve space by sacrificing documentation and history
+  documentation = {
+    nixos.enable = false;
+    man.enable = false;
+  };
+
+  boot.tmp.cleanOnBoot = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
