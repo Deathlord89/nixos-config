@@ -33,11 +33,5 @@
       config = {
       };
     };
-
-    #atuin = {
-    #  enable = true;
-    #  enableBashIntegration = true;
-    #  enableFishIntegration = true;
-    #};
   };
 }

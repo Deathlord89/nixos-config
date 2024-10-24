@@ -9,17 +9,9 @@
         name = "autopair";
         inherit (pkgs.fishPlugins.autopair) src;
       }
-      #{
-      #  name = "fzf";
-      #  inherit (pkgs.fishPlugins.fzf-fish) src;
-      #}
       {
         name = "puffer";
         inherit (pkgs.fishPlugins.puffer) src;
-      }
-      {
-        name = "sponge";
-        inherit (pkgs.fishPlugins.sponge) src;
       }
     ];
   };
