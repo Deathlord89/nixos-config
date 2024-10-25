@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs = {
     gpg = {
       enable = true;
@@ -26,7 +30,10 @@
       enableFishIntegration = true;
       enableSshSupport = true;
       enableScDaemon = true;
-      pinentryPackage = pkgs.pinentry-gnome3;
+      pinentryPackage =
+        if config.gtk.enable
+        then pkgs.pinentry-gnome3
+        else pkgs.pinentry-tty;
       defaultCacheTtl = 60;
       maxCacheTtlSsh = 120;
     };
