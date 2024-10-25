@@ -2,15 +2,17 @@ keys:
   - &users:
     - &ma-gerbig B82D59863009C69636ABA42C39CB130C67B92382
   - &hosts:
+    - &IG-7B age1p5v7y07efqljllm9pttz3rn35v7zl0svgmukfurqlfsj9xmhkuhqvvlfp4
+    - &Maximus age1xfwgm5dk66q2qdp2hh9k253f3d0rjax3un3vwxcecz8zj6x3cuus375c86
     - &nixos-test age1gf7qp0l99fu3mewkvk7kg5hsuqd07k20yamxyu9266emeqm2tpkqpu4vtz
     - &T460p age130xew2t3lyv67u4fwmpz0rrccane86scyef2gwfp7r7dwagr7ewse5zpjl
-    - &IG-7B age1p5v7y07efqljllm9pttz3rn35v7zl0svgmukfurqlfsj9xmhkuhqvvlfp4
 creation_rules:
   - path_regex: secrets.yaml$
     key_groups:
     - pgp:
       - *ma-gerbig
       age:
+      - *IG-7B
+      - *Maximus
       - *nixos-test
       - *T460p
-      - *IG-7B
