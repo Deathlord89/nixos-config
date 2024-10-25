@@ -14,6 +14,7 @@
     ../common/hardware/yubikey.nix
     ../common/hardware/nvidia
 
+    ../common/optional/gamemode.nix
     ../common/optional/printer.nix
 
     # Include the results of the hardware scan.
