@@ -4,6 +4,9 @@
     interactiveShellInit = ''
       set fish_greeting # Disable greeting
     '';
+    shellAliases = {
+      cat = "bat";
+    };
     plugins = [
       {
         name = "autopair";
