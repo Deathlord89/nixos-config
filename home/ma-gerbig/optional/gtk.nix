@@ -77,6 +77,10 @@
       always-show-thumbnails = false;
       overview-firefox-pip = true;
     };
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
   };
 
   # Install gnome extensions

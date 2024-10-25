@@ -15,6 +15,7 @@
     ../common/hardware/nvidia
 
     ../common/optional/gamemode.nix
+    ../common/optional/libvirt.nix
     ../common/optional/printer.nix
 
     # Include the results of the hardware scan.
