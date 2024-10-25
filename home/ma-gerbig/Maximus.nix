@@ -6,4 +6,11 @@
     ./cli
     ./optional
   ];
+
+  optional = {
+    games = {
+      enable_mangohud = true;
+      enable_prismlauncher = true;
+    };
+  };
 }
