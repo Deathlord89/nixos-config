@@ -6,10 +6,11 @@
   imports = myLib.scanPaths ./.;
 
   home.packages = with pkgs; [
-    filezilla
+    brave
     filebot
+    filezilla
     portfolio
-    zotero
     thunderbird
+    zotero
   ];
 }
