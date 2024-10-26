@@ -12,6 +12,7 @@
       ];
       # 'gnome-extensions list' for a list
       enabled-extensions = [
+        "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"
         "dash-to-dock@micxgx.gmail.com"
@@ -86,6 +87,7 @@
   # Install gnome extensions
   home = {
     packages = with pkgs.gnomeExtensions; [
+      appindicator
       blur-my-shell
       caffeine
       dash-to-dock
