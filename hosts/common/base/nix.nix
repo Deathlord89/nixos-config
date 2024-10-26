@@ -32,17 +32,19 @@ in {
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 
     # Perform garbage collection weekly to maintain low disk usage
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 1w";
-    };
+    #gc = {
+    #  automatic = true;
+    #  dates = "weekly";
+    #  options = "--delete-older-than 1w";
+    #};
   };
 
   programs.nh = {
     enable = true;
-    #clean.enable = true;
-    #clean.extraArgs = "--keep-since 4d --keep 3";
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 10d --keep 3";
+    };
     #flake = "/home/ma-gerbig/git/nixos-config"; # TODO: Set in home config
   };
 }
