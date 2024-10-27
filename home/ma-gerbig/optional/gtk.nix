@@ -7,8 +7,11 @@
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
         "firefox.desktop"
+        "thunderbird.desktop"
         "kitty.desktop"
         "codium.desktop"
+        "steam.desktop"
+        "bitwarden.desktop"
       ];
       # 'gnome-extensions list' for a list
       enabled-extensions = [
