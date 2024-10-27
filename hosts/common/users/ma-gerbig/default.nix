@@ -13,7 +13,18 @@ in {
     users.ma-gerbig = {
       isNormalUser = true;
       description = "Marc-André Gerbig";
-      extraGroups = ["wheel"] ++ ifTheyExist ["networkmanager" "libvirtd"];
+      extraGroups =
+        [
+          "wheel"
+          "users"
+        ]
+        ++ ifTheyExist [
+          "audio"
+          "gamemode"
+          "libvirtd"
+          "networkmanager"
+          "video"
+        ];
 
       #hashedPasswordFile = config.sops.secrets."password/ma-gerbig".path;
       openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../../../home/ma-gerbig/ssh.pub);

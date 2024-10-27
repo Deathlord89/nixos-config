@@ -3,16 +3,11 @@
     enable = true;
     settings = {
       general = {
-        softrealtime = "on";
+        softrealtime = "auto";
         renice = 4;
         ioprio = 0;
         inhibit_screensaver = 1;
       };
-      #gpu = {
-      #  apply_gpu_optimisations = "accept-responsibility";
-      #  gpu_device = 0;
-      #  nv_powermizer_mode = 1;
-      #};
     };
   };
 
