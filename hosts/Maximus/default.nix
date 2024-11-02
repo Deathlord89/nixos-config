@@ -18,6 +18,7 @@
     ../common/optional/gamemode.nix
     ../common/optional/libvirt.nix
     ../common/optional/printer.nix
+
     ./services/syncthing.nix
 
     # Include the results of the hardware scan.
