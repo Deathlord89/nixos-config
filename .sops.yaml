@@ -7,7 +7,7 @@ keys:
     - &nixos-test age1gf7qp0l99fu3mewkvk7kg5hsuqd07k20yamxyu9266emeqm2tpkqpu4vtz
     - &T460p age130xew2t3lyv67u4fwmpz0rrccane86scyef2gwfp7r7dwagr7ewse5zpjl
 creation_rules:
-  - path_regex: secrets.yaml$
+  - path_regex: secrets.ya?ml$
     key_groups:
     - pgp:
       - *ma-gerbig
@@ -15,4 +15,16 @@ creation_rules:
       - *IG-7B
       - *Maximus
       - *nixos-test
+      - *T460p
+  - path_regex: hosts/Maximus/secrets.ya?ml$
+    key_groups:
+    - pgp:
+      - *ma-gerbig
+      age:
+      - *Maximus
+  - path_regex: hosts/T460p/secrets.ya?ml$
+    key_groups:
+    - pgp:
+      - *ma-gerbig
+      age:
       - *T460p
