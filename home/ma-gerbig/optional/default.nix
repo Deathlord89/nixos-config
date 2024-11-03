@@ -10,7 +10,6 @@
     brave
     filebot
     filezilla
-    portfolio
     thunderbird
     vivaldi
     zotero
