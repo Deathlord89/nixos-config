@@ -19,6 +19,7 @@ in {
 
   stylix.targets = {
     emacs.enable = false;
+    mangohud.enable = false;
   };
 
   stylix.polarity = themePolarity;

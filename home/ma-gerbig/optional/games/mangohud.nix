@@ -15,10 +15,10 @@
       gpu_temp = true;
       ram = true;
       vram = true;
-      hud_compact = true;
 
       # Hide until toggled
       no_display = true;
+      round_corners = "5";
 
       toggle_hud = "Shift_L+F1";
       toggle_hud_position = "Shift_L+F2";
