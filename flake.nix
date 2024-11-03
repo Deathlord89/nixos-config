@@ -8,6 +8,10 @@
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     systems.url = "github:nix-systems/default-linux";
 
+    # Bleeding edge packages from chaotic nyx, especially CachyOS kernel
+    # Don't add follows nixpkgs, else will cause local rebuilds
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/";

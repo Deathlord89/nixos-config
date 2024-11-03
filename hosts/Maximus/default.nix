@@ -1,11 +1,11 @@
 {
-  config,
   pkgs,
   inputs,
   ...
 }: {
   imports = [
     inputs.disko.nixosModules.disko
+    inputs.chaotic.nixosModules.default
 
     ../common/users/ma-gerbig
 
@@ -28,7 +28,9 @@
   # Define your hostname
   networking.hostName = "Maximus";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+  boot.kernelPackages = pkgs.linuxPackages_cachyos;
 
   # Bootloader add btrfs support
   boot.supportedFilesystems = ["btrfs"];
