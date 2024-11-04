@@ -5,7 +5,6 @@
 }: {
   imports = [
     inputs.disko.nixosModules.disko
-    inputs.chaotic.nixosModules.default
 
     ../common/users/ma-gerbig
 

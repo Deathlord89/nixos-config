@@ -1,6 +1,17 @@
 {
   description = "Your new nix config";
 
+  nixConfig = {
+    extra-substituters = [
+      #"https://hyprland.cachix.org"
+      "https://chaotic-nyx.cachix.org/"
+    ];
+    extra-trusted-public-keys = [
+      #"hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
+    ];
+  };
+
   inputs = {
     # Nix ecosystem
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
