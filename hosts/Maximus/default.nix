@@ -14,9 +14,9 @@
     ../common/hardware/nvidia
 
     ../common/optional/flatpak.nix
-    ../common/optional/gamemode.nix
     ../common/optional/libvirt.nix
     ../common/optional/printer.nix
+    ../common/optional/steam.nix
 
     ./services/syncthing.nix
 
