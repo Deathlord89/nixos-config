@@ -1,15 +1,14 @@
 {
   inputs,
-  config,
-  pkgs,
   lib,
   ...
 }: {
   imports = [
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
-
-  environment.systemPackages = [pkgs.sbctl];
+  # sbctl - a frontend to create, enroll manage keys
+  # just need once for importing secureboot keys
+  #environment.systemPackages = [pkgs.sbctl];
 
   # Lanzaboote currently replaces the systemd-boot module.
   # This setting is usually set to true in configuration.nix
