@@ -456,8 +456,11 @@
   (org-agenda-files
    (seq-filter #'file-exists-p
                (mapcar #'(lambda (file) (file-name-concat org-directory file))
-                       '("Agenda.org"
+                       '("Tasks.org"
                          "Inbox.org"))))
+  (org-refile-targets
+   '(("Tasks.org" :maxlevel . 1)
+     ("Archive.org" :maxlevel . 1)))
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
      (sequence "|" "WAIT(w)" "BACK(b)")))
@@ -469,7 +472,7 @@
   (org-src-tab-acts-natively t)
   (org-hide-emphasis-markers t)
   (prettify-symbols-unprettify-at-point 'right-edge)
-  (org-fontify-done-headline t)
+  ;;(org-fontify-done-headline t)
   (org-tags-column 0)
   (org-todo-keyword-faces
    '(("NEXT" . (:foreground "orange red" :weight bold))
@@ -479,8 +482,8 @@
   (variable-pitch ((t (:family "Cantarell" :height 130 :weight regular))))
   (fixed-pitch ((t (:family "JetBrainsMono NF" :height 110))))
   (org-indent ((t (:inherit (org-hide fixed-pitch)))))
-  (org-done ((t (:foreground "PaleGreen"
-                 :strike-through t))))
+  ;;(org-done ((t (:foreground "PaleGreen"
+  ;;               :strike-through t))))
   :hook
   (org-babel-after-execute . org-redisplay-inline-images)
   (org-mode . (lambda ()
@@ -512,6 +515,28 @@
       1 'org-checkbox-done-text prepend))
    'append)
   (setq org-ellipsis " ▾"))
+
+(use-feature org-agenda
+  :ensure nil
+  :after org
+  :bind
+  ("C-c a" . org-agenda)
+  :custom
+  (org-agenda-include-diary t)
+  (org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t% s")
+                              ;; Indent todo items by level to show nesting
+                              (todo . " %i %-12:c%l")
+                              (tags . " %i %-12:c")
+                              (search . " %i %-12:c")))
+  (org-agenda-start-on-weekday nil))
+
+(require 'org-habit)
+(use-package org-super-agenda
+  :defer nil
+  ;;:custom
+  ;;(org-super-agenda-groups '((:auto-dir-name t)))
+  :config
+  (org-super-agenda-mode))
 
 (use-package org-appear
   :hook (org-mode . org-appear-mode))

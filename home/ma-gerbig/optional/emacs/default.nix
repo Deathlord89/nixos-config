@@ -36,7 +36,7 @@
       config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/init.el";
 
-    "${config.xdg.configHome}/emacs/straight/versions/default.el".source =
+    "${config.xdg.cacheHome}/emacs/straight/versions/default.el".source =
       config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/git/nixos-config/home/ma-gerbig/optional/emacs/straight-el/default.el";
 
@@ -54,7 +54,7 @@
     # IDE
     nil
 
-    # Doom-modeline symbols 
+    # Doom-modeline symbols
     (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
 

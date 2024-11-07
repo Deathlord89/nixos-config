@@ -281,21 +281,21 @@ Sometimes it's good to clean up unused repositories if I've removed packages fro
 
 Let's bootstrap [[https://github.com/raxod502/straight.el][straight.el]] with:
 #+begin_src emacs-lisp
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name
+          "straight/repos/straight.el/bootstrap.el"
+          (or (bound-and-true-p straight-base-dir)
+              user-emacs-directory)))
+        (bootstrap-version 7))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
 #+end_src
 
 Load the helper package for commands like `straight-x-clean-unused-repos'
@@ -934,9 +934,17 @@ Note that mode-specific configuration variables are defined under  their corresp
   (org-agenda-files
    (seq-filter #'file-exists-p
                (mapcar #'(lambda (file) (file-name-concat org-directory file))
-                       '("Agenda.org"
+                       '("Tasks.org"
                          "Inbox.org"))))
 #+end_src
+
+- Refile Headers
+#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
+  (org-refile-targets
+   '(("Tasks.org" :maxlevel . 1)
+     ("Archive.org" :maxlevel . 1)))
+#+end_src
+
 
 Workflowstates
 - =TODO= - A task that should be done at same paint
@@ -963,6 +971,35 @@ Makes it feel less like editing a big text file and more like a purpose built ed
 Thanks [[https://github.com/nickanderson/Level-up-your-notes-with-Org/blob/master/Level-up-your-notes-with-Org.org#automatic-visual-indention][Nick]] for the tip!
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
   (org-startup-indented t)
+#+end_src
+
+** Task tracking
+Org-Agenda is the umbrella for all todo, journal, calendar, and other views. I set up =C-c a= to call up agenda mode.
+#+begin_src emacs-lisp
+  (use-feature org-agenda
+    :ensure nil
+    :after org
+    :bind
+    ("C-c a" . org-agenda)
+    :custom
+    (org-agenda-include-diary t)
+    (org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t% s")
+                                ;; Indent todo items by level to show nesting
+                                (todo . " %i %-12:c%l")
+                                (tags . " %i %-12:c")
+                                (search . " %i %-12:c")))
+    (org-agenda-start-on-weekday nil))
+#+end_src
+
+[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] provides great grouping and customization features to make agenda mode easier to use.
+#+begin_src emacs-lisp
+  (require 'org-habit)
+  (use-package org-super-agenda
+    :defer nil
+    ;;:custom
+    ;;(org-super-agenda-groups '((:auto-dir-name t)))
+    :config
+    (org-super-agenda-mode))
 #+end_src
 
 ** Literate Programing
@@ -1091,12 +1128,12 @@ These settings include:
 - Configure =org-fontify-done-headline= to apply a special face to DONE items in org-mode, and configure the =org-done= face to be used.
   Note that  =org-done= only applies to the "DONE" keyword itself, the face for the rest of a "done" headline is defined above as the =org-headline-done= face.
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
-    (org-fontify-done-headline t)
+    ;;(org-fontify-done-headline t)
   #+end_src
 
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
-    (org-done ((t (:foreground "PaleGreen"
-                   :strike-through t))))
+    ;;(org-done ((t (:foreground "PaleGreen"
+    ;;               :strike-through t))))
   #+end_src
 
 Configuring the corresponding =org-mode= faces for blocks, verbatim code, and maybe a couple of other things.
