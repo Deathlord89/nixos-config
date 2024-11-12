@@ -13,7 +13,7 @@
   ];
 
   boot.initrd.availableKernelModules = [];
-  boot.initrd.kernelModules = [];
+  boot.initrd.kernelModules = ["vc4"];
   boot.kernelModules = [];
   boot.extraModulePackages = [];
 
