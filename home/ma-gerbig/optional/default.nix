@@ -8,10 +8,10 @@
   home.packages = with pkgs; [
     appimage-run
     brave
+    discord
     filebot
     filezilla
     thunderbird
-    vivaldi
     zotero
   ];
 }

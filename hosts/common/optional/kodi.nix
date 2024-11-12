@@ -34,36 +34,36 @@ in {
 
   networking.firewall.allowedTCPPorts = [8080]; # for web interface / remote control
 
-  #services.udev.extraRules = ''
-  #  # allow access to raspi cec device for video group (and optionally register it as a systemd device, used below)
-  #  KERNEL=="vchiq", GROUP="video", MODE="0660", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/vchiq"
-  #'';
+  services.udev.extraRules = ''
+    # allow access to raspi cec device for video group (and optionally register it as a systemd device, used below)
+    KERNEL=="vchiq", GROUP="video", MODE="0660", TAG+="systemd", ENV{SYSTEMD_ALIAS}="/dev/vchiq"
+  '';
 
   # Attach a persisted cec-client to `/run/cec.fifo`, to avoid the CEC ~1s startup delay per command
   # scan for devices: `echo 'scan' > /run/cec.fifo ; journalctl -u cec-client.service`
   # set pi as active source: `echo 'as' > /run/cec.fifo`
-  #systemd.sockets."cec-client" = {
-  #  after = ["dev-vchiq.device"];
-  #  bindsTo = ["dev-vchiq.device"];
-  #  wantedBy = ["sockets.target"];
-  #  socketConfig = {
-  #    ListenFIFO = "/run/cec.fifo";
-  #    SocketGroup = "video";
-  #    SocketMode = "0660";
-  #  };
-  #};
-  #systemd.services."cec-client" = {
-  #  after = ["dev-vchiq.device"];
-  #  bindsTo = ["dev-vchiq.device"];
-  #  wantedBy = ["multi-user.target"];
-  #  serviceConfig = {
-  #    ExecStart = ''${pkgs.libcec}/bin/cec-client -d 1'';
-  #    ExecStop = ''/bin/sh -c "echo q > /run/cec.fifo"'';
-  #    StandardInput = "socket";
-  #    StandardOutput = "journal";
-  #    Restart = "no";
-  #  };
-  #};
+  systemd.sockets."cec-client" = {
+    after = ["dev-vchiq.device"];
+    bindsTo = ["dev-vchiq.device"];
+    wantedBy = ["sockets.target"];
+    socketConfig = {
+      ListenFIFO = "/run/cec.fifo";
+      SocketGroup = "video";
+      SocketMode = "0660";
+    };
+  };
+  systemd.services."cec-client" = {
+    after = ["dev-vchiq.device"];
+    bindsTo = ["dev-vchiq.device"];
+    wantedBy = ["multi-user.target"];
+    serviceConfig = {
+      ExecStart = ''${pkgs.libcec}/bin/cec-client -d 1'';
+      ExecStop = ''/bin/sh -c "echo q > /run/cec.fifo"'';
+      StandardInput = "socket";
+      StandardOutput = "journal";
+      Restart = "no";
+    };
+  };
 
   # install libcec for manual usage, which includes cec-client (requires root or "video" group, see udev rule below)
   # scan for devices: `echo 'scan' | cec-client -s -d 1`
