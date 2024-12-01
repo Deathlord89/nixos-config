@@ -55,7 +55,7 @@
     nil
 
     # Doom-modeline symbols
-    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+    nerd-fonts.symbols-only
   ];
 
   # Clean up unwanted OS defaults
