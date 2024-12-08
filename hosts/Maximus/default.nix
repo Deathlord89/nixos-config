@@ -1,4 +1,6 @@
 {
+  lib,
+  config,
   pkgs,
   inputs,
   ...
@@ -40,6 +42,16 @@
 
   # Building for Rasoberry Pi
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
+  # Override Nvidia driver package
+  #hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+  #  version = "565.57.01";
+  #  sha256_64bit = "sha256-buvpTlheOF6IBPWnQVLfQUiHv4GcwhvZW3Ks0PsYLHo=";
+  #  sha256_aarch64 = "sha256-buvpTlheOF6IBPWnQVLfQUiHv4GcwhvZW3Ks0PsYLHo=";
+  #  openSha256 = "sha256-ZpuVZybW6CFN/gz9rx+UJvQ715FZnAOYfHn5jt5Z2C8=";
+  #  settingsSha256 = "sha256-ZpuVZybW6CFN/gz9rx+UJvQ715FZnAOYfHn5jt5Z2C8=";
+  #  persistencedSha256 = lib.fakeSha256;
+  #};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
