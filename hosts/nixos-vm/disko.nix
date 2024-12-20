@@ -38,16 +38,9 @@
           canmount = "off";
           xattr = "sa";
           mountpoint = "none";
-          encryption = "aes-256-gcm";
-          keyformat = "passphrase";
-          #keylocation = "prompt";
-          keylocation = "file:///tmp/pass-zpool-zroot";
           compression = "zstd";
           "com.sun:auto-snapshot" = "false";
         };
-        postCreateHook = ''
-          zfs set keylocation="prompt" zroot
-        '';
         options = {
           ashift = "12";
           autotrim = "on";
