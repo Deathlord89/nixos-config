@@ -100,8 +100,7 @@
     nixosConfigurations = {
       IG-7B = mkNixos [./hosts/IG-7B];
       Maximus = mkNixos [./hosts/Maximus];
-      nixos = mkNixos [./hosts/nixos];
-      nixos-test = mkNixos [./hosts/nixos-test];
+      nixos-vm = mkNixos [./hosts/nixos-vm];
       T460p = mkNixos [./hosts/T460p];
     };
 
