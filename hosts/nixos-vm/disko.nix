@@ -78,25 +78,13 @@
           #};
           "postgres" = {
             type = "zfs_fs";
-            mountpoint = "/var/lib/postgres";
+            mountpoint = "/var/lib/postgresql";
             options = {
               atime = "off";
               logbias = "throughput";
               mountpoint = "legacy";
               primarycache = "metadata";
               recordsize = "8K";
-            };
-          };
-          "postgres_wal" = {
-            type = "zfs_fs";
-            mountpoint = "/var/lib/postgres/wal";
-            options = {
-              atime = "off";
-              compression = "off";
-              logbias = "latency";
-              mountpoint = "legacy";
-              primarycache = "metadata";
-              recordsize = "128K";
             };
           };
           "reserved" = {

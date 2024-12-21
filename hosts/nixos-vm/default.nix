@@ -13,6 +13,10 @@
     ../common/base
 
     ../common/optional/podman.nix
+    ../common/optional/database.nix
+
+    # Include Services
+    ./services/container
 
     # Include the results of the hardware scan.
     ./disko.nix

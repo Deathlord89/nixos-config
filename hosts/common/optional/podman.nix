@@ -11,7 +11,8 @@
           "--filter=label!=important"
         ];
       };
-      #defaultNetwork.settings.dns_enabled = true;
+      # Required for container networking to be able to use names.
+      defaultNetwork.settings.dns_enabled = true;
     };
   };
 
