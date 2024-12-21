@@ -20,7 +20,7 @@
   # Define your hostname
   networking = {
     hostName = "NAZGUL";
-    hostId = "8425e349";
+    hostId = "205ed76c";
   };
 
   # Bootloader add zfs support

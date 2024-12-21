@@ -3,7 +3,7 @@
     disk = {
       root1 = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-WDC_WDS100T1R0C-68BDK0_24430R801246";
+        device = "/dev/disk/by-id/nvme-WD_Red_SN700_1000GB_24430R801246";
         content = {
           type = "gpt";
           partitions = {
@@ -56,7 +56,7 @@
 
       data1 = {
         type = "disk";
-        device = "/dev/vdb";
+        device = "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WXL1H16LX5XX";
         content = {
           type = "gpt";
           partitions = {
@@ -72,7 +72,7 @@
       };
       data2 = {
         type = "disk";
-        device = "/dev/vdc";
+        device = "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WXB1HB4VCJU3";
         content = {
           type = "gpt";
           partitions = {
@@ -88,7 +88,7 @@
       };
       data3 = {
         type = "disk";
-        device = "/dev/vdd";
+        device = "/dev/disk/by-id/ata-WDC_WD60EFPX-68C5ZN0_WD-WX42D344E417";
         content = {
           type = "gpt";
           partitions = {
@@ -104,7 +104,7 @@
       };
       data4 = {
         type = "disk";
-        device = "/dev/vde";
+        device = "/dev/disk/by-id/ata-WDC_WD60EFPX-68C5ZN0_WD-WX22D345SXSE";
         content = {
           type = "gpt";
           partitions = {
@@ -120,7 +120,7 @@
       };
       data5 = {
         type = "disk";
-        device = "/dev/vdf";
+        device = "/dev/disk/by-id/ata-WDC_WD60EFPX-68C5ZN0_WD-WX52D64NC34N";
         content = {
           type = "gpt";
           partitions = {
