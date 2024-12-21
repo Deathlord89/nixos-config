@@ -248,7 +248,7 @@
           "com.sun:auto-snapshot" = "false";
         };
         postCreateHook = ''
-          zfs set keylocation="file:///root/pass-zpool-zstorage" zstorage
+          zfs set keylocation="prompt" zstorage
         '';
         options = {
           ashift = "12";
