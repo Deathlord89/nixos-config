@@ -4,6 +4,7 @@ keys:
   - &hosts:
     - &IG-7B age1p5v7y07efqljllm9pttz3rn35v7zl0svgmukfurqlfsj9xmhkuhqvvlfp4
     - &Maximus age1xfwgm5dk66q2qdp2hh9k253f3d0rjax3un3vwxcecz8zj6x3cuus375c86
+    - &NAZGUL age1nzgvps2qmljuaxs8myf59323lamqy03gl2geljufr9m9kyfjw56snx6jgh
     - &nixos-vm age1f8tzlw8gre43d6hkq38hwaemeqvf4jegvt9x02nlmdvrek0lk4hsc7wvr6
     - &T460p age130xew2t3lyv67u4fwmpz0rrccane86scyef2gwfp7r7dwagr7ewse5zpjl
 creation_rules:
@@ -14,6 +15,7 @@ creation_rules:
       age:
       - *IG-7B
       - *Maximus
+      - *NAZGUL
       - *nixos-vm
       - *T460p
   - path_regex: hosts/Maximus/secrets.ya?ml$
