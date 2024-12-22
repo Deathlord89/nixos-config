@@ -8,7 +8,7 @@ keys:
     - &nixos-vm age1f8tzlw8gre43d6hkq38hwaemeqvf4jegvt9x02nlmdvrek0lk4hsc7wvr6
     - &T460p age130xew2t3lyv67u4fwmpz0rrccane86scyef2gwfp7r7dwagr7ewse5zpjl
 creation_rules:
-  - path_regex: secrets.ya?ml$
+  - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
     - pgp:
       - *ma-gerbig
