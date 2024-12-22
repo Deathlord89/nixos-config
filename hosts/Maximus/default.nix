@@ -20,7 +20,8 @@
     ../common/optional/printer.nix
     ../common/optional/steam.nix
 
-    ./services/syncthing.nix
+    # Include host specific services
+    ./services
 
     # Include the results of the hardware scan.
     ./disko.nix

@@ -20,7 +20,8 @@
     ../common/optional/wireless.nix
     ../common/optional/printer.nix
 
-    ./services/syncthing.nix
+    # Include host specific services
+    ./services
 
     # Include the results of the hardware scan.
     ./disko.nix

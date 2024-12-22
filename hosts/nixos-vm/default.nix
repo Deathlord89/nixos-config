@@ -15,8 +15,8 @@
     ../common/optional/podman.nix
     ../common/optional/database.nix
 
-    # Include Services
-    ./services/container
+    # Include host specific services
+    ./services
 
     # Include the results of the hardware scan.
     ./disko.nix
