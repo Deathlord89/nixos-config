@@ -4,7 +4,11 @@
   ...
 }: {
   sops.secrets = {
-    "nextcloud-adminpass" = {
+    "nextcloud/adminpass" = {
+      sopsFile = ../secrets.yaml;
+      owner = "nextcloud";
+    };
+    "nextcloud/secrets.file" = {
       sopsFile = ../secrets.yaml;
       owner = "nextcloud";
     };
@@ -19,6 +23,7 @@
       datadir = "/var/cloud";
       database.createLocally = false;
       configureRedis = false;
+      secretFile = "${config.sops.secrets."nextcloud/secrets.file".path}";
       maxUploadSize = "20G";
       phpOptions = {
         "opcache.interned_strings_buffer" = "32";
@@ -31,7 +36,7 @@
         dbuser = "nextcloud";
 
         adminuser = "admin";
-        adminpassFile = "${config.sops.secrets."nextcloud-adminpass".path}";
+        adminpassFile = "${config.sops.secrets."nextcloud/adminpass".path}";
       };
 
       # this only loads the modules, config is below in extraOptions
@@ -47,6 +52,14 @@
         "memcache.local" = "\\OC\\Memcache\\APCu";
         "memcache.distributed" = "\\OC\\Memcache\\Redis";
         "memcache.locking" = "\\OC\\Memcache\\Redis"; # this must be Redis to avoid data loss
+
+        # email sending
+        "mail_smtpmode" = "smtp";
+        "mail_smtpsecure" = "ssl";
+        "mail_smtpauth" = "1";
+        "mail_sendmailmode" = "smtp";
+        "mail_smtpport" = "465";
+        # mail_smtppassword is set via secretFile
 
         log_type = "errorlog";
         loglevel = 1;
