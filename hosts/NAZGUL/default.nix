@@ -36,6 +36,7 @@
       # Static ip addresses might be configured using the ip argument in kernel command line:
       # https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt
       enable = true;
+      udhcpc.enable = true;
       ssh = {
         enable = true;
         # To prevent ssh clients from freaking out because a different host key is used,
