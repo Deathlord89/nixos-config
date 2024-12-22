@@ -1,0 +1,92 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
+  sops.secrets = {
+    "paperless/adminpass" = {
+      sopsFile = ../secrets.yaml;
+      owner = "paperless";
+    };
+    "paperless/secrets.env" = {
+      sopsFile = ../secrets.yaml;
+      owner = "paperless";
+    };
+  };
+
+  services = {
+    paperless = {
+      enable = true;
+      package = pkgs.paperless-ngx;
+
+      address = "0.0.0.0";
+      port = 8083;
+      dataDir = "/var/lib/paperless";
+      mediaDir = "/var/media/documents/media";
+      consumptionDir = "/var/media/documents/consume";
+      consumptionDirIsPublic = true;
+
+      passwordFile = "${config.sops.secrets."paperless/adminpass".path}";
+      environmentFile = "${config.sops.secrets."paperless/secrets.env".path}";
+      settings = {
+        PAPERLESS_DBHOST = "/run/postgresql";
+        PAPERLESS_REDIS = "unix://${config.services.redis.servers.paperless.unixSocket}";
+        PAPERLESS_URL = "https://paperless.ma-gerbig.de";
+        PAPERLESS_SECRET_KEY = "";
+        PAPERLESS_TIME_ZONE = "Europe/Berlin";
+
+        PAPERLESS_CONSUMER_RECURSIVE = true;
+        PAPERLESS_CONSUMER_IGNORE_PATTERN = [
+          ".DS_STORE/*"
+          "desktop.ini"
+        ];
+
+        PAPERLESS_OCR_LANGUAGE = "deu+eng";
+        PAPERLESS_OCR_MODE = "skip";
+        PAPERLESS_FILENAME_FORMAT = "{{created_year}}/{{correspondent}}/{{created_year}}-{{created_month}}-{{created_day}} {{asn}} {{correspondent}} {{document_type}} {{title}}";
+        PAPERLESS_FILENAME_FORMAT_REMOVE_NONE = "true";
+
+        PAPERLESS_TIKA_ENABLED = "1";
+        PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://localhost:${toString config.services.gotenberg.port}";
+        PAPERLESS_TIKA_ENDPOINT = "http://${config.services.tika.listenAddress}:${toString config.services.tika.port}";
+      };
+    };
+
+    gotenberg = {
+      enable = true;
+      #timeout = "300s";
+    };
+
+    tika.enable = true;
+
+    postgresql = {
+      ensureUsers = [
+        {
+          name = "paperless";
+          ensureDBOwnership = true;
+        }
+      ];
+      ensureDatabases = ["paperless"];
+    };
+
+    redis.servers.paperless = {
+      enable = true;
+      appendOnly = true;
+    };
+  };
+
+  systemd.services.gotenberg = {
+    environment = {
+      HOME = "/run/gotenberg";
+    };
+    serviceConfig = {
+      #SystemCallFilter = lib.mkAfter ["@chown"]; # TODO remove when fixed
+      WorkingDirectory = "/run/gotenberg";
+      RuntimeDirectory = "gotenberg";
+    };
+  };
+
+  users.users.paperless.extraGroups = ["redis-paperless"];
+  networking.firewall.allowedTCPPorts = [8083];
+}

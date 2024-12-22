@@ -183,13 +183,6 @@
               recordsize = "16K";
             };
           };
-          "documents" = {
-            type = "zfs_fs";
-            mountpoint = "/srv/documents";
-            options = {
-              mountpoint = "legacy";
-            };
-          };
           "pgsql" = {
             type = "zfs_fs";
             mountpoint = "/var/lib/postgresql";
@@ -254,16 +247,23 @@
               mountpoint = "legacy";
             };
           };
-          "multimedia" = {
+          "media" = {
             type = "zfs_fs";
-            mountpoint = "/srv/multimedia";
+            #mountpoint = "none";
+            options = {
+              mountpoint = "none";
+            };
+          };
+          "media/documents" = {
+            type = "zfs_fs";
+            mountpoint = "/var/media/documents";
             options = {
               mountpoint = "legacy";
             };
           };
-          "multimedia/videos" = {
+          "media/videos" = {
             type = "zfs_fs";
-            mountpoint = "/srv/multimedia/videos";
+            mountpoint = "/var/media/videos";
             options = {
               mountpoint = "legacy";
               recordsize = "1m";
