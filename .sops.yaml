@@ -24,6 +24,12 @@ creation_rules:
       - *ma-gerbig
       age:
       - *Maximus
+  - path_regex: hosts/NAZGUL/secrets.ya?ml$
+    key_groups:
+    - pgp:
+      - *ma-gerbig
+      age:
+      - *NAZGUL
   - path_regex: hosts/nixos-vm/secrets.ya?ml$
     key_groups:
     - pgp:

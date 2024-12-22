@@ -160,14 +160,6 @@
           autotrim = "on";
         };
         datasets = {
-          "cloud" = {
-            type = "zfs_fs";
-            mountpoint = "/srv/cloud";
-            options = {
-              mountpoint = "legacy";
-            };
-          };
-
           "home" = {
             type = "zfs_fs";
             mountpoint = "/home";
@@ -255,12 +247,18 @@
           autotrim = "on";
         };
         datasets = {
+          "cloud" = {
+            type = "zfs_fs";
+            mountpoint = "/var/cloud";
+            options = {
+              mountpoint = "legacy";
+            };
+          };
           "multimedia" = {
             type = "zfs_fs";
             mountpoint = "/srv/multimedia";
             options = {
               mountpoint = "legacy";
-              recordsize = "1m";
             };
           };
           "multimedia/videos" = {
