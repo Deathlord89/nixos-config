@@ -175,6 +175,14 @@
               mountpoint = "legacy";
             };
           };
+          "consume" = {
+            type = "zfs_fs";
+            mountpoint = "/var/media/documents/consume";
+            options = {
+              mountpoint = "legacy";
+              quota = "5G";
+            };
+          };
           "containers" = {
             type = "zfs_fs";
             mountpoint = "/var/lib/containers";

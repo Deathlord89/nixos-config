@@ -23,7 +23,7 @@
       address = "0.0.0.0";
       port = 8083;
       dataDir = "/var/lib/paperless";
-      mediaDir = "/var/media/documents/media";
+      mediaDir = "/var/media/documents/paperless";
       consumptionDir = "/var/media/documents/consume";
       consumptionDirIsPublic = true;
 
