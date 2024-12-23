@@ -6,13 +6,24 @@
       autoPrune = {
         enable = true;
         dates = "weekly";
-        flags = [
-          "--filter=until=24h"
-          "--filter=label!=important"
-        ];
       };
       # Required for container networking to be able to use names.
       defaultNetwork.settings.dns_enabled = true;
+    };
+  };
+
+  ### Enable Auto-Update
+  systemd.services.podman-auto-update = {
+    enable = true;
+    wantedBy = ["multi-user.target"];
+  };
+
+  systemd.timers.podman-auto-update = {
+    enable = true;
+    description = "Periodic Podman container auto-update";
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
     };
   };
 
