@@ -35,6 +35,11 @@
     #zfs.extraPools = ["zstorage"];
   };
 
+  services.zfs = {
+    trim.enable = true;
+    autoScrub.enable = true;
+  };
+
   # Preserve space by sacrificing documentation
   documentation = {
     nixos.enable = false;
