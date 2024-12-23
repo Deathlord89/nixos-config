@@ -191,6 +191,13 @@
               recordsize = "16K";
             };
           };
+          "downloads" = {
+            type = "zfs_fs";
+            mountpoint = "/var/media/downloads";
+            options = {
+              mountpoint = "legacy";
+            };
+          };
           "pgsql" = {
             type = "zfs_fs";
             mountpoint = "/var/lib/postgresql";
