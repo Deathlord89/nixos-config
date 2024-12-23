@@ -48,15 +48,16 @@
         PAPERLESS_FILENAME_FORMAT_REMOVE_NONE = "true";
 
         PAPERLESS_TIKA_ENABLED = "1";
-        PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://localhost:${toString config.services.gotenberg.port}";
+        #PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://localhost:${toString config.services.gotenberg.port}";
+        PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://localhost:3000";
         PAPERLESS_TIKA_ENDPOINT = "http://${config.services.tika.listenAddress}:${toString config.services.tika.port}";
       };
     };
 
-    gotenberg = {
-      enable = true;
-      #timeout = "300s";
-    };
+    #gotenberg = {
+    #  enable = true;
+    #  #timeout = "300s";
+    #};
 
     tika.enable = true;
 
@@ -76,14 +77,14 @@
     };
   };
 
-  systemd.services.gotenberg = {
-    environment = {
-      HOME = "/run/gotenberg";
-    };
-    serviceConfig = {
-      #SystemCallFilter = lib.mkAfter ["@chown"]; # TODO remove when fixed
-      WorkingDirectory = "/run/gotenberg";
-      RuntimeDirectory = "gotenberg";
+  virtualisation.oci-containers.containers = {
+    "gotenberg" = {
+      image = "docker.io/gotenberg/gotenberg:8";
+      autoStart = true;
+      ports = ["127.0.0.1:3000:3000"];
+      cmd = ["gotenberg" "--chromium-disable-javascript=true" "--chromium-allow-list=file:///tmp/.*"];
+      labels = {"io.containers.autoupdate" = "registry";};
+      log-driver = "journald";
     };
   };
 

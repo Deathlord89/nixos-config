@@ -13,6 +13,8 @@
     ../common/base
     #../common/hardware/nvidia
 
+    ../common/optional/podman.nix
+
     # Include host specific services
     ./services
 
