@@ -9,9 +9,13 @@
       sopsFile = ../secrets.yaml;
       owner = "paperless";
     };
-    "paperless/secrets.env" = {
+    "paperless/web_env.enc" = {
       sopsFile = ../secrets.yaml;
       owner = "paperless";
+    };
+    "paperless/ftp_env.enc" = {
+      sopsFile = ../secrets.yaml;
+      restartUnits = ["podman-paperless-ftp-server.service"];
     };
   };
 
@@ -28,7 +32,7 @@
       consumptionDirIsPublic = true;
 
       passwordFile = "${config.sops.secrets."paperless/adminpass".path}";
-      environmentFile = "${config.sops.secrets."paperless/secrets.env".path}";
+      environmentFile = "${config.sops.secrets."paperless/web_env.enc".path}";
       settings = {
         PAPERLESS_DBHOST = "/run/postgresql";
         PAPERLESS_REDIS = "unix://${config.services.redis.servers.paperless.unixSocket}";
@@ -77,14 +81,30 @@
     };
   };
 
-  virtualisation.oci-containers.containers = {
-    "gotenberg" = {
-      image = "docker.io/gotenberg/gotenberg:8";
-      autoStart = true;
-      ports = ["127.0.0.1:3000:3000"];
-      cmd = ["gotenberg" "--chromium-disable-javascript=true" "--chromium-allow-list=file:///tmp/.*"];
-      labels = {"io.containers.autoupdate" = "registry";};
-      log-driver = "journald";
+  virtualisation.oci-containers = {
+    containers = {
+      "gotenberg" = {
+        image = "docker.io/gotenberg/gotenberg:8";
+        autoStart = true;
+        ports = ["127.0.0.1:3000:3000"];
+        cmd = ["gotenberg" "--chromium-disable-javascript=true" "--chromium-allow-list=file:///tmp/.*"];
+        labels = {"io.containers.autoupdate" = "registry";};
+        log-driver = "journald";
+      };
+      "paperless-ftp-server" = {
+        image = "docker.io/garethflowers/ftp-server:latest";
+        autoStart = true;
+        environment = {
+          FTP_USER = "paperless";
+        };
+        environmentFiles = ["${config.sops.secrets."paperless/ftp_env.enc".path}"];
+        ports = ["20-21:20-21"];
+        volumes = [
+          "/var/media/documents/consume:/home/paperless/consume"
+        ];
+        labels = {"io.containers.autoupdate" = "registry";};
+        log-driver = "journald";
+      };
     };
   };
 

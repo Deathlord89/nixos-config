@@ -8,7 +8,7 @@
       sopsFile = ../secrets.yaml;
       owner = "nextcloud";
     };
-    "nextcloud/secrets.env" = {
+    "nextcloud/web_env.enc" = {
       sopsFile = ../secrets.yaml;
       owner = "nextcloud";
     };
@@ -23,7 +23,7 @@
       datadir = "/var/cloud";
       database.createLocally = false;
       configureRedis = false;
-      secretFile = "${config.sops.secrets."nextcloud/secrets.env".path}";
+      secretFile = "${config.sops.secrets."nextcloud/web_env.enc".path}";
       maxUploadSize = "20G";
       phpOptions = {
         "opcache.interned_strings_buffer" = "32";
