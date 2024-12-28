@@ -4,6 +4,8 @@
   lib,
   ...
 }: {
+  backup.restic.enable = true;
+
   sops.secrets = {
     "paperless/adminpass" = {
       sopsFile = ../secrets.yaml;
@@ -17,6 +19,14 @@
       sopsFile = ../secrets.yaml;
       restartUnits = ["podman-paperless-ftp-server.service"];
     };
+    "restic/paperless-pass" = {
+      owner = "paperless";
+      key = "restic/pass";
+    };
+    "restic/paperless-rclone.conf" = {
+      owner = "paperless";
+      key = "restic/rclone.conf";
+    };
   };
 
   services = {
@@ -27,7 +37,7 @@
       address = "0.0.0.0";
       port = 8083;
       dataDir = "/var/lib/paperless";
-      mediaDir = "/var/media/documents/paperless";
+      mediaDir = "/var/media/documents/";
       consumptionDir = "/var/media/documents/consume";
       consumptionDirIsPublic = true;
 
@@ -78,6 +88,36 @@
     redis.servers.paperless = {
       enable = true;
       appendOnly = true;
+    };
+
+    restic.backups = {
+      paperless = {
+        repository = "rclone:pCloud:Backups/Homeserver";
+        user = "paperless";
+        backupPrepareCommand = "${config.services.postgresql.package}/bin/pg_dump --clean -d paperless > /var/media/documents/backup.sql";
+        backupCleanupCommand = "rm /var/media/documents/backup.sql";
+        passwordFile = config.sops.secrets."restic/paperless-pass".path;
+        rcloneConfigFile = config.sops.secrets."restic/paperless-rclone.conf".path;
+        paths = [
+          "/var/media/documents"
+        ];
+        #pruneOpts = [
+        # "--tag systemd.host"
+        #  "--keep-hourly 8 --keep-daily 30 --keep-weekly 4 --keep-monthly 6 --keep-yearly 1"
+        #];
+        extraBackupArgs = [
+          "--tag paperless"
+          "--limit-upload 750"
+        ];
+        exclude = [
+          "*.log"
+          "/var/media/documents/consume/"
+        ];
+        timerConfig = {
+          OnCalendar = "*-*-* 00,03,06,09,12,15,18,21:00:00";
+          RandomizedDelaySec = "120";
+        };
+      };
     };
   };
 
