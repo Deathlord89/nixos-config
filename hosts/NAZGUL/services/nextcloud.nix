@@ -3,6 +3,8 @@
   config,
   ...
 }: {
+  backup.restic.enable = true;
+
   sops.secrets = {
     "nextcloud/adminpass" = {
       sopsFile = ../secrets.yaml;
@@ -97,6 +99,37 @@
           port = 8080;
         }
       ];
+    };
+
+    restic.backups = {
+      nextcloud = {
+        repository = "rclone:pCloud:Backups/Homeserver";
+        passwordFile = config.sops.secrets."restic/pass".path;
+        #TODO
+        #backupPrepareCommand = {NC maint mode};
+        paths = [
+          "/var/cloud/"
+        ];
+        #pruneOpts = [
+        # "--tag systemd.host"
+        #  "--keep-daily 30 --keep-weekly 4 --keep-monthly 6 --keep-yearly 1"
+        #];
+        extraBackupArgs = [
+          "--tag nextcloud"
+          "--limit-upload 750"
+        ];
+        exclude = [
+          "*.log"
+          "/var/cloud/config"
+          "/var/cloud/data/*/cache/"
+          "/var/cloud/data/*/files_trashbin/"
+          "/var/cloud/data/*/uploads/"
+          "/var/cloud/data/appdata_*/preview/"
+        ];
+        timerConfig = {
+          OnCalendar = "03:00";
+        };
+      };
     };
   };
 
