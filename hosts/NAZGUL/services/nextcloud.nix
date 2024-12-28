@@ -14,6 +14,14 @@
       sopsFile = ../secrets.yaml;
       owner = "nextcloud";
     };
+    "restic/nextcloud-pass" = {
+      owner = "nextcloud";
+      key = "restic/pass";
+    };
+    "restic/nextcloud-rclone.conf" = {
+      owner = "nextcloud";
+      key = "restic/rclone.conf";
+    };
   };
 
   services = {
@@ -104,9 +112,17 @@
     restic.backups = {
       nextcloud = {
         repository = "rclone:pCloud:Backups/Homeserver";
-        passwordFile = config.sops.secrets."restic/pass".path;
-        #TODO
-        #backupPrepareCommand = {NC maint mode};
+        user = "nextcloud";
+        backupPrepareCommand = ''
+          ${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --on
+          ${config.services.postgresql.package}/bin/pg_dump --clean -d nextcloud -f /var/cloud/backup.sql
+        '';
+        backupCleanupCommand = ''
+          rm /var/cloud/backup.sql
+          ${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --off
+        '';
+        passwordFile = config.sops.secrets."restic/nextcloud-pass".path;
+        rcloneConfigFile = config.sops.secrets."restic/nextcloud-rclone.conf".path;
         paths = [
           "/var/cloud/"
         ];
@@ -128,6 +144,7 @@
         ];
         timerConfig = {
           OnCalendar = "03:00";
+          RandomizedDelaySec = "120";
         };
       };
     };
