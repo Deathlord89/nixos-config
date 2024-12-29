@@ -167,6 +167,13 @@
               mountpoint = "legacy";
             };
           };
+          "minecraft" = {
+            type = "zfs_fs";
+            mountpoint = "/var/lib/minecraft";
+            options = {
+              mountpoint = "legacy";
+            };
+          };
           "nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";

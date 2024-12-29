@@ -49,6 +49,9 @@
 
     # Theming
     stylix.url = "github:danth/stylix";
+
+    # Minecraft server
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
 
   outputs = {
