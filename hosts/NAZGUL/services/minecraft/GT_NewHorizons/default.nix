@@ -27,17 +27,26 @@ in {
         "serverutilities" = "${modpack}/serverutilities";
         "server-icon.png" = "${modpack}/server-icon.png";
       };
+      files = {
+        "config/JourneyMapServer/world.cfg" = {
+          value = {
+            "WorldID" = "41cc7803-260b-4cdd-894f-ab627f993045";
+          };
+          format = pkgs.formats.json {};
+        };
+      };
       serverProperties = {
         allow-flight = true;
         announce-player-achievements = true;
         difficulty = 3;
         enable-command-block = true;
         level-name = "world";
+        server-id = "8zc74rzc84";
         level-seed = -1941723784208994818;
         level-type = "rwg";
         max-build-height = 256;
         max-players = 5;
-        motd = "\\u00a77GT:New Horizons\\u00a7r\\n\\u00a7bv2.7.1 \\u00a7e[Whitelist]";
+        motd = "\\u00a77GT: New Horizons\\u00a7r\\n\\u00a7bv2.7.1 \\u00a7e[Whitelist]";
         op-permission-level = 2;
         pvp = false;
         server-name = "GT:New Horizons Server";
