@@ -7,10 +7,9 @@
     ./optional
   ];
 
-  optional = {
-    games = {
-      enable_mangohud = true;
-      enable_prismlauncher = true;
-    };
+  games = {
+    lutris.enable = true;
+    mangohud.enable = true;
+    prismlauncher.enable = true;
   };
 }
