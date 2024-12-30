@@ -18,22 +18,23 @@ in {
   services.minecraft-servers.servers = {
     GT_NewHorizons = {
       enable = true;
+      enableReload = true;
       package = minecraft-server;
       jvmOpts = "-Xms8G -Xmx8G -Dfml.readTimeout=180";
       whitelist = {TheDeathlord89 = "b102e805-d8ba-440c-957e-92fdc4879833";};
       operators = {TheDeathlord89 = "b102e805-d8ba-440c-957e-92fdc4879833";};
       symlinks = {
         "libraries" = "${modpack}/libraries";
-        "serverutilities" = "${modpack}/serverutilities";
         "server-icon.png" = "${modpack}/server-icon.png";
+        "serverutilities" = "${modpack}/serverutilities";
       };
       files = {
+        "config" = "${modpack}/config";
         "config/JourneyMapServer/world.cfg" = {
-          value = {
-            "WorldID" = "41cc7803-260b-4cdd-894f-ab627f993045";
-          };
+          value = {"WorldID" = "41cc7803-260b-4cdd-894f-ab627f993045";};
           format = pkgs.formats.json {};
         };
+        "mods" = "${modpack}/mods";
       };
       serverProperties = {
         allow-flight = true;
@@ -49,21 +50,12 @@ in {
         motd = "\\u00a77GT: New Horizons\\u00a7r\\n\\u00a7bv2.7.1 \\u00a7e[Whitelist]";
         op-permission-level = 2;
         pvp = false;
-        server-name = "GT:New Horizons Server";
+        server-name = "GT: New Horizons Server";
         server-port = 25565;
         spawn-protection = 1;
         view-distance = 8;
         white-list = true;
       };
     };
-  };
-  systemd.services.minecraft-server-GT_NewHorizons = {
-    preStart = ''
-      rm -rf config
-      cp -r --no-preserve=mode ${modpack}/config config
-
-      rm -rf mods
-      cp -r --no-preserve=mode ${modpack}/mods mods
-    '';
   };
 }
