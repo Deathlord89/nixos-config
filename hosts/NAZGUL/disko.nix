@@ -271,7 +271,6 @@
           };
           "media" = {
             type = "zfs_fs";
-            #mountpoint = "none";
             options = {
               mountpoint = "none";
             };
@@ -287,6 +286,7 @@
             type = "zfs_fs";
             mountpoint = "/var/media/videos";
             options = {
+              compression = "off";
               mountpoint = "legacy";
               recordsize = "1m";
             };
