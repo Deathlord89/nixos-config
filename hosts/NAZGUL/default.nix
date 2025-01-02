@@ -11,7 +11,7 @@
     ../common/users/ma-gerbig
 
     ../common/base
-    #../common/hardware/nvidia
+    ../common/hardware/nvidia
 
     ../common/optional/podman.nix
 
@@ -38,6 +38,11 @@
   services.zfs = {
     trim.enable = true;
     autoScrub.enable = true;
+  };
+
+  hardware.nvidia = {
+    nvidiaSettings = lib.mkForce false;
+    package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.production;
   };
 
   # Preserve space by sacrificing documentation

@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  #TODO Create module to automatically activate 32-bit drivers and gamemode when a game-related configuration is used
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -17,6 +19,12 @@
         inhibit_screensaver = 1;
       };
     };
+  };
+
+  # Enable 32 bit OpenGL
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
   };
 
   # Fix for Starcitizen
