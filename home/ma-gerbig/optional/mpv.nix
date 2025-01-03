@@ -2,14 +2,27 @@
   programs.mpv = {
     enable = true;
     config = {
-      profile = "high-quality";
-      # Specify high quality video rendering preset (for --vo=<gpu|gpu-next> only)
-      # Offers superior image fidelity and visual quality for an enhanced viewing
-      # experience on capable hardware
+      # https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/
 
-      vo = "gpu"; # Just use the GPU.
-      gpu-api = "vulkan"; # Use vulkan instead of D3D11
-      hwdec = "auto-safe"; # Uses best hardware decoder.
+      # Profile
+      profile = "high-quality"; # Specify high quality video rendering preset
+
+      # General
+      cursor-autohide = "100";
+      autocreate-playlist = "same";
+
+      # OSD
+      osd-bar = "no"; # Recommended for uosc
+      border = "no"; # Recommended for uosc
+
+      # Priority
+      alang = "jpn,ger,eng";
+      slang = "ger,eng,enm";
+
+      # Video
+      vo = "gpu-next"; # Use experimental GPU renderer.
+      #gpu-api = "vulkan"; # Use vulkan instead of D3D11
+      hwdec = "auto"; # Uses best available hardware decoder.
     };
     scripts = with pkgs.mpvScripts; [
       inhibit-gnome
