@@ -14,7 +14,6 @@
     tandoor-recipes = {
       enable = true;
       port = 3030;
-      package = pkgs.stable.tandoor-recipes;
       extraConfig = {
         CSRF_TRUSTED_ORIGINS = "https://recipes.ma-gerbig.de";
         #ALLOWED_HOSTS = "recipes.ma-gerbig.de";

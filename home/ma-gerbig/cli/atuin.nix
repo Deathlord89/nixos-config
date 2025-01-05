@@ -24,7 +24,9 @@
   # Fix for bad zfs performance
   # https://forum.atuin.sh/t/getting-the-daemon-working-on-nixos/334/5
   systemd.user = let
-    atuinSockDir = "${config.home.homeDirectory}/.local/share/atuin";
+    #atuinSockDir = "${config.home.homeDirectory}/.local/share/atuin";
+    atuinSockDir = "/run/user/1000"; #Fix for Version 18.3.0
+
     atuinSock = "${atuinSockDir}/atuin.sock";
     unitConfig = {
       Description = "Atuin Magical Shell History Daemon";
