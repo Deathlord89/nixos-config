@@ -42,7 +42,6 @@
 
   hardware.nvidia = {
     nvidiaSettings = lib.mkForce false;
-    package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.production;
   };
 
   # Preserve space by sacrificing documentation

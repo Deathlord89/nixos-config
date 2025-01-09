@@ -47,6 +47,7 @@
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   # Override Nvidia driver package
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.latest;
   #hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
   #  version = "565.57.01";
   #  sha256_64bit = "sha256-buvpTlheOF6IBPWnQVLfQUiHv4GcwhvZW3Ks0PsYLHo=";
