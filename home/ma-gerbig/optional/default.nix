@@ -7,10 +7,11 @@
 
   home.packages = with pkgs; [
     appimage-run
-    brave
     discord
     filebot
     filezilla
+    mediainfo
+    mediainfo-gui
     thunderbird
     zotero
   ];

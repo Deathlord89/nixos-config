@@ -12,8 +12,9 @@
 
   environment = {
     systemPackages = with pkgs; [
-      pinentry-gnome3
       gnome-tweaks
+      pavucontrol
+      pinentry-gnome3
     ];
 
     #Excluding some GNOME applications from the default install
@@ -27,5 +28,8 @@
       totem # video player
     ];
   };
-  programs.dconf.enable = true;
+  programs = {
+    dconf.enable = true;
+    firefox.enable = true; # Install firefox.
+  };
 }

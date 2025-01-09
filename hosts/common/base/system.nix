@@ -3,9 +3,6 @@
   lib,
   ...
 }: {
-  # Install firefox.
-  programs.firefox.enable = true;
-
   # Install fish shell for global completions
   programs.fish.enable = true;
 
@@ -16,7 +13,6 @@
     git
     htop
     lm_sensors
-    pavucontrol
     pciutils
     usbutils
     wget
