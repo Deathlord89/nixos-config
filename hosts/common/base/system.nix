@@ -16,6 +16,7 @@
     git
     htop
     lm_sensors
+    pavucontrol
     pciutils
     usbutils
     wget
