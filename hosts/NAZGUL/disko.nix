@@ -200,9 +200,8 @@
           };
           "downloads" = {
             type = "zfs_fs";
-            mountpoint = "/var/media/downloads";
             options = {
-              mountpoint = "legacy";
+              mountpoint = "/var/media/downloads";
             };
           };
           "pgsql" = {
@@ -264,9 +263,8 @@
         datasets = {
           "cloud" = {
             type = "zfs_fs";
-            mountpoint = "/var/cloud";
             options = {
-              mountpoint = "legacy";
+              mountpoint = "/var/cloud";
             };
           };
           "media" = {
@@ -277,17 +275,22 @@
           };
           "media/documents" = {
             type = "zfs_fs";
-            mountpoint = "/var/media/documents";
             options = {
-              mountpoint = "legacy";
+              mountpoint = "/var/media/documents";
+            };
+          };
+          "media/isos" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/var/media/isos";
+              recordsize = "1m";
             };
           };
           "media/videos" = {
             type = "zfs_fs";
-            mountpoint = "/var/media/videos";
             options = {
               compression = "off";
-              mountpoint = "legacy";
+              mountpoint = "/var/media/videos";
               recordsize = "1m";
             };
           };

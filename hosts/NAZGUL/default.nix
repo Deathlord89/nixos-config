@@ -32,13 +32,19 @@
   # Bootloader add zfs support
   boot = {
     supportedFilesystems = ["zfs"];
-    #zfs.extraPools = ["zstorage"];
+    zfs.extraPools = ["zstorage"];
   };
 
-  services.zfs = {
-    trim.enable = true;
-    autoScrub.enable = true;
+  services = {
+    zfs = {
+      trim.enable = true;
+      autoScrub.enable = true;
+    };
+    nfs.server.enable = true;
   };
+
+  #Open Ports for zfs shares
+  networking.firewall.allowedTCPPorts = [2049];
 
   hardware.nvidia = {
     nvidiaSettings = lib.mkForce false;
