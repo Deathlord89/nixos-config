@@ -126,10 +126,10 @@
         paths = [
           "/var/cloud/"
         ];
-        #pruneOpts = [
-        # "--tag systemd.host"
-        #  "--keep-daily 30 --keep-weekly 4 --keep-monthly 6 --keep-yearly 1"
-        #];
+        pruneOpts = [
+          "--tag nextcloud"
+          "--keep-daily 30 --keep-weekly 4 --keep-monthly 6 --keep-yearly 1"
+        ];
         extraBackupArgs = [
           "--tag nextcloud"
           "--limit-upload 750"
