@@ -17,7 +17,7 @@
         "/dev/disk/by-id/ata-WDC_WD60EFPX-68C5ZN0_WD-WX22D345SXSE"
         "/dev/disk/by-id/ata-WDC_WD60EFPX-68C5ZN0_WD-WX52D64NC34N"
       ];
-      pwmPaths = ["/sys/class/hwmon/hwmon2/pwm2"];
+      pwmPaths = ["/sys/class/hwmon/hwmon1/pwm2"];
     };
   };
 }
