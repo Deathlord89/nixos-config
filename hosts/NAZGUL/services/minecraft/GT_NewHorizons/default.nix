@@ -19,6 +19,7 @@ in {
     GT_NewHorizons = {
       enable = true;
       enableReload = true;
+      autoStart = false;
       package = minecraft-server;
       jvmOpts = "-Xms8G -Xmx8G -Dfml.readTimeout=180";
       whitelist = {TheDeathlord89 = "b102e805-d8ba-440c-957e-92fdc4879833";};
