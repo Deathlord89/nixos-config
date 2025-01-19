@@ -6,8 +6,6 @@
   inherit (pkgs.stdenv.hostPlatform) system;
   umu = inputs.umu.packages.${system}.umu.override {
     version = inputs.umu.shortRev;
-    truststore = true;
-    cbor2 = true;
   };
 in {
   #TODO Create module to automatically activate 32-bit drivers and gamemode when a game-related configuration is used
@@ -34,7 +32,10 @@ in {
     };
   };
 
-  environment.systemPackages = [umu];
+  environment.systemPackages = [
+    umu # Make Steam Linux Runtime available outside of Steam
+    pkgs.protonup-qt # Install and manage GE-Proton
+  ];
 
   # Enable 32 bit OpenGL
   hardware.graphics = {
