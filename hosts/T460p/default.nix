@@ -17,8 +17,9 @@
     ../common/hardware/nvidia/optimus.nix
 
     ../common/optional/lanzaboote.nix
-    ../common/optional/wireless.nix
     ../common/optional/printer.nix
+    ../common/optional/steam.nix
+    ../common/optional/wireless.nix
 
     # Include host specific services
     ./services
