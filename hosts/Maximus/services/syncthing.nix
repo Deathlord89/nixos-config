@@ -21,6 +21,13 @@
               "T460p"
             ];
           };
+          "Farming Simulator 25 - Mods" = {
+            id = "fs25_mods";
+            path = "/var/lib/games/SteamLibrary/steamapps/compatdata/2300320/pfx/drive_c/users/steamuser/Documents/My Games/FarmingSimulator2025/mods";
+            devices = [
+              "steamdeck"
+            ];
+          };
         };
       };
     };
