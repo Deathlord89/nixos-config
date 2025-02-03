@@ -4,9 +4,7 @@
   ...
 }: let
   inherit (pkgs.stdenv.hostPlatform) system;
-  umu = inputs.umu.packages.${system}.umu.override {
-    version = inputs.umu.shortRev;
-  };
+  umu-launcher = inputs.umu.packages.${system}.default;
 in {
   #TODO Create module to automatically activate 32-bit drivers and gamemode when a game-related configuration is used
 
@@ -18,7 +16,7 @@ in {
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
       extraCompatPackages = with pkgs; [
         proton-ge-bin # Nixos repo
-        #proton-ge-custom # Chaotic Nyx repo
+        steamtinkerlaunch # General tweaks for games
       ];
     };
 
@@ -35,10 +33,14 @@ in {
     };
   };
 
-  environment.systemPackages = [
-    umu # Make Steam Linux Runtime available outside of Steam
-    pkgs.protonup-qt # Install and manage GE-Proton
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      #ludusavi # Backing up your PC video game saves
+      protonup-qt # Install and manage GE-Proton
+    ]
+    ++ [
+      umu-launcher # Make Steam Linux Runtime available outside of Steam
+    ];
 
   # Enable 32 bit OpenGL
   hardware.graphics = {
