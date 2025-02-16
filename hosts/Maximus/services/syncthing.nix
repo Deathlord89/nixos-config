@@ -21,6 +21,22 @@
               "T460p"
             ];
           };
+
+          "Elder Scrolls Online - AddOns" = {
+            id = "eso_addons";
+            path = "/home/ma-gerbig/.steam/steam/steamapps/compatdata/306130/pfx/drive_c/users/steamuser/Documents/Elder Scrolls Online/live/AddOns";
+            devices = [
+              "steamdeck"
+            ];
+          };
+          "Elder Scrolls Online - SavedVariables" = {
+            id = "eso_saved";
+            path = "/home/ma-gerbig/.steam/steam/steamapps/compatdata/306130/pfx/drive_c/users/steamuser/Documents/Elder Scrolls Online/live/SavedVariables";
+            devices = [
+              "steamdeck"
+            ];
+          };
+
           "Farming Simulator 25 - Mods" = {
             id = "fs25_mods";
             path = "/var/lib/games/SteamLibrary/steamapps/compatdata/2300320/pfx/drive_c/users/steamuser/Documents/My Games/FarmingSimulator2025/mods";
