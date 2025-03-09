@@ -60,6 +60,12 @@ in {
     };
   };
 
+  stylix.targets = {
+    vscode = {
+      profileNames = ["default"];
+    };
+  };
+
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {

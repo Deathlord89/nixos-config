@@ -12,6 +12,7 @@
     filezilla
     mediainfo
     mediainfo-gui
+    obsidian
     thunderbird
     zotero
   ];
