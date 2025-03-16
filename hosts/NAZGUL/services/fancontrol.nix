@@ -2,13 +2,12 @@
   services = {
     hddfancontrol = {
       enable = true;
-      smartctl = true;
       extraArgs = [
-        "--pwm-start-value=160"
-        "--pwm-stop-value=64"
+        #"--drive-temp-range=40:70 --min-fan-speed-prct=10 --interval=1min"
         "--min-fan-speed-prct=10"
-        "--interval=60"
-        "--max-temp=70"
+        "--interval=1min"
+        #"--max-temp=70"
+        #"--drive-temp-range=70"
       ];
       disks = [
         "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WXL1H16LX5XX"
@@ -17,7 +16,7 @@
         "/dev/disk/by-id/ata-WDC_WD60EFPX-68C5ZN0_WD-WX22D345SXSE"
         "/dev/disk/by-id/ata-WDC_WD60EFPX-68C5ZN0_WD-WX52D64NC34N"
       ];
-      pwmPaths = ["/sys/class/hwmon/hwmon1/pwm2"];
+      pwmPaths = ["/sys/class/hwmon/hwmon1/pwm2:160:64"];
     };
   };
 }
