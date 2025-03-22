@@ -31,6 +31,7 @@ in {
   stylix.base16Scheme = ./. + themePath;
 
   stylix.cursor = {
+    size = 24;
     package = pkgs.adwaita-icon-theme;
     name = "Adwaita";
   };
