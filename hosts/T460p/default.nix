@@ -16,6 +16,7 @@
     ../common/hardware/nvidia
     ../common/hardware/nvidia/optimus.nix
 
+    ../common/optional/flatpak.nix
     ../common/optional/lanzaboote.nix
     ../common/optional/printer.nix
     ../common/optional/steam.nix
