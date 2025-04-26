@@ -30,6 +30,7 @@ in {
           renice = 4;
           ioprio = 0;
           inhibit_screensaver = 1;
+          disable_splitlock = 1;
         };
       };
     };
