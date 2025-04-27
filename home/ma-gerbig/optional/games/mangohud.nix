@@ -15,12 +15,11 @@ in {
       enableSessionWide = true;
       settings = {
         # 0 means no limit
-        fps_limit = "0,60,141";
+        #fps_limit = "0,60,141";
         # 1 = vsync off, 3 = vsync on
         vsync = "1";
 
         legacy_layout = true;
-        pci_dev = "0:01:00.0";
         gpu_stats = true;
         gpu_temp = true;
         gpu_load_change = true;
@@ -54,17 +53,17 @@ in {
         show_fps_limit = true;
         resolution = true;
         version = "true;";
-        table_columns = "3";
-        background_alpha = "0.8";
-        font_size = "38";
-
-        background_color = "020202";
-        position = "top-left";
-        text_color = "D8D8D8";
-        round_corners = "1";
 
         # Hide until toggled
         no_display = true;
+
+        position = "top-left";
+        #font_size = "38";
+        text_color = "D8D8D8";
+        background_alpha = "0.8";
+        background_color = "020202";
+        round_corners = "1";
+        table_columns = "3";
 
         toggle_hud = "Shift_L+F1";
         toggle_fps_limit = "Shift_L+F2";
