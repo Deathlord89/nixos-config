@@ -107,6 +107,7 @@
       IG-7B = mkNixos [./hosts/IG-7B];
       Maximus = mkNixos [./hosts/Maximus];
       NAZGUL = mkNixos [./hosts/NAZGUL];
+      NitroX = mkNixos [./hosts/NitroX];
       nixos-vm = mkNixos [./hosts/nixos-vm];
       T460p = mkNixos [./hosts/T460p];
     };
