@@ -59,7 +59,7 @@
                 extraArgs = ["-f"]; # Override existing partition
                 subvolumes = {
                   "@games" = {
-                    mountpoint = "/home/ma-gerbig/Games";
+                    mountpoint = "/var/games";
                     mountOptions = ["compress=zstd"];
                   };
                 };
