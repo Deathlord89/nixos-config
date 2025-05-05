@@ -8,6 +8,10 @@
   imports = [
     inputs.disko.nixosModules.disko
 
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
+    inputs.nixos-hardware.nixosModules.common-gpu-amd
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
+
     ../common/users/ma-gerbig
 
     ../common/base
@@ -31,9 +35,7 @@
 
   backup.restic.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
-  #boot.kernelPackages = pkgs.linuxPackages_cachyos;
+  boot.kernelPackages = pkgs.linuxPackages_cachyos;
 
   # Bootloader add btrfs support
   boot.supportedFilesystems = ["btrfs"];
