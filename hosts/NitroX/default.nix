@@ -24,7 +24,7 @@
     ../common/optional/steam.nix
 
     # Include host specific services
-    #./services
+    ./services
 
     # Include the results of the hardware scan.
     ./disko.nix

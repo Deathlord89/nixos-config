@@ -32,6 +32,12 @@ creation_rules:
       - *ma-gerbig
       age:
       - *NAZGUL
+  - path_regex: hosts/NitroX/secrets.ya?ml$
+    key_groups:
+    - pgp:
+      - *ma-gerbig
+      age:
+      - *NitroX
   - path_regex: hosts/nixos-vm/secrets.ya?ml$
     key_groups:
     - pgp:

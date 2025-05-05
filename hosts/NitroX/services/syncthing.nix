@@ -8,7 +8,7 @@
       settings = {
         devices = {
           # Existing devices here!
-          NitroX.id = "4WNOAB3-IS6D344-VDWQTSU-OPGJT65-7XC3OIH-Q63QAS4-OVRV4OJ-ZXLZWAE";
+          NAZGUL.id = "M7YFRFP-ST3RR2M-U6JV32F-RUHRVVQ-SMXSDQJ-YRWAB3B-VKEUHCB-NDCBJQ2";
           steamdeck.id = "IGM62YB-NUY5QXD-QRBBMQX-PFWSSZG-5NEN3ZQ-XH6CGWW-3DWS2TA-DMW77AG";
           T460p.id = "7H7UMNA-IBPSUGV-7ZSSPAR-YSFK6H4-SMKVZD6-6N5ABIV-FYTQSFU-K5QRZAQ";
         };
@@ -18,7 +18,7 @@
             id = "default";
             path = "/home/ma-gerbig/Sync";
             devices = [
-              "NitroX"
+              "NAZGUL"
               "steamdeck"
               "T460p"
             ];
@@ -26,32 +26,29 @@
 
           "Elder Scrolls Online - AddOns" = {
             id = "eso_addons";
-            path = "/home/ma-gerbig/syncthing/eso_addons";
-            type = "receiveonly";
+            path = "/home/ma-gerbig/.steam/steam/steamapps/compatdata/306130/pfx/drive_c/users/steamuser/Documents/Elder Scrolls Online/live/AddOns";
             devices = [
-              "NitroX"
+              "NAZGUL"
               "steamdeck"
             ];
           };
           "Elder Scrolls Online - SavedVariables" = {
             id = "eso_saved";
-            path = "/home/ma-gerbig/syncthing/eso_saved";
-            type = "receiveonly";
+            path = "/home/ma-gerbig/.steam/steam/steamapps/compatdata/306130/pfx/drive_c/users/steamuser/Documents/Elder Scrolls Online/live/SavedVariables";
             devices = [
-              "NitroX"
+              "NAZGUL"
               "steamdeck"
             ];
           };
 
-          "Farming Simulator 25 - Mods" = {
-            id = "fs25_mods";
-            path = "/home/ma-gerbig/syncthing/fs25_mods";
-            type = "receiveonly";
-            devices = [
-              #"NitroX"
-              "steamdeck"
-            ];
-          };
+          #"Farming Simulator 25 - Mods" = {
+          #  id = "fs25_mods";
+          #  path = "/var/lib/games/SteamLibrary/steamapps/compatdata/2300320/pfx/drive_c/users/steamuser/Documents/My Games/FarmingSimulator2025/mods";
+          #  devices = [
+          #    "NAZGUL"
+          #    "steamdeck"
+          #  ];
+          #};
         };
       };
     };
