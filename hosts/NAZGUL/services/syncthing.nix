@@ -48,7 +48,7 @@
             path = "/home/ma-gerbig/syncthing/fs25_mods";
             type = "receiveonly";
             devices = [
-              #"NitroX"
+              "NitroX"
               "steamdeck"
             ];
           };

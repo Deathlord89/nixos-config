@@ -41,14 +41,14 @@
             ];
           };
 
-          #"Farming Simulator 25 - Mods" = {
-          #  id = "fs25_mods";
-          #  path = "/var/lib/games/SteamLibrary/steamapps/compatdata/2300320/pfx/drive_c/users/steamuser/Documents/My Games/FarmingSimulator2025/mods";
-          #  devices = [
-          #    "NAZGUL"
-          #    "steamdeck"
-          #  ];
-          #};
+          "Farming Simulator 25 - Mods" = {
+            id = "fs25_mods";
+            path = "/home/ma-gerbig/.steam/steam/steamapps/compatdata/2300320/pfx/drive_c/users/steamuser/Documents/My Games/FarmingSimulator2025/mods";
+            devices = [
+              "NAZGUL"
+              "steamdeck"
+            ];
+          };
         };
       };
     };
