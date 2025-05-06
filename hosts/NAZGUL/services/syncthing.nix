@@ -6,13 +6,6 @@
   services = {
     syncthing = {
       settings = {
-        devices = {
-          # Existing devices here!
-          NitroX.id = "4WNOAB3-IS6D344-VDWQTSU-OPGJT65-7XC3OIH-Q63QAS4-OVRV4OJ-ZXLZWAE";
-          steamdeck.id = "IGM62YB-NUY5QXD-QRBBMQX-PFWSSZG-5NEN3ZQ-XH6CGWW-3DWS2TA-DMW77AG";
-          T460p.id = "7H7UMNA-IBPSUGV-7ZSSPAR-YSFK6H4-SMKVZD6-6N5ABIV-FYTQSFU-K5QRZAQ";
-        };
-
         folders = {
           "Default Folder" = {
             id = "default";
