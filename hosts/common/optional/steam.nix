@@ -1,11 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: let
-  inherit (pkgs.stdenv.hostPlatform) system;
-  umu-launcher = inputs.umu.packages.${system}.default;
-in {
+{pkgs, ...}: {
   #TODO Create module to automatically activate 32-bit drivers and gamemode when a game-related configuration is used
 
   programs = {
@@ -36,14 +29,11 @@ in {
     };
   };
 
-  environment.systemPackages = with pkgs;
-    [
-      #ludusavi # Backing up your PC video game saves
-      protonup-qt # Install and manage GE-Proton
-    ]
-    ++ [
-      umu-launcher # Make Steam Linux Runtime available outside of Steam
-    ];
+  environment.systemPackages = with pkgs; [
+    #ludusavi # Backing up your PC video game saves
+    protonup-qt # Install and manage GE-Proton
+    umu-launcher # Make Steam Linux Runtime available outside of Steam
+  ];
 
   # Enable 32 bit OpenGL
   hardware.graphics = {

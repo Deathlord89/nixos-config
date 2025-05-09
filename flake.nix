@@ -50,9 +50,6 @@
     # Theming
     stylix.url = "github:danth/stylix";
 
-    # umu launcher
-    umu.url = "github:Open-Wine-Components/umu-launcher?dir=packaging/nix";
-
     # Minecraft server
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
