@@ -2,6 +2,9 @@
   gtk.enable = true;
 
   dconf.settings = {
+    "ca/desrt/dconf-editor" = {
+      show-warning = false;
+    };
     "org/gnome/shell" = {
       disable-user-extensions = false;
       favorite-apps = [
@@ -89,16 +92,18 @@
 
   # Install gnome extensions
   home = {
-    packages = with pkgs.gnomeExtensions; [
-      appindicator
-      blur-my-shell
-      caffeine
-      dash-to-dock
-      gnome-40-ui-improvements
-      gsconnect
-      native-window-placement
-      pop-shell
-      user-themes
-    ];
+    packages =
+      (with pkgs; [dconf-editor])
+      ++ (with pkgs.gnomeExtensions; [
+        appindicator
+        blur-my-shell
+        caffeine
+        dash-to-dock
+        gnome-40-ui-improvements
+        gsconnect
+        native-window-placement
+        pop-shell
+        user-themes
+      ]);
   };
 }
