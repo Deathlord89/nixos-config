@@ -13,6 +13,7 @@
     mediainfo
     mediainfo-gui
     obsidian
+    peazip
     thunderbird
     zotero
   ];
