@@ -62,9 +62,8 @@ in {
   };
 
   stylix.targets = {
-    vscode = {
-      profileNames = ["default"];
-    };
+    vscode.profileNames = ["default"];
+    firefox.profileNames = ["${config.home.username}"];
   };
 
   fonts.fontconfig = {

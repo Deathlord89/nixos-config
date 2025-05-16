@@ -1,11 +1,14 @@
-{
+{config, ...}: {
   programs.firefox = {
     enable = true;
-    profiles.default = {
+    profiles.${config.home.username} = {
       id = 0;
-      name = "ma-gerbig";
+      name = "${config.home.username}";
       isDefault = true;
       settings = {
+        "intl.locale.requested" = "de,en-US";
+        #"browser.startup.homepage" = "about:home";
+
         # Disable irritating first-run stuff
         "browser.disableResetPrompt" = true;
         "browser.download.panel.shown" = true;
@@ -20,11 +23,12 @@
         "trailhead.firstrun.didSeeAboutWelcome" = true;
         "browser.bookmarks.restore_default_bookmarks" = false;
         "browser.bookmarks.addedImportButton" = true;
-        
+
         # Disable crappy home activity stream page
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
         "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" = false;
+        "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
 
         # Disable some telemetry
         "app.shield.optoutstudies.enabled" = false;
