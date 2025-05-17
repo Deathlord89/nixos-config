@@ -9,6 +9,7 @@
       disable-user-extensions = false;
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
+        "firefox.desktop"
         "vivaldi-stable.desktop"
         "thunderbird.desktop"
         "kitty.desktop"

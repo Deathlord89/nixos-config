@@ -5,6 +5,7 @@
 }: {
   programs.firefox = {
     enable = true;
+
     profiles.${config.home.username} = {
       id = 0;
       name = "${config.home.username}";
