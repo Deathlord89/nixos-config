@@ -11,6 +11,14 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [lutris];
+    home.packages = [
+      (pkgs.lutris.override {
+        extraPkgs = pkgs: [
+          pkgs.wineWowPackages.stableFull
+          #pkgs.wineWowPackages.stagingFull
+          pkgs.winetricks
+        ];
+      })
+    ];
   };
 }
