@@ -24,10 +24,11 @@
     # Disable ssh-agent from gnome-keyring
     # https://discourse.nixos.org/t/disable-ssh-agent-from-gnome-keyring-on-gnome/28176
     gnome-keyring = prev.gnome-keyring.overrideAttrs (oldAttrs: {
-      configureFlags =
-        oldAttrs.configureFlags
-        or []
-        ++ ["--disable-ssh-agent"];
+      mesonFlags =
+        (builtins.filter (flag: flag != "-Dssh-agent=true") oldAttrs.mesonFlags)
+        ++ [
+          "-Dssh-agent=false"
+        ];
     });
 
     # https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_4

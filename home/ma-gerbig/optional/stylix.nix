@@ -13,7 +13,7 @@
   backgroundUrl = builtins.readFile (./. + "../../../../themes" + ("/" + userTheme) + "/backgroundurl.txt");
   backgroundSha256 = builtins.readFile (./. + "../../../../themes" + ("/" + userTheme) + "/backgroundsha256.txt");
 in {
-  imports = [inputs.stylix.homeManagerModules.stylix];
+  imports = [inputs.stylix.homeModules.stylix];
 
   stylix.enable = true;
 

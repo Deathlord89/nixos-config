@@ -30,7 +30,7 @@
       enableFishIntegration = true;
       enableSshSupport = true;
       enableScDaemon = true;
-      pinentryPackage =
+      pinentry.package =
         if config.gtk.enable
         then pkgs.pinentry-gnome3
         else pkgs.pinentry-tty;
