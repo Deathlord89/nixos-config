@@ -5,6 +5,7 @@
     fd # search for files by name, faster than find
     fzf # Interactively filter its input using fuzzy searching, not limit to filenames.
     gping # ping, but with a graph(TUI)
+    jq #JSON processor
     just # a command runner like make, but simpler
     lazygit # Git terminal UI
     ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
