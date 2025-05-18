@@ -3,7 +3,6 @@ keys:
     - &ma-gerbig B82D59863009C69636ABA42C39CB130C67B92382
   - &hosts:
     - &IG-7B age1p5v7y07efqljllm9pttz3rn35v7zl0svgmukfurqlfsj9xmhkuhqvvlfp4
-    - &Maximus age1xfwgm5dk66q2qdp2hh9k253f3d0rjax3un3vwxcecz8zj6x3cuus375c86
     - &NAZGUL age1nzgvps2qmljuaxs8myf59323lamqy03gl2geljufr9m9kyfjw56snx6jgh
     - &NitroX age1yz8gpvrkv0mag3j373nlkqyarxt9r7uj0l25ks5n09c0d2w924kq77ns08
     - &nixos-vm age1f8tzlw8gre43d6hkq38hwaemeqvf4jegvt9x02nlmdvrek0lk4hsc7wvr6
@@ -15,17 +14,10 @@ creation_rules:
       - *ma-gerbig
       age:
       - *IG-7B
-      - *Maximus
       - *NAZGUL
       - *NitroX
       - *nixos-vm
       - *T460p
-  - path_regex: hosts/Maximus/secrets.ya?ml$
-    key_groups:
-    - pgp:
-      - *ma-gerbig
-      age:
-      - *Maximus
   - path_regex: hosts/NAZGUL/secrets.ya?ml$
     key_groups:
     - pgp:
