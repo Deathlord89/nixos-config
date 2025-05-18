@@ -51,35 +51,25 @@
         */
         # Check about:support for extension/add-on ID strings.
         # Valid strings for installation_mode are "allowed", "blocked",
-        # "force_installed" and "normal_installed".
-        ExtensionSettings = {
-          "*".installation_mode = "allowed";
-          # Multi Account Containers:
-          "@testpilot-containers" = {
-            installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
+        # "force_installed" and "normal_installe
+        ExtensionSettings = with builtins; let
+          extension = shortId: uuid: {
+            name = uuid;
+            value = {
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/${shortId}/latest.xpi";
+              installation_mode = "force_installed";
+            };
           };
-          # Privacy Badger:
-          "jid1-MnnxcxisBPnSXQ@jetpack" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
-            installation_mode = "force_installed";
-          };
-          # SponsorBlocker:
-          "sponsorBlocker@ajay.app" = {
-            installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
-          };
-          # Tabliss:
-          "extension@tabliss.io" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/3940751/tabliss-2.6.0.xpi";
-            installation_mode = "force_installed";
-          };
-          # uBlock Origin:
-          "uBlock0@raymondhill.net" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-            installation_mode = "force_installed";
-          };
-        };
+        in
+          listToAttrs [
+            (extension "decentraleyes" "jid1-BoFifL9Vbdl2zQ@jetpack")
+            (extension "multi-account-containers" "@testpilot-containers")
+            (extension "sponsorblock" "sponsorBlocker@ajay.app")
+            (extension "tabliss" "extension@tabliss.io")
+            (extension "ublock-origin" "uBlock0@raymondhill.net")
+          ];
+
+        "*".installation_mode = "allowed";
       };
     };
   };

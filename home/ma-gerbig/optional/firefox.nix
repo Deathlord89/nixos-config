@@ -139,6 +139,9 @@
 
         # Enable fx accounts
         "identidy.fxaccounts.enabled" = true;
+
+        # Disable translation popup
+        "browser.translations.automaticallyPopup" = false;
       };
     };
   };
