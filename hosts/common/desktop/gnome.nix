@@ -21,6 +21,7 @@
     gnome.excludePackages = with pkgs; [
       #evince # document viewer
       #gnome-characters
+      decibels # audio player
       epiphany # web browser
       geary # email reader
       gnome-music
