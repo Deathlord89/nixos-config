@@ -44,6 +44,9 @@
     interval = "weekly";
   };
 
+  # display AMD GPU
+  environment.systemPackages = with pkgs; [amdgpu_top];
+
   # Building for Rasoberry Pi
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
