@@ -13,12 +13,18 @@
         shd101wyy.markdown-preview-enhanced
       ];
       userSettings = {
+        "direnv.restart.automatic" = true; # Automatically restart direnv if .envrc changes
         "explorer.confirmDelete" = false;
-        "git.autofetch" = true;
-        "git.confirmSync" = false;
+        "git.autofetch" = true; # Periodically fetch from remotes
+        "git.confirmSync" = false; # Do not ask for confirmation when syncing
         "git.enableCommitSigning" = true;
         "nix.enableLanguageServer" = true;
       };
     };
   };
+
+  home.packages = with pkgs; [
+    # Nix IDE
+    nil
+  ];
 }
