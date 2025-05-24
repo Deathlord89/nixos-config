@@ -10,6 +10,7 @@
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
       extraPackages = with pkgs; [unzip];
       extraCompatPackages = with pkgs; [
+        proton-ge-custom # Chaotic's Nyx Repo
         proton-ge-bin # Nixos repo
         steamtinkerlaunch # General tweaks for games
       ];
