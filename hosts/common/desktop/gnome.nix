@@ -8,6 +8,7 @@
     };
     # Mount, trash, and other functionalities
     gvfs.enable = true;
+    gnome.gcr-ssh-agent.enable = false;
   };
 
   environment = {
