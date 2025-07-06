@@ -23,25 +23,16 @@
   modifications = final: prev: {
     # Disable ssh-agent from gnome-keyring
     # https://discourse.nixos.org/t/disable-ssh-agent-from-gnome-keyring-on-gnome/28176
-    gnome-keyring = prev.gnome-keyring.overrideAttrs (oldAttrs: {
-      mesonFlags =
-        (builtins.filter (flag: flag != "-Dssh-agent=true") oldAttrs.mesonFlags)
-        ++ [
-          "-Dssh-agent=false"
-        ];
-    });
+    #gnome-keyring = prev.gnome-keyring.overrideAttrs (oldAttrs: {
+    #  mesonFlags =
+    #    (builtins.filter (flag: flag != "-Dssh-agent=true") oldAttrs.mesonFlags)
+    #    ++ [
+    #      "-Dssh-agent=false"
+    #    ];
+    #});
 
     # https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_4
     libcec = prev.libcec.override {withLibraspberrypi = true;};
-
-    #gnome = prev.gnome.overrideScope (gfinal: gprev: {
-    #gnome-keyring = gprev.gnome-keyring.overrideAttrs (oldAttrs: {
-    #configureFlags =
-    # oldAttrs.configureFlags
-    #or []
-    #++ ["--disable-ssh-agent"];
-    #});
-    #});
   };
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will
