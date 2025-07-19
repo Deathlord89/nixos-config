@@ -23,6 +23,7 @@
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"
         "dash-to-dock@micxgx.gmail.com"
+        "gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com"
         "gnome-ui-tune@itstime.tech"
         "gsconnect@andyholmes.github.io"
         "native-window-placement@gnome-shell-extensions.gcampax.github.com"
@@ -41,7 +42,7 @@
       show-in-lock-screen = false;
     };
     "org/gnome/desktop/wm/preferences" = {
-      button-layout = "appmenu:minimize,maximize,close";
+      button-layout = "appmenu:close";
     };
     "org/gnome/mutter" = {
       edge-tiling = false;
@@ -102,6 +103,7 @@
         caffeine
         dash-to-dock
         gnome-40-ui-improvements
+        fuzzy-app-search
         gsconnect
         native-window-placement
         pop-shell
