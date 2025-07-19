@@ -10,7 +10,6 @@
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
         "firefox.desktop"
-        "vivaldi-stable.desktop"
         "thunderbird.desktop"
         "kitty.desktop"
         "codium.desktop"
@@ -19,6 +18,7 @@
       ];
       # 'gnome-extensions list' for a list
       enabled-extensions = [
+        "AlphabeticalAppGrid@stuarthayhurst"
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"
@@ -96,6 +96,7 @@
     packages =
       (with pkgs; [dconf-editor])
       ++ (with pkgs.gnomeExtensions; [
+        alphabetical-app-grid
         appindicator
         blur-my-shell
         caffeine
