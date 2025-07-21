@@ -21,4 +21,6 @@
     win-spice
   ];
   programs.virt-manager.enable = true;
+
+  networking.firewall.trustedInterfaces = ["virbr0"];
 }
