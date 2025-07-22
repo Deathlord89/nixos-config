@@ -8,7 +8,6 @@
   home.packages = with pkgs; [
     appimage-run
     discord
-    filebot
     filezilla
     mediainfo
     mediainfo-gui
