@@ -90,6 +90,21 @@
       autoconnect = ["qemu:///system"];
       uris = ["qemu:///system"];
     };
+
+    # Gnome keybindings
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+      ];
+      home = ["<Super>e"];
+      screensaver = ["<Super>l"];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      binding = "<Ctrl><Alt>t";
+      command = "kitty";
+      name = "Kitty";
+    };
   };
 
   # Install gnome extensions
