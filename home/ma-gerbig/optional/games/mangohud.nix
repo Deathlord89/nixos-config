@@ -12,7 +12,7 @@ in {
   config = lib.mkIf cfg.enable {
     programs.mangohud = {
       enable = true;
-      enableSessionWide = true;
+      enableSessionWide = false;
       settings = {
         # 0 means no limit
         #fps_limit = "0,60,141";
