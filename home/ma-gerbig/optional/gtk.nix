@@ -27,8 +27,10 @@
         "gnome-ui-tune@itstime.tech"
         "gsconnect@andyholmes.github.io"
         "native-window-placement@gnome-shell-extensions.gcampax.github.com"
-        "pop-shell@system76.com"
         "user-theme@gnome-shell-extensions.gcampax.github.com"
+      ];
+      disabled-extensions = [
+        "pop-shell@system76.com"
       ];
     };
     "org/gnome/desktop/interface" = {
@@ -45,7 +47,7 @@
       button-layout = "appmenu:close";
     };
     "org/gnome/mutter" = {
-      edge-tiling = false;
+      edge-tiling = true;
       dynamic-workspaces = true;
     };
     "org/gnome/nautilus/icon-view" = {
@@ -97,6 +99,7 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
       ];
       home = ["<Super>e"];
+      restore-shortcuts = [""];
       screensaver = ["<Super>l"];
     };
 
