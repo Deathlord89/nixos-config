@@ -47,7 +47,7 @@
   # display AMD GPU
   environment.systemPackages = with pkgs; [amdgpu_top];
 
-  chaotic.mesa-git.enable = true;
+  #chaotic.mesa-git.enable = true;
 
   # Building for Rasoberry Pi
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
