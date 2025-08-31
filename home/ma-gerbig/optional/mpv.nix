@@ -1,6 +1,4 @@
-{pkgs, ...}: let
-  shaders_dir = "${pkgs.mpv-shim-default-shaders}/share/mpv-shim-default-shaders/shaders";
-in {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     mpv-shim-default-shaders
   ];
@@ -15,6 +13,7 @@ in {
       # General
       cursor-autohide = "100";
       autocreate-playlist = "same";
+      keep-open = "yes";
 
       # OSD
       osd-bar = "no"; # Recommended for uosc
@@ -26,21 +25,35 @@ in {
 
       # Video
       vo = "gpu-next"; # Use experimental GPU renderer.
-      #gpu-api = "vulkan"; # Use vulkan instead of D3D11
+      gpu-api = "vulkan"; # Use vulkan instead of D3D11
       hwdec = "auto"; # Uses best available hardware decoder.
 
       # Shader
-      glsl-shader = "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl";
+      glsl-shader = "${pkgs.mpv-shim-default-shaders}/share/mpv-shim-default-shaders/shaders/FSR.glsl";
+
+      # error-diffusion: high-end GPUs
+      dither = "error-diffusion";
+      dither-depth = "auto";
+      error-diffusion = "sierra-lite"; # uncomment if not 'error-diffusion'
+
+      # Deband - Toggle with b
+      deband = "no";
+      deband-iterations = "2";
+      deband-threshold = "32";
+      deband-range = "16";
+      deband-grain = "0";
+
+      # Interpolation
+      video-sync = "display-resample";
+      interpolation = "yes";
     };
     scripts = with pkgs.mpvScripts; [
       inhibit-gnome
       mpris
       quality-menu
+      sponsorblock-minimal
       thumbfast
       uosc
     ];
-  };
-  home.file = {
-    ".config/mpv/shaders/FSRCNNX_x2_8-0-4-1.glsl".source = "${shaders_dir}/FSRCNNX_x2_8-0-4-1.glsl";
   };
 }
