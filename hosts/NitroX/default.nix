@@ -44,13 +44,10 @@
     interval = "weekly";
   };
 
-  # display AMD GPU
-  environment.systemPackages = with pkgs; [amdgpu_top];
-
   #chaotic.mesa-git.enable = true;
 
   # Building for Rasoberry Pi
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  #boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
