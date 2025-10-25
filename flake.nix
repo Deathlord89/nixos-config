@@ -44,10 +44,9 @@
   };
 
   outputs = {
-    self,
-    nixpkgs,
     nixpkgs-stable,
-    home-manager,
+    nixpkgs,
+    self,
     systems,
     ...
   } @ inputs: let
@@ -55,10 +54,16 @@
     stateVersion = "24.05";
     username = "ma-gerbig";
 
-    lib = nixpkgs.lib // home-manager.lib;
-    myLib = import ./lib {inherit lib;};
+    myLib = import ./lib {inherit nixpkgs;};
 
-    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
+    forAllSystems = f: nixpkgs.lib.genAttrs (import systems) (system: f pkgsFor.${system});
+    pkgsFor = nixpkgs.lib.genAttrs (import systems) (
+      system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+    );
 
     mkHost = {
       hostname,
@@ -79,38 +84,16 @@
             ;
         };
         modules = [
-          inputs.disko.nixosModules.disko
           inputs.sops-nix.nixosModules.sops
           inputs.chaotic.nixosModules.default
           #inputs.lanzaboote.nixosModules.lanzaboote
-          ./hosts/${hostname}
+          #./hosts/${hostname}
+          ./hosts
         ];
       };
-
-    mkHome = modules: pkgs:
-      lib.homeManagerConfiguration {
-        inherit modules pkgs;
-        extraSpecialArgs = {inherit inputs outputs myLib;};
-      };
-
-    pkgsFor = lib.genAttrs (import systems) (
-      system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        }
-    );
   in {
-    inherit lib;
     nixosModules = import ./modules/nixos;
     homeManagerModules = import ./modules/home-manager;
-
-    overlays = import ./overlays {inherit inputs outputs;};
-    #hydraJobs = import ./hydra.nix {inherit inputs outputs;};
-
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
-    formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
@@ -134,8 +117,32 @@
     };
 
     # Standalone home-manager configuration entrypoint
-    homeConfigurations = {
-      "ma-gerbig" = mkHome [./home/ma-gerbig/home.nix ./home/ma-gerbig/nixpkgs.nix] pkgsFor.x86_64-linux;
-    };
+    # No longer functional due to flake restructuring
+    #homeConfigurations = {
+    #  "ma-gerbig" = mkHome [./home/ma-gerbig/home.nix ./home/ma-gerbig/nixpkgs.nix] pkgsFor.x86_64-linux;
+    #};
+
+    # Custom packages; acessible via 'nix build', 'nix shell', etc
+    # packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    packages = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./pkgs {inherit pkgs;}
+    );
+
+    # Custom overlays
+    overlays = import ./overlays {inherit inputs;};
+
+    # Devshell for bootstrapping
+    # Accessible via 'nix develop' or 'nix-shell' (legacy)
+    devShells = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./shell.nix {inherit pkgs;}
+    );
+
+    formatter = forAllSystems (system: self.packages.${system}.alejandra);
   };
 }

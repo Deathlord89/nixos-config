@@ -1,4 +1,22 @@
-{
+{lib, ...}: {
+  fileSystems = {
+    "/media/downloads" = {
+      device = "192.168.10.10:/var/media/downloads";
+      fsType = "nfs";
+      options = ["noauto" "x-systemd.automount" "x-systemd.idle-timeout=600"];
+    };
+    "/media/isos" = {
+      device = "192.168.10.10:/var/media/isos";
+      fsType = "nfs";
+      options = ["noauto" "x-systemd.automount" "x-systemd.idle-timeout=600"];
+    };
+    "/media/videos" = {
+      device = "192.168.10.10:/var/media/videos";
+      fsType = "nfs";
+      options = ["noauto" "x-systemd.automount" "x-systemd.idle-timeout=600"];
+    };
+  };
+
   disko.devices = {
     disk = {
       root_drive = {

@@ -1,17 +1,15 @@
 {
+  hostname,
+  lib,
   myLib,
   outputs,
   ...
 }: {
   imports = myLib.scanPaths ./. ++ (builtins.attrValues outputs.nixosModules);
 
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-    };
+  networking = {
+    hostName = hostname;
+    useDHCP = lib.mkDefault true;
+    networkmanager.enable = true;
   };
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 }
