@@ -4,6 +4,8 @@
   myLib,
   config,
   outputs,
+  stateVersion,
+  username,
   ...
 }: {
   imports = (myLib.scanPaths ./.) ++ (builtins.attrValues outputs.homeManagerModules);
@@ -21,8 +23,8 @@
   };
 
   home = {
-    username = "ma-gerbig";
-    homeDirectory = lib.mkDefault "/home/${config.home.username}";
+    inherit username stateVersion;
+    homeDirectory = "/home/${username}";
 
     # Add stuff for your user as you see fit:
     packages = with pkgs; [
@@ -38,8 +40,6 @@
       EDITOR = "nvim";
       NH_FLAKE = "$HOME/git/nixos-config";
     };
-    # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = "24.05";
   };
 
   # Enable home-manager

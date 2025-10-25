@@ -46,21 +46,45 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-stable,
     home-manager,
     systems,
     ...
   } @ inputs: let
     inherit (self) outputs;
+    stateVersion = "24.05";
+    username = "ma-gerbig";
 
     lib = nixpkgs.lib // home-manager.lib;
     myLib = import ./lib {inherit lib;};
 
     forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
 
-    mkNixos = modules:
-      lib.nixosSystem {
-        inherit modules;
-        specialArgs = {inherit inputs outputs myLib;};
+    mkHost = {
+      hostname,
+      desktop ? null,
+      pkgsInput ? inputs.nixpkgs,
+    }:
+      pkgsInput.lib.nixosSystem {
+        specialArgs = {
+          inherit
+            self
+            inputs
+            outputs
+            myLib
+            stateVersion
+            username
+            hostname
+            desktop
+            ;
+        };
+        modules = [
+          inputs.disko.nixosModules.disko
+          inputs.sops-nix.nixosModules.sops
+          inputs.chaotic.nixosModules.default
+          #inputs.lanzaboote.nixosModules.lanzaboote
+          ./hosts/${hostname}
+        ];
       };
 
     mkHome = modules: pkgs:
@@ -90,12 +114,23 @@
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      IG-7B = mkNixos [./hosts/IG-7B];
-      Maximus = mkNixos [./hosts/Maximus];
-      NAZGUL = mkNixos [./hosts/NAZGUL];
-      NitroX = mkNixos [./hosts/NitroX];
-      nixos-vm = mkNixos [./hosts/nixos-vm];
-      T460p = mkNixos [./hosts/T460p];
+      IG-7B = mkHost {
+        hostname = "IG-7B";
+        pkgsInput = nixpkgs-stable;
+      };
+      NAZGUL = mkHost {
+        hostname = "NAZGUL";
+        pkgsInput = nixpkgs-stable;
+      };
+      NitroX = mkHost {
+        hostname = "NitroX";
+      };
+      nixos-vm = mkHost {
+        hostname = "nixos-vm";
+      };
+      T460p = mkHost {
+        hostname = "T460p";
+      };
     };
 
     # Standalone home-manager configuration entrypoint

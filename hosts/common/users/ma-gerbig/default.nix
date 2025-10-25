@@ -3,6 +3,8 @@
   config,
   lib,
   myLib,
+  stateVersion,
+  username,
   ...
 }: let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -36,6 +38,12 @@ in {
 
   home-manager = {
     users.ma-gerbig = import ../../../../home/ma-gerbig/${config.networking.hostName}.nix;
-    extraSpecialArgs = {inherit myLib;};
+    extraSpecialArgs = {
+      inherit
+        myLib
+        stateVersion
+        username
+        ;
+    };
   };
 }
