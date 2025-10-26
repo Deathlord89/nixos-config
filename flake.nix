@@ -107,12 +107,14 @@
       };
       NitroX = mkHost {
         hostname = "NitroX";
+        desktop = "gnome";
       };
       nixos-vm = mkHost {
         hostname = "nixos-vm";
       };
       T460p = mkHost {
         hostname = "T460p";
+        desktop = "gnome";
       };
     };
 

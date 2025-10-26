@@ -13,7 +13,6 @@
 
     ../common/hardware/nvidia
     ../common/hardware/nvidia/optimus.nix
-    ../common/hardware/yubikey.nix
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
