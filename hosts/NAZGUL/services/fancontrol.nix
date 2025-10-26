@@ -3,11 +3,15 @@
     hddfancontrol = {
       enable = true;
       extraArgs = [
-        #"--drive-temp-range=40:70 --min-fan-speed-prct=10 --interval=1min"
+        # Note: Each argument for hddfancontrol must be a separate string in the list.
+        # For example, --drive-temp-range expects *two* separate values.
+        # So instead of "--drive-temp-range 40 70", use:
+        # ["--drive-temp-range" "40" "70"]
         "--min-fan-speed-prct=10"
         "--interval=1min"
-        #"--max-temp=70"
-        #"--drive-temp-range=70"
+        "--drive-temp-range"
+        "40"
+        "60"
       ];
       disks = [
         "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WXL1H16LX5XX"
