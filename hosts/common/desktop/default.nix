@@ -28,6 +28,10 @@
 
   hardware.graphics.enable = true;
 
+  environment = {
+    variables.NIXOS_OZONE_WL = "1";
+  };
+
   programs = {
     firefox = {
       enable = true; # Install firefox.

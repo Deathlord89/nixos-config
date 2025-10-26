@@ -17,12 +17,12 @@
     #Excluding some GNOME applications from the default install
     gnome.excludePackages = with pkgs; [
       #evince # document viewer
-      #gnome-characters
       decibels # audio player
       epiphany # web browser
       geary # email reader
-      gnome-music
+      gnome-music # audio player
       gnome-tour
+      snapshot # camera
       totem # video player
     ];
   };
