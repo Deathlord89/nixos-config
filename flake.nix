@@ -6,7 +6,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    systems.url = "github:nix-systems/default-linux";
 
     # Bleeding edge packages from chaotic nyx, especially CachyOS kernel
     # Don't add follows nixpkgs, else will cause local rebuilds
@@ -47,7 +46,6 @@
     nixpkgs-stable,
     nixpkgs,
     self,
-    systems,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -56,14 +54,13 @@
 
     myLib = import ./lib {inherit nixpkgs;};
 
-    forAllSystems = f: nixpkgs.lib.genAttrs (import systems) (system: f pkgsFor.${system});
-    pkgsFor = nixpkgs.lib.genAttrs (import systems) (
-      system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        }
-    );
+    forAllSystems = inputs.nixpkgs.lib.genAttrs [
+      "aarch64-darwin"
+      "aarch64-linux"
+      "i686-linux"
+      "x86_64-darwin"
+      "x86_64-linux"
+    ];
 
     mkHost = {
       hostname,
@@ -145,6 +142,7 @@
         import ./shell.nix {inherit pkgs;}
     );
 
-    formatter = forAllSystems (system: self.packages.${system}.alejandra);
+    # Formatter for your nix files, available through 'nix fmt'
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
 }
