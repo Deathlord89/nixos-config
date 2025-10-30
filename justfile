@@ -3,6 +3,10 @@
 # Use bash for all recipes
 set shell := ["bash", "-cu"]
 
+# List all the just commands
+default:
+    @just --list
+
 # Format flake files
 fmt:
   nix fmt
@@ -11,9 +15,9 @@ fmt:
 check:
   nix flake check
 
-# Update flake.lock and commit changes
-flake-update:
-  ./flake-update.sh
+# Update all the flake inputs
+up:
+  nix flake update --commit-lock-file
 
 # Clean local store and generations
 clean:
