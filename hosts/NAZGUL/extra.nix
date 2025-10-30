@@ -9,6 +9,8 @@
       autoScrub.enable = true;
     };
     nfs.server.enable = true;
+    # Enable automatic shutdown when APC UPS has low battery power
+    apcupsd.enable = true;
   };
 
   # HostID needed for zfs
