@@ -15,5 +15,6 @@
 
   productivity = {
     latex.enable = true;
+    zed.enable = true;
   };
 }
