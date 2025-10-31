@@ -4,6 +4,8 @@ in {
   users.groups.${mediaGroup} = {
     members = [
       "${config.services.jellyfin.user}"
+      # add main user to Jellyfin group for easier access to media files
+      "ma-gerbig"
     ];
   };
 
